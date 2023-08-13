@@ -1,0 +1,35 @@
+$name: 'bm-c-segmented-switcher';
+
+.#{$name} {
+  --bm-switchable-radius: 6px;
+  --bm-switchable-border-width: 1px;
+  --bm-switchable-padding: 2px;
+  display: inline-block;
+
+  .#{$name}__inner {
+    position: relative;
+  }
+
+  .#{$name}__bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    visibility: hidden;
+    transition: width 0.2s, height 0.2s, transform 0.2s;
+  }
+
+  .#{$name}__buttons {
+    position: relative;
+    display: flex;
+    z-index: 1;
+
+    > * {
+      flex-shrink: 0;
+    }
+  }
+
+  & .#{$name}__button {
+    padding: var(--bm-button-padding-tb) var(--bm-button-padding-lr);
+  }
+}

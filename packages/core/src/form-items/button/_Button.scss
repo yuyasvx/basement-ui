@@ -1,0 +1,26 @@
+@use '../../variables' as *;
+
+.bm-c-button {
+  border: 0;
+  padding: var(--bm-button-padding-tb, $bm-button-padding-tb) var(--bm-button-padding-lr, $bm-button-padding-lr);
+  margin: 0;
+  display: inline-flex;
+  align-content: center;
+  align-items: center;
+  column-gap: var(--bm-button-icon-gap);
+  user-select: none;
+
+  & > .bm-c-button__icon > * {
+    vertical-align: middle;
+  }
+
+  & > span {
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+
+  &.-disabled > .bm-c-button__icon {
+    opacity: 0.5;
+  }
+}

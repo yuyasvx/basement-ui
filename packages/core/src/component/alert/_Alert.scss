@@ -1,0 +1,45 @@
+$name: 'bm-c-alert';
+
+.#{$name} {
+  & > .#{$name}__inner {
+    display: flex;
+    gap: var(--bm-alert-content-gap, 20px);
+
+    .#{$name}__detail {
+      flex-grow: 1;
+      height: 100%;
+      box-sizing: border-box;
+    }
+  }
+
+  &.-horizontal > .#{$name}__inner {
+    flex-direction: row;
+  }
+
+  &.-horizontal.-icon-right > .#{$name}__inner {
+    flex-direction: row-reverse;
+  }
+
+  &.-horizontal.-centered {
+    > .#{$name}__inner {
+      align-items: center;
+    }
+
+    .#{$name}__icon {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  &.-vertical > .#{$name}__inner {
+    flex-direction: column;
+  }
+
+  &.-vertical.-centered {
+    .#{$name}__icon {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

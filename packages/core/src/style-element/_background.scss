@@ -1,0 +1,18 @@
+@use '../variables' as *;
+@use '../util/scss-util' as util;
+
+.bm-a-bg-lv4 {
+  background-color: rgba(var(--bm-base-rgb), 1);
+}
+
+.bm-a-bg-lv3 {
+  background-color: rgba(var(--bm-base-rgb), 0.85);
+}
+
+.bm-a-bg-lv2 {
+  background-color: rgba(var(--bm-base-rgb), 0.6);
+}
+
+.bm-a-bg-lv1 {
+  background-color: rgba(var(--bm-base-rgb), 0.4);
+}

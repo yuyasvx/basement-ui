@@ -1,0 +1,17 @@
+@use '../variables' as *;
+
+.bm-a-shadow-lv4 {
+  box-shadow: 0 1px 5px rgba(var(--bm-shadow-rgb), 0.1), 0 15px 40px rgba(var(--bm-shadow-rgb), 0.3);
+}
+
+.bm-a-shadow-lv3 {
+  box-shadow: 0 1px 4px rgba(var(--bm-shadow-rgb), 0.1), 0 8px 25px rgba(var(--bm-shadow-rgb), 0.25);
+}
+
+.bm-a-shadow-lv2 {
+  box-shadow: 0 1px 4px rgba(var(--bm-shadow-rgb), 0.1), 0 5px 15px rgba(var(--bm-shadow-rgb), 0.2);
+}
+
+.bm-a-shadow-lv1 {
+  box-shadow: 0 0 2px rgba(var(--bm-shadow-rgb), 0.1), 0 2px 5px rgba(var(--bm-shadow-rgb), 0.2);
+}

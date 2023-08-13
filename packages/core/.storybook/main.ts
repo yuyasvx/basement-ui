@@ -1,0 +1,14 @@
+import type { StorybookConfig } from '@storybook/react-webpack5';
+const config: StorybookConfig = {
+  stories: ['../doc/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)', '../src/**/*.mdx'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {}
+  },
+  docs: {
+    autodocs: 'tag'
+  },
+  staticDirs: ['./static']
+};
+export default config;

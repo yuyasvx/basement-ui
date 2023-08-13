@@ -1,0 +1,9 @@
+$name: 'bm-c-navigation-list';
+
+.#{$name} {
+  --bm-list-padding-tb: var(--bm-navigation-list-padding-tb);
+  --bm-list-padding-lr: var(--bm-navigation-list-padding-lr);
+  --bm-list-item-padding-tb: var(--bm-navigation-list-item-padding-tb);
+  --bm-list-item-padding-lr: var(--bm-navigation-list-item-padding-lr);
+  --bm-list-item-radius: var(--bm-navigation-list-item-radius);
+}

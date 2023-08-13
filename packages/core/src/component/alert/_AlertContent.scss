@@ -1,0 +1,44 @@
+$name: 'bm-e-alert-content';
+
+.#{$name} {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  &.-centered {
+    & > .#{$name}__footer {
+      justify-content: center;
+    }
+
+    h2,
+    div {
+      text-align: center;
+    }
+  }
+
+  * + .#{$name}__description {
+    padding-top: var(--bm-alert-detail-gap, 10px);
+  }
+
+  & > .#{$name}__spacer {
+    flex-grow: 1;
+  }
+
+  & > .#{$name}__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--bm-alert-footer-item-gap, 10px);
+
+    & > * {
+      display: block;
+    }
+  }
+
+  * + .#{$name}__footer {
+    padding-top: var(--bm-alert-footer-gap, 20px);
+  }
+}

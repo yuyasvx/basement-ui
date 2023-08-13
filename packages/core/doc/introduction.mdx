@@ -1,0 +1,33 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="はじめに" />
+
+# インストール
+
+npm経由でのインストールを予定していますが現在未サポートですので、下記のようにpackage.jsonを編集して`npm i`コマンドを実行してください。
+
+```
+  "dependencies": {
+    "basement-ui": "file:../hoge"
+  }
+```
+
+# 使用する
+
+下記のようにエントリーポイントにSCSSをインポートしてください。
+
+```
+import 'basement-ui/module/basement-ui.scss';
+```
+
+SCSSが読み込める環境では無い場合は、CSSをインポートしてください。
+
+```
+import 'basement-ui/module/basement-ui.css';
+```
+
+```
+<link rel="stylesheet" href="https://unpkg.com/basement-ui/module/basement-ui.css">
+```
+
+各コンポーネントはES Moduleとして提供しています。

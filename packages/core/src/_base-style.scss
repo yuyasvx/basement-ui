@@ -1,0 +1,93 @@
+@use 'variables' as *;
+@use 'util/scss-util' as util;
+
+:root {
+  --bm-font-size: #{$bm-font-size};
+  --bm-font-h2-size: #{$bm-font-h2-size};
+  --bm-line-height: #{$bm-line-height};
+  --bm-content-padding: #{$bm-content-padding};
+
+  --bm-base-rgb: #{util.toRgb($bm-base-color)};
+  --bm-primary-rgb: #{util.toRgb($bm-primary-color)};
+  --bm-primary-dim-rgb: #{util.toRgb($bm-primary-dim-color)};
+  --bm-secondary-rgb: #{util.toRgb($bm-secondary-color)};
+  --bm-tint-rgb: #{util.toRgb($bm-tint-color)};
+  --bm-tint-dim-rgb: #{util.toRgb($bm-tint-dim-color)};
+  --bm-foreground-rgb: #{util.toRgb($bm-foreground-color)};
+  --bm-foreground-rgb-2: #{util.toRgb($bm-foreground-color-2)};
+  --bm-disabled-rgb: #{util.toRgb($bm-disabled-color)};
+  --bm-shadow-rgb: #{util.toRgb($bm-shadow-color)};
+  --bm-border-rgb: #{util.toRgb($bm-border-color)};
+  --bm-border2-rgb: #{util.toRgb($bm-border2-color)};
+  --bm-input-box-background-rgb: #{util.toRgb($bm-input-box-background-color)};
+
+  --bm-pushable-shadow-rgb: #{util.toRgb($bm-pushable-shadow-color)};
+  --bm-pushable-inner-shadow-color: #{$bm-pushable-inner-shadow-color};
+  --bm-pushable-tint-inner-shadow-color: #{$bm-pushable-tint-inner-shadow-color};
+  --bm-pushable-radius: #{$bm-pushable-radius};
+
+  --bm-frame-radius: #{$bm-frame-radius};
+
+  --bm-button-padding-tb: #{$bm-button-padding-tb};
+  --bm-button-padding-lr: #{$bm-button-padding-lr};
+  --bm-button-icon-gap: #{$bm-button-icon-gap};
+
+  --bm-checkbox-rect-size: #{$bm-checkbox-rect-size};
+  --bm-checkbox-gap: #{$bm-checkbox-gap};
+  --bm-checkbox-radius: #{$bm-checkbox-radius};
+
+  --bm-radio-rect-size: #{$bm-checkbox-rect-size};
+
+  --bm-switcher-width: #{$bm-switcher-width};
+  --bm-switcher-height: #{$bm-switcher-height};
+  --bm-switcher-radius: #{$bm-switcher-radius};
+  --bm-switcher-border-width: #{$bm-switcher-border-width};
+  --bm-switcher-padding: #{$bm-switcher-padding};
+
+  --bm-navigation-list-padding-tb: #{$bm-navigation-list-padding-tb};
+  --bm-navigation-list-padding-lr: #{$bm-navigation-list-padding-lr};
+  --bm-navigation-list-item-padding-tb: #{$bm-navigation-list-item-padding-tb};
+  --bm-navigation-list-item-padding-lr: #{$bm-navigation-list-item-padding-lr};
+  --bm-navigation-list-item-radius: #{$bm-navigation-list-item-radius};
+}
+
+.bm-base {
+  color: rgb(var(--bm-foreground-rgb));
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  // TODO DRYしてません
+  h2 {
+    font-size: var(--bm-font-h2-size);
+    line-height: var(--bm-line-height);
+    font-weight: 600;
+  }
+}
+
+.bm-text-base {
+  font-size: var(--bm-font-size);
+  line-height: var(--bm-line-height);
+  font-family: var(--bm-font-family);
+  font-weight: 400;
+}
+
+.bm-content-base {
+  padding: var(--bm-content-padding);
+  // display: flex; // TODO content-baseの中身が1つだけという前提での指定になってる
+
+  > * {
+    height: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.bm-text-h2 {
+  font-size: var(--bm-font-h2-size);
+  line-height: var(--bm-line-height);
+  font-weight: 600;
+}
