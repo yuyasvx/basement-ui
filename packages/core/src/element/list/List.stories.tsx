@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
 import { Checkmark } from '../markable/Checkmark';
 import { List, ListProps } from './List';
-import { ListItem, ListItemButton, ListItemLink, ListItemProps } from './ListItem';
+import { ListItem, ListItemButton, ListItemLink, ListItemProps, ListItemSeparator } from './ListItem';
 import { ListContainer } from './ListContainer';
 
 export default {
@@ -248,6 +248,7 @@ export const Story: StoryObj<ArgsType> = {
             <ListItem>い</ListItem>
             <ListItem>う</ListItem>
             <ListItem>え</ListItem>
+            <ListItemSeparator />
             <ListItem>お</ListItem>
           </List>
         </ListContainer>

@@ -31,6 +31,8 @@ export const Story: StoryObj<typeof Checkbox> = {
               appearance={args.appearance}
               disabled={args.disabled}
               autoTint={args.autoTint}
+              dataProps={{ 'data-hohoho': true }}
+              id={'a'}
             >
               {args.children}
             </Checkbox>

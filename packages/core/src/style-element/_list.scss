@@ -28,6 +28,12 @@ $name: 'bm-a-list';
   //  height: 1px;
   //  background-color: rgb(var(--bm-border-rgb));
   //}
+
+  .#{$name}-separator {
+    margin: 0;
+    background-color: rgb(var(--bm-border-rgb));
+    height: var(--bm-list-separator-height, 5px);
+  }
 }
 
 .#{$name}-item {
@@ -121,4 +127,10 @@ li.#{$name}-item {
     position: sticky;
     top: 0;
   }
+}
+
+.#{$name}-separator {
+  background-color: rgb(var(--bm-border-rgb));
+  height: var(--bm-list-separator-width, 2px);
+  margin: var(--bm-list-separator-margin-tb, 10px) var(--bm-list-separator-margin-lr, 10px);
 }

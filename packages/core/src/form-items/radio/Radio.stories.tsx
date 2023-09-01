@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { AppearanceType } from '../../domain/AppearanceType';
 import { Radio } from './Radio';
 
@@ -28,6 +28,8 @@ export const Story: StoryObj<typeof Radio> = {
               appearance={args.appearance}
               disabled={args.disabled}
               autoTint={args.autoTint}
+              id={'i-id'}
+              dataProps={{ 'data-aaaa': 123 }}
             >
               {args.children}
             </Radio>

@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
+import { data } from 'autoprefixer';
 import { AppearanceAdaptable, BaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { getAppearanceClassName } from '../../domain/AppearanceType';
@@ -22,10 +23,10 @@ const NAME = 'bm-c-button';
 const INNER_ICON_NAME = `${NAME}__icon`;
 
 export const useButtonHook = (props: ButtonProps) => {
-  const { icon, ...restProps } = props;
+  const { icon, appearance, dataProps, ...restProps } = props;
 
   const disabledClassName = useMemo(() => (props.disabled ? '-disabled' : ''), [props.disabled]);
-  const appearanceClassName = getAppearanceClassName(props.appearance);
+  const appearanceClassName = getAppearanceClassName(appearance);
   const classNames = useMemo(
     () =>
       clsx(
@@ -45,7 +46,8 @@ export const useButtonHook = (props: ButtonProps) => {
     classNames,
     newProps: {
       ...restProps,
-      className: classNames
+      className: classNames,
+      ...dataProps
     },
     innerProps: {
       className: INNER_ICON_NAME

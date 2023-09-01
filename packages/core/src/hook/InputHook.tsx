@@ -9,7 +9,7 @@ export type CustomizedInputHTMLAttributes = Omit<InputHTMLAttributes<HTMLInputEl
 
 export type InputHookContext = MouseEvents<HTMLLabelElement> &
   FormEvents<HTMLInputElement> &
-  CustomizedInputHTMLAttributes & { labelStyle?: CSSProperties };
+  CustomizedInputHTMLAttributes & { labelStyle?: CSSProperties } & { dataProps?: { [key: string]: unknown } };
 
 export const useInputHook = (
   props: InputHookContext,
@@ -36,7 +36,8 @@ export const useInputHook = (
       id: props.id,
       ref: inputRef,
       tabIndex: props.tabIndex,
-      ...formEvents
+      ...formEvents,
+      ...props.dataProps
     },
     innerProps: {
       className: innerLabelName,

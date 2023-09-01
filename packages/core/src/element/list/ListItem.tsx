@@ -1,6 +1,6 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, FC, PropsWithChildren, ReactNode, useCallback } from 'react';
 import { MouseEvents } from '../../domain/EventProps';
-import { LIST_ITEM_STYLE } from '../../domain/StyleClass';
+import { LIST_ITEM_STYLE, LIST_STYLE } from '../../domain/StyleClass';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { useListLogic } from '../../hook/ListHook';
 import { ListItemContent } from './ListItemContent';
@@ -112,4 +112,9 @@ export const ListItemButton: FC<PropsWithChildren<ListItemButtonProps>> = props 
       </button>
     </ListItemOuter>
   );
+};
+
+export const ListItemSeparator: FC<PropsWithChildren> = () => {
+  // TODO 命名の仕方、よくない
+  return <li className={`${LIST_STYLE}-separator`}></li>;
 };

@@ -1,27 +1,41 @@
-import { FC, useCallback, useRef, useEffect, PropsWithChildren, useMemo } from 'react';
 import clsx from 'clsx';
+import { createContext, FC, PropsWithChildren, useCallback, useEffect, useMemo, useRef } from 'react';
 import { PUSHABLE_STYLE, RootStyle } from '../../domain/StyleClass';
-import { MouseEvents } from '../../domain/EventProps';
 import { getMouseEventHandler } from '../../util/Handler';
-import { BaseComponentProps } from '../../base/BaseComponent';
+import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
+import { MouseEvents } from '../../domain/EventProps';
 
 const NAME = 'bm-c-segmented-switcher';
 const INNER_NAME = `${NAME}__inner`;
-const BUTTON_NAME = `${NAME}__button`;
+const BUTTON_NAME = `${NAME}__buttons`;
+const BAR_NAME = `${NAME}__bar`;
 
-export type SegmentedSwitcherProps = BaseComponentProps & MouseEvents<HTMLDivElement>;
+export type SegmentedSwitcherProps = BaseComponentProps & MouseEvents<HTMLDivElement> & { disabled?: boolean };
 
-export const SegmentedSwitcher: FC<PropsWithChildren<SegmentedSwitcherProps>> = props => {
-  const className = clsx('bm-a-switchable', NAME, RootStyle.TEXT_BASE);
+const context = createContext({
+  disabled: false
+});
+
+export const useSegmentedSwitcherContext = () => {
+  return context;
+};
+
+export const useSegmentedSwitcherHook = (props: PropsWithChildren<SegmentedSwitcherProps>) => {
+  const className = useMemo(
+    () => clsx('bm-a-switchable', NAME, RootStyle.TEXT_BASE, props.className, { '-disabled': props.disabled }),
+    [props.className, props.disabled]
+  );
   const barRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef<HTMLDivElement>(null);
   const initializedFlagRef = useRef(false);
+
   const playMotion = useCallback(() => {
     const barRefCurrent = barRef.current;
     const refCurrent = componentRef.current;
     if (barRefCurrent == null || refCurrent == null) {
       return;
     }
+    refCurrent.classList.add('-pending');
     const selectedObject: HTMLElement | null = refCurrent.querySelector('.-selected');
     if (selectedObject == null) {
       return;
@@ -39,6 +53,7 @@ export const SegmentedSwitcher: FC<PropsWithChildren<SegmentedSwitcherProps>> = 
         return;
       }
       selectedObject.classList.replace('--super-flat', '--normal');
+      refCurrent.classList.remove('-pending');
     }, 200);
   }, []);
 
@@ -69,28 +84,39 @@ export const SegmentedSwitcher: FC<PropsWithChildren<SegmentedSwitcherProps>> = 
     barRefCurrent.style.height = `${standbyH}px`;
   }, []);
 
-  return (
-    <div className={className} ref={componentRef}>
-      <div className={'bm-a-switchable__inner bm-c-segmented-switcher__inner'}>
-        <div className={'bm-c-segmented-switcher__buttons'}>{props.children}</div>
-        <div className={`bm-c-segmented-switcher__bar ${PUSHABLE_STYLE}`} ref={barRef}></div>
-      </div>
-    </div>
-  );
+  return {
+    newProps: {
+      className,
+      ref: componentRef,
+      ...getMouseEventHandler(props),
+      ...getBaseComponentProps(props)
+    },
+    innerProps: {
+      className: useMemo(() => clsx('bm-a-switchable__inner', INNER_NAME), [])
+    },
+    buttonContainerProps: {
+      className: useMemo(() => clsx(BUTTON_NAME), [])
+    },
+    barProps: {
+      className: useMemo(() => clsx(BAR_NAME, PUSHABLE_STYLE), []),
+      ref: barRef
+    },
+    context
+  };
 };
 
-const ITEM_NAME = 'bm-c-segmented-switcher__button';
-export const SegmentedSwitcherItem: FC<
-  PropsWithChildren<{ selected?: boolean } & MouseEvents<HTMLDivElement>>
-> = props => {
-  const appearanceClassName = useMemo(() => (props.selected ? '--normal' : '--super-flat'), [props.selected]);
-  const selectedClassName = useMemo(() => (props.selected ? '-selected' : ''), [props.selected]);
-  const className = clsx(PUSHABLE_STYLE, ITEM_NAME, appearanceClassName, selectedClassName);
-  const mouse = getMouseEventHandler(props);
+export const SegmentedSwitcher: FC<PropsWithChildren<SegmentedSwitcherProps>> = props => {
+  const { context, newProps, innerProps, buttonContainerProps, barProps } = useSegmentedSwitcherHook(props);
+  // -------
 
   return (
-    <div className={className} {...mouse}>
-      {props.children}
-    </div>
+    <context.Provider value={{ disabled: props.disabled ?? false }}>
+      <div {...newProps}>
+        <div {...innerProps}>
+          <div {...buttonContainerProps}>{props.children}</div>
+          <div {...barProps}></div>
+        </div>
+      </div>
+    </context.Provider>
   );
 };
