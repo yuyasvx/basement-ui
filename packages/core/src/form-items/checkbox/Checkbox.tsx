@@ -67,36 +67,3 @@ export const Checkbox: FC<CheckboxProps> = props => {
     </label>
   );
 };
-
-// export const Checkbox: FC<CheckboxProps> = props => {
-//   const mouseEvents = getMouseEventHandler<HTMLLabelElement, typeof props>(props);
-//   const formEvents = getFormEventHandler<HTMLInputElement, typeof props>(props);
-//   const attributes = getInputAttributes(props);
-//   const { disabled, inputRef } = useCheckboxHook(props);
-//   const appearance = useAppearanceHook(props.appearance ?? AppearanceType.NORMAL, props.autoTint && props.checked);
-//   const classNames = useMemo(() => clsx(NAME, RootStyle.BASE, RootStyle.TEXT_BASE), []);
-//
-//   return (
-//     <label className={classNames} {...mouseEvents} style={props.style} htmlFor={props.name}>
-//       <input
-//         {...attributes}
-//         type="checkbox"
-//         id={props.id}
-//         ref={inputRef}
-//         tabIndex={props.tabIndex}
-//         {...formEvents}
-//       ></input>
-//       <Markable
-//         appearance={appearance}
-//         symbol={props.indeterminate ? <IndeterminateMark /> : <Checkmark />}
-//         style={props.checkboxStyle}
-//         marked={props.checked || props.indeterminate || false}
-//         disabled={disabled}
-//         className={INNER_CHECKBOX_NAME}
-//       />
-//       <span className={INNER_LABEL_NAME} style={props.labelStyle}>
-//         {props.children}
-//       </span>
-//     </label>
-//   );
-// };

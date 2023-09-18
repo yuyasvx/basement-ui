@@ -1,9 +1,11 @@
 $name: 'bm-c-segmented-switcher';
 
 .#{$name} {
-  --bm-switchable-radius: var(--bm-segmented-switcher-radius);
-  --bm-switchable-border-width: var(--bm-segmented-switcher-border-width);
-  --bm-switchable-padding: var(--bm-segmented-switcher-padding);
+  --bm-switcher-width: auto;
+  --bm-switcher-height: auto;
+  --bm-switcher-radius: var(--bm-segmented-switcher-radius);
+  --bm-switcher-border-width: var(--bm-segmented-switcher-border-width);
+  --bm-switcher-padding: var(--bm-segmented-switcher-padding);
   display: inline-block;
   user-select: none;
 
@@ -29,37 +31,60 @@ $name: 'bm-c-segmented-switcher';
       flex-shrink: 0;
     }
   }
+}
 
-  &:not(.-pending) .#{$name}__item {
-    background: rgba(var(--bm-secondary-rgb), 0);
-    box-shadow: none;
-  }
+.#{$name}.--tint .#{$name}__item:not(.-disabled, .-selected) {
+  color: rgb(var(--bm-foreground-rgb-2));
+}
 
-  &:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):hover {
-    background: rgba(var(--bm-secondary-rgb), 0.35);
-    box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
-  }
+.#{$name}.--tint .#{$name}__item:not(.-selected).-disabled {
+  color: rgba(var(--bm-foreground-rgb-2), 0.4);
+}
 
-  &:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):active {
-    background: rgba(var(--bm-secondary-rgb), 0.5);
-    box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
-  }
+.#{$name}:not(.-pending) .#{$name}__item {
+  background: rgba(var(--bm-secondary-rgb), 0);
+  box-shadow: none;
+}
 
-  &:not(.-pending) .#{$name}__item.-selected {
-    box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3), 0 1px 2px rgba(var(--bm-pushable-shadow-rgb), 0.2),
-      inset 0 -1px 1px var(--bm-pushable-inner-shadow-color);
-    background: rgba(var(--bm-primary-rgb), 0.85);
-  }
+.#{$name}:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):hover {
+  background: rgba(var(--bm-secondary-rgb), 0.35);
+  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+}
 
-  &:not(.-pending) .#{$name}__item:not(.-disabled).-selected:active {
-    box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3);
-    background: rgba(var(--bm-primary-dim-rgb), 0.85);
-  }
+.#{$name}:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):active {
+  background: rgba(var(--bm-secondary-rgb), 0.5);
+  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+}
 
-  &:not(.-pending) .#{$name}__item.-selected.-disabled {
-    box-shadow: none;
-    background: rgba(var(--bm-primary-rgb), 0.85);
-  }
+.#{$name}:not(.-pending) .#{$name}__item.-selected {
+  box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3), 0 1px 2px rgba(var(--bm-pushable-shadow-rgb), 0.2),
+    inset 0 -1px 1px var(--bm-pushable-inner-shadow-color);
+  background: rgba(var(--bm-primary-rgb), 0.85);
+}
+
+.#{$name}:not(.-pending) .#{$name}__item:not(.-disabled).-selected:active {
+  box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3);
+  background: rgba(var(--bm-primary-dim-rgb), 0.85);
+}
+
+.#{$name}:not(.-pending) .#{$name}__item.-selected.-disabled {
+  box-shadow: none;
+  background: rgba(var(--bm-primary-rgb), 0.85);
+}
+
+.#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled).-selected {
+  background: rgba(var(--bm-secondary-rgb), 0.35);
+  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+}
+
+.#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled, .-selected):hover {
+  background: rgba(var(--bm-secondary-rgb), 0);
+  box-shadow: none;
+}
+
+.#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled, .-selected):active {
+  background: rgba(var(--bm-secondary-rgb), 0.5);
+  box-shadow: none;
 }
 
 .#{$name}__item {
@@ -69,10 +94,7 @@ $name: 'bm-c-segmented-switcher';
     var(--bm-segmented-switcher-radius) - var(--bm-segmented-switcher-border-width) -
       var(--bm-segmented-switcher-padding)
   );
-
-  &.-disabled {
-    color: rgba(var(--bm-foreground-rgb), 0.4);
-  }
+  position: relative;
 
   > input {
     opacity: 0;
@@ -81,6 +103,10 @@ $name: 'bm-c-segmented-switcher';
     left: 0;
     top: 0;
   }
+}
+
+.#{$name}__item.-disabled {
+  color: rgba(var(--bm-foreground-rgb), 0.4);
 }
 
 .#{$name}__bar {

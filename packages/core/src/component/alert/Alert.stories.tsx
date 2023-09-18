@@ -53,40 +53,6 @@ export const Story: StoryObj<typeof Alert> = {
           </Alert>
         </WindowBase>
         <div style={{ width: '20px', height: '20px' }}></div>
-        {/* <WindowBase */}
-        {/*  shadowLevel={1} */}
-        {/*  backgroundLevel={4} */}
-        {/*  style={ */}
-        {/*    { */}
-        {/*      width: '500px', */}
-        {/*      '--bm-tint-rgb': '158, 233, 0', */}
-        {/*      '--bm-tint-dim-rgb': '137, 202, 0', */}
-        {/*      '--bm-foreground-rgb-2': '0,0,0' */}
-        {/*    } as CSSProperties */}
-        {/*  } */}
-        {/* > */}
-        {/*  <Alert */}
-        {/*    iconPosition={args.iconPosition} */}
-        {/*    centered={args.centered} */}
-        {/*    layout={args.layout} */}
-        {/*    title={ */}
-        {/*      '“Dx00401016”の命令が“Dx00000000”のメモリを参照しました。メモリが“read”になることはできませんでした。' */}
-        {/*    } */}
-        {/*    icon={<div style={{ width: '48px', height: '48px', backgroundColor: '#c0c0c0' }}>icon</div>} */}
-        {/*    footer={ */}
-        {/*      <> */}
-        {/*        <Button appearance={AppearanceType.FLAT}>キャンセル</Button> */}
-        {/*        <Button appearance={AppearanceType.TINT}>OK</Button> */}
-        {/*      </> */}
-        {/*    } */}
-        {/*  > */}
-        {/*    プログラムを終了するには"OK"をクリックしてください。 */}
-        {/*    <br /> */}
-        {/*    プログラムをデバッグするには"キャンセル"をクリックしてください。 */}
-        {/*    <br /> */}
-        {/*    <input type="text" className="bm-a-input-box -focusable bm-text-base bm-base" /> */}
-        {/*  </Alert> */}
-        {/* </WindowBase> */}
         <div style={{ width: '20px', height: '20px' }}></div>
         <WindowBase shadowLevel={1} backgroundLevel={4} style={{ display: 'inline-block' }}>
           <Alert
@@ -120,7 +86,7 @@ export const Story: StoryObj<typeof Alert> = {
 };
 
 export const MouseEventStory: StoryObj<typeof Alert> = {
-  render: args => {
+  render: () => {
     return (
       <>
         <Alert title={'あああ'} onClick={() => alert('クリックしました')}>

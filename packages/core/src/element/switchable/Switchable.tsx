@@ -23,16 +23,18 @@ const KNOB_NAME = `${NAME}__knob`;
 
 export const SwitcherBase: FC<PropsWithChildren<{ className?: string }>> = props => {
   const classNames = useMemo(() => clsx(NAME, props.className), [props.className]);
-  return <div className={classNames}>{props.children}</div>;
+  return (
+    <div className={classNames}>
+      <div className={INNER_NAME}>{props.children}</div>
+    </div>
+  );
 };
 
 export const Switchable: FC<SwitcherElementProps & MarkableContext> = props => {
   const { markableClass } = useMarkableClassHook(props);
   return (
     <SwitcherBase className={markableClass}>
-      <div className={INNER_NAME}>
-        <div className={KNOB_NAME}></div>
-      </div>
+      <div className={KNOB_NAME}></div>
     </SwitcherBase>
   );
 };

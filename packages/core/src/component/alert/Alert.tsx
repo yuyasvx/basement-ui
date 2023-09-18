@@ -5,17 +5,29 @@ import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseCompon
 import { Case } from '../../util/Case';
 import { MouseEvents } from '../../domain/EventProps';
 import { getMouseEventHandler } from '../../util/Handler';
-import { AlertContent, AlertContentDetailedProps } from './AlertContent';
+import { AlertContent, AlertContentDetailedProps } from '../../element/alert-content/AlertContent';
 
 const NAME = 'bm-c-alert';
 const INNER_NAME = `${NAME}__inner`;
 const ICON_NAME = `${NAME}__icon`;
 const DETAIL_NAME = `${NAME}__detail`;
 
-export const AlertContentLayout = {
-  HORIZONTAL: 'horizontal',
-  VERTICAL: 'vertical'
-} as const;
+export const Alert: FC<AlertProps> = props => {
+  const { mainProps, innerProps, contentProps, iconProps } = useAlertHook(props);
+
+  return (
+    <div {...mainProps}>
+      <div {...innerProps}>
+        {props.icon && <div {...iconProps}>{props.icon}</div>}
+        <AlertContent {...contentProps}>{props.children}</AlertContent>
+      </div>
+    </div>
+  );
+};
+
+export type AlertProps = PropsWithChildren<
+  AlertDetailedProps & AlertContentDetailedProps & BaseComponentProps & MouseEvents<HTMLDivElement>
+>;
 
 interface AlertDetailedProps {
   layout?: Case<typeof AlertContentLayout>;
@@ -25,9 +37,10 @@ interface AlertDetailedProps {
   // footerType?: 'default' | 'hide' | 'custom';
 }
 
-export type AlertProps = PropsWithChildren<
-  AlertDetailedProps & AlertContentDetailedProps & BaseComponentProps & MouseEvents<HTMLDivElement>
->;
+export const AlertContentLayout = {
+  HORIZONTAL: 'horizontal',
+  VERTICAL: 'vertical'
+} as const;
 
 export const useAlertHook = (props: AlertProps) => {
   const layoutClassName = useMemo(() => {
@@ -78,16 +91,4 @@ export const useAlertHook = (props: AlertProps) => {
       className: useMemo(() => clsx(DETAIL_NAME, alertContentClassName), [alertContentClassName])
     }
   };
-};
-export const Alert: FC<AlertProps> = props => {
-  const { mainProps, innerProps, contentProps, iconProps } = useAlertHook(props);
-
-  return (
-    <div {...mainProps}>
-      <div {...innerProps}>
-        {props.icon && <div {...iconProps}>{props.icon}</div>}
-        <AlertContent {...contentProps}>{props.children}</AlertContent>
-      </div>
-    </div>
-  );
 };

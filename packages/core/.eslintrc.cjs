@@ -34,13 +34,13 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     '@typescript-eslint/indent': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': [
-      'warn',
-      {
-        allowHigherOrderFunctions: true,
-        allowTypedFunctionExpressions: true
-      }
-    ],
+    // '@typescript-eslint/explicit-module-boundary-types': [
+    //   'warn',
+    //   {
+    //     allowHigherOrderFunctions: true,
+    //     allowTypedFunctionExpressions: true
+    //   }
+    // ],
     '@typescript-eslint/member-delimiter-style': [
       'warn',
       {

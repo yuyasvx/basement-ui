@@ -29,7 +29,7 @@ export const Story: StoryObj<typeof Radio> = {
               disabled={args.disabled}
               autoTint={args.autoTint}
               id={'i-id'}
-              dataProps={{ 'data-aaaa': 123 }}
+              nativeProps={{ 'data-aaaa': 123 }}
             >
               {args.children}
             </Radio>

@@ -9,17 +9,6 @@ $name: 'bm-e-alert-content';
     flex-shrink: 0;
   }
 
-  &.-centered {
-    & > .#{$name}__footer {
-      justify-content: center;
-    }
-
-    h2,
-    div {
-      text-align: center;
-    }
-  }
-
   * + .#{$name}__description {
     padding-top: var(--bm-alert-detail-gap, 10px);
   }
@@ -40,5 +29,16 @@ $name: 'bm-e-alert-content';
 
   * + .#{$name}__footer {
     padding-top: var(--bm-alert-footer-gap, 20px);
+  }
+}
+
+.#{$name}.-centered {
+  & > .#{$name}__footer {
+    justify-content: center;
+  }
+
+  h2,
+  div {
+    text-align: center;
   }
 }

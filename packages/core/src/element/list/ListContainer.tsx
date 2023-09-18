@@ -11,13 +11,15 @@ interface ListContainerDetailedProps {
   stickyHeader?: boolean;
 }
 
-const NAME = 'bm-a-list-container';
+const NAME = 'bm-e-list-container';
 const HEADER_NAME = `${NAME}__header`;
 const FOOTER_NAME = `${NAME}__footer`;
 
-export type ListContainerProps = BaseComponentProps & ListContainerDetailedProps & MouseEvents<HTMLDivElement>;
+export type ListContainerProps = BaseComponentProps<HTMLDivElement> &
+  ListContainerDetailedProps &
+  MouseEvents<HTMLDivElement>;
 export const ListContainer: FC<PropsWithChildren<ListContainerProps>> = props => {
-  const p = getBaseComponentProps(props);
+  const p = getBaseComponentProps<HTMLDivElement, ListContainerProps>(props);
   const me = getMouseEventHandler(props);
   const classNames = useMemo(
     () => clsx(NAME, RootStyle.BASE, RootStyle.TEXT_BASE, { '-sticky': props.stickyHeader }, props.className),

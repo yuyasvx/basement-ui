@@ -3,7 +3,7 @@ $name: 'bm-c-alert';
 .#{$name} {
   & > .#{$name}__inner {
     display: flex;
-    gap: var(--bm-alert-content-gap, 20px);
+    gap: var(--bm-alert-content-gap);
 
     .#{$name}__detail {
       flex-grow: 1;
@@ -11,35 +11,35 @@ $name: 'bm-c-alert';
       box-sizing: border-box;
     }
   }
+}
 
-  &.-horizontal > .#{$name}__inner {
-    flex-direction: row;
+.#{$name}.-horizontal > .#{$name}__inner {
+  flex-direction: row;
+}
+
+.#{$name}.-horizontal.-icon-right > .#{$name}__inner {
+  flex-direction: row-reverse;
+}
+
+.#{$name}.-horizontal.-centered {
+  > .#{$name}__inner {
+    align-items: center;
   }
 
-  &.-horizontal.-icon-right > .#{$name}__inner {
-    flex-direction: row-reverse;
-  }
-
-  &.-horizontal.-centered {
-    > .#{$name}__inner {
-      align-items: center;
-    }
-
-    .#{$name}__icon {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
-
-  &.-vertical > .#{$name}__inner {
+  .#{$name}__icon {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
   }
+}
 
-  &.-vertical.-centered {
-    .#{$name}__icon {
-      display: flex;
-      justify-content: center;
-    }
+.#{$name}.-vertical > .#{$name}__inner {
+  flex-direction: column;
+}
+
+.#{$name}.-vertical.-centered {
+  .#{$name}__icon {
+    display: flex;
+    justify-content: center;
   }
 }

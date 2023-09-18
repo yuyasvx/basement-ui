@@ -2,7 +2,6 @@ import { FC, PropsWithChildren, useContext, useMemo } from 'react';
 import clsx from 'clsx';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
-import { PUSHABLE_STYLE } from '../../domain/StyleClass';
 import { getFormEventHandler, getMouseEventHandler } from '../../util/Handler';
 import { useSegmentedSwitcherContext } from './SegmentedSwitcher';
 
@@ -11,6 +10,7 @@ const NAME = 'bm-c-segmented-switcher__item';
 interface SegmentedSwitcherItemDetailedProps {
   selected?: boolean;
   disabled?: boolean;
+  name?: string;
 }
 
 export type SegmentedSwitcherItemProps = SegmentedSwitcherItemDetailedProps &
@@ -29,7 +29,14 @@ export const SegmentedSwitcherItem: FC<PropsWithChildren<SegmentedSwitcherItemPr
 
   return (
     <label {...mouse} className={className}>
-      <input type="radio" tabIndex={-1} checked={props.selected ?? false} disabled={disabled} {...formEvents} />
+      <input
+        type="radio"
+        name={props.name}
+        tabIndex={-1}
+        checked={props.selected ?? false}
+        disabled={disabled}
+        {...formEvents}
+      />
       <span>{props.children}</span>
     </label>
   );

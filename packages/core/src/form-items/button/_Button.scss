@@ -1,8 +1,8 @@
-@use '../../variables' as *;
+$name: 'bm-c-button';
 
-.bm-c-button {
+.#{$name} {
   border: 0;
-  padding: var(--bm-button-padding-tb, $bm-button-padding-tb) var(--bm-button-padding-lr, $bm-button-padding-lr);
+  padding: var(--bm-button-padding-tb) var(--bm-button-padding-lr);
   margin: 0;
   display: inline-flex;
   align-content: center;
@@ -10,7 +10,7 @@
   column-gap: var(--bm-button-icon-gap);
   user-select: none;
 
-  & > .bm-c-button__icon > * {
+  & > .#{$name}__icon > * {
     vertical-align: middle;
   }
 
@@ -19,8 +19,8 @@
     flex-shrink: 0;
     display: inline-block;
   }
+}
 
-  &.-disabled > .bm-c-button__icon {
-    opacity: 0.5;
-  }
+.#{$name}.-disabled > .#{$name}__icon {
+  opacity: 0.5;
 }

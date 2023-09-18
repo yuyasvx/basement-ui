@@ -1,0 +1,82 @@
+$name: 'bm-e-list-item';
+
+.#{$name} {
+  list-style: none;
+  background: transparent;
+  color: rgb(var(--bm-foreground-rgb));
+  text-decoration: none;
+  text-align: start;
+  border-width: 0;
+  border-radius: var(--bm-list-item-radius);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: var(--bm-list-item-gap);
+  padding: var(--bm-list-item-padding-tb) var(--bm-list-item-padding-lr);
+  margin: 0;
+
+  > .#{$name}__indicator {
+    width: var(--bm-list-item-indicator-width);
+    height: var(--bm-list-item-indicator-height);
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  > .#{$name}__icon {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+
+  > .#{$name}__content {
+    flex-grow: 1;
+  }
+
+  .#{$name}__secondary {
+    color: rgba(var(--bm-foreground-rgb), 0.6);
+  }
+}
+
+.#{$name}.-active {
+  background-color: rgba(var(--bm-tint-rgb), 0.85);
+  color: rgb(var(--bm-foreground-rgb-2));
+
+  .#{$name}__secondary {
+    color: rgba(var(--bm-foreground-rgb-2), 0.6);
+  }
+}
+
+.#{$name}.-active.-disabled {
+  color: rgba(var(--bm-foreground-rgb-2), 0.4);
+}
+
+.#{$name}.-selected {
+  background-color: rgba(var(--bm-secondary-rgb), 0.5);
+}
+
+.#{$name}.-disabled {
+  color: rgba(var(--bm-foreground-rgb), 0.4);
+}
+
+.#{$name}.-with-indicator {
+  padding: var(--bm-list-item-padding-tb) var(--bm-list-item-padding-lr) var(--bm-list-item-padding-tb) 0;
+}
+
+// TODO ↓なんとかして__outerにひとまとめに定義できないか
+button.#{$name} {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+button.#{$name}:not(.bm-a-focusable):focus {
+  outline: none;
+}
+
+li.#{$name} {
+  cursor: default;
+}
+
+.bm-e-list.--bordered {
+  .#{$name} {
+    border-radius: 0;
+  }
+}

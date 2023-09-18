@@ -1,7 +1,7 @@
 import { CSSProperties, FC, PropsWithChildren } from 'react';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
 import { BaseComponentProps } from '../../base/BaseComponent';
-import { Switchable } from '../../element/switcher/Switchable';
+import { Switchable } from '../../element/switchable/Switchable';
 import { CustomizedInputHTMLAttributes, useInputHook } from '../../hook/InputHook';
 
 interface SwitcherDetailedProps {

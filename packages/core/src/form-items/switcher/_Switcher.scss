@@ -1,11 +1,7 @@
 .bm-c-switcher {
   position: relative;
   display: flex;
-  //padding-top: var(--ds-checkbox-padding, #{defaultValue.$ds-checkbox-padding});
-  //padding-bottom: var(--ds-checkbox-padding, #{defaultValue.$ds-checkbox-padding});
   gap: var(--bm-checkbox-gap);
-  //--bm-pushable-radius: var(--bm-checkbox-radius, --bm-pushable-radius);
-  //--bm-markable-rect-size: var(--bm-checkbox-rect-size);
 
   > input[type='checkbox'] {
     width: 5px;

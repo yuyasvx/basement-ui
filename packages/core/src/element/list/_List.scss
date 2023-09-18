@@ -1,0 +1,17 @@
+$name: 'bm-e-list';
+
+.#{$name} {
+  list-style: none;
+  padding: var(--bm-list-padding-tb) var(--bm-list-padding-lr);
+  margin: 0;
+  border-width: 0;
+}
+
+.#{$name}.--bordered {
+  border: var(--bm-list-border-width, 1px) solid rgb(var(--bm-border-rgb));
+  border-radius: var(--bm-list-radius);
+
+  > * + * {
+    border-top: var(--bm-list-item-border-width, 1px) solid rgb(var(--bm-border-rgb));
+  }
+}

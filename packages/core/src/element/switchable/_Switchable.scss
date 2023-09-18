@@ -1,0 +1,78 @@
+@use '../../style-element/pushable';
+$name: 'bm-e-switchable';
+
+.#{$name} {
+  width: var(--bm-switcher-width);
+  height: var(--bm-switcher-height);
+  border-radius: var(--bm-switcher-radius);
+  border: var(--bm-switcher-border-width) solid rgba(var(--bm-border2-rgb), 0.2);
+  background: rgba(var(--bm-secondary-rgb), 0.4);
+  padding: var(--bm-switcher-padding);
+  transition: background 0.1s, border 0.1s;
+
+  & > .#{$name}__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: background 0.1s;
+    border-radius: calc(var(--bm-switcher-radius) - var(--bm-switcher-border-width) - var(--bm-switcher-padding));
+  }
+}
+
+.#{$name}:not(.-disabled):active .#{$name}__knob {
+  box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3);
+  background: rgba(var(--bm-primary-dim-rgb), 0.85);
+}
+
+.#{$name}.-marked,
+.#{$name}.--tint {
+  background-color: rgba(var(--bm-tint-rgb), 0.8);
+  border-color: transparent;
+
+  & > .#{$name}__inner {
+    background-color: rgba(var(--bm-tint-rgb), 1);
+  }
+
+  & .#{$name}__knob {
+    left: calc(var(--bm-switcher-width) - var(--bm-switcher-height));
+  }
+}
+
+.#{$name}.--flat,
+.#{$name}.-disabled.--flat {
+  border-color: transparent;
+  background: rgba(var(--bm-secondary-rgb), 0.2);
+}
+
+.#{$name}.-disabled {
+  background: rgba(var(--bm-disabled-rgb), 0.6);
+  border-color: transparent;
+
+  & .#{$name}__knob {
+    box-shadow: none;
+    background: rgba(var(--bm-primary-rgb), 0.85);
+  }
+}
+
+.#{$name}.-disabled.-marked,
+.#{$name}.--tint.-disabled {
+  background: rgba(var(--bm-tint-rgb), 0.6);
+  border-color: transparent;
+
+  & > .#{$name}__inner {
+    background-color: transparent;
+  }
+}
+
+.#{$name}__knob {
+  position: absolute;
+  left: 0;
+  width: var(--bm-switcher-height);
+  height: var(--bm-switcher-height);
+
+  @extend %pushable--normal-normal;
+  border-radius: calc(var(--bm-switcher-radius) - var(--bm-switcher-border-width) - var(--bm-switcher-padding));
+  background: rgba(var(--bm-primary-rgb), 1);
+
+  transition: left 0.1s;
+}

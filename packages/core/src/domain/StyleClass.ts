@@ -13,7 +13,4 @@ export const backgroundStyle = ['bm-a-bg-lv1', 'bm-a-bg-lv2', 'bm-a-bg-lv3', 'bm
 export const shadowStyle = ['bm-a-shadow-lv1', 'bm-a-shadow-lv2', 'bm-a-shadow-lv3', 'bm-a-shadow-lv4'];
 export const blurStyle = ['bm-a-blur-lv1'];
 
-export const SWITCHABLE_STYLE = 'bm-a-switchable';
-
-export const LIST_STYLE = 'bm-a-list';
-export const LIST_ITEM_STYLE = 'bm-a-list-item';
+export const CARD_STYLE = 'bm-a-card';

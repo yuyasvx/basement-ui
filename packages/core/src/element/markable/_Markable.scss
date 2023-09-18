@@ -1,4 +1,6 @@
-.bm-e-markable {
+$name: 'bm-e-markable';
+
+.#{$name} {
   width: var(--bm-markable-rect-size);
   height: var(--bm-markable-rect-size);
   display: block;
@@ -9,8 +11,8 @@
   > * {
     display: none;
   }
+}
 
-  &.-marked > .bm-e-markable__symbol {
-    display: block;
-  }
+.#{$name}.-marked > .#{$name}__symbol {
+  display: block;
 }

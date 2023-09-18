@@ -1,4 +1,6 @@
-.bm-c-checkbox {
+$name: 'bm-c-checkbox';
+
+.#{$name} {
   position: relative;
   display: flex;
   //padding-top: var(--ds-checkbox-padding, #{defaultValue.$ds-checkbox-padding});
@@ -20,7 +22,7 @@
       outline: none;
     }
 
-    &:focus-visible ~ .bm-c-checkbox__inner-checkbox {
+    &:focus-visible ~ .#{$name}__inner-checkbox {
       outline: 2px solid rgba(var(--bm-tint-rgb), 0.5);
       outline-offset: 1px;
     }

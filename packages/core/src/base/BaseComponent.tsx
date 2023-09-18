@@ -1,6 +1,19 @@
-import { ComponentType, CSSProperties, FC, PropsWithChildren } from 'react';
+import { CSSProperties } from 'react';
 import { AppearanceType } from '../domain/AppearanceType';
 import { Case } from '../util/Case';
+
+export function getBaseComponentProps<P extends BaseComponentProps>(props: P) {
+  const { id, style, tabIndex } = props;
+  const data = props.nativeProps ?? {};
+  return {
+    // as,
+    // className: clsx(className, classNames),
+    id,
+    style,
+    tabIndex,
+    ...data
+  };
+}
 
 export interface AppearanceAdaptable {
   appearance?: Case<typeof AppearanceType>;
@@ -10,25 +23,5 @@ export interface BaseComponentProps {
   tabIndex?: number;
   style?: CSSProperties;
   className?: string;
-  dataProps?: { [key: string]: unknown };
+  nativeProps?: { [key: string]: unknown };
 }
-
-export const getBaseComponentProps = <T extends BaseComponentProps>(props: PropsWithChildren<T>) => {
-  const { id, style, tabIndex } = props;
-  const data = props.dataProps ?? {};
-  return {
-    // as,
-    // className: clsx(className, classNames),
-    id,
-    style,
-    tabIndex,
-    ...data
-  };
-};
-
-// export const withBaseComponent = <P extends BaseComponentProps>(Component: ComponentType<P>) => {
-//   return (props: P): ComponentType<P> => {
-//     const newProps = getBaseComponentProps(props);
-//     return <Component {...newProps} {...(props as P)} />;
-//   };
-// };

@@ -1,40 +1,80 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { WindowBase } from './WindowBase';
+import { CSSProperties } from 'react';
+import { Window } from '../../layout/window/Window';
+import { Alert } from '../../component/alert/Alert';
+import { Button } from '../../form-items/button/Button';
+import { AppearanceType } from '../../domain/AppearanceType';
+import { List } from '../list/List';
+import { ListItem } from '../list/ListItem';
+import { RootStyle } from '../../domain/StyleClass';
 
 export default {
   title: 'Element/Window Base',
   argTypes: {
-    backgroundLevel: {
+    shadow: {
       options: [0, 1, 2, 3, 4],
       control: { type: 'select' }
     },
-    shadowLevel: {
+    background: {
       options: [0, 1, 2, 3, 4],
       control: { type: 'select' }
     },
-    blurLevel: {
+    blur: {
       options: [0, 1],
       control: { type: 'select' }
     }
   }
 } as Meta;
 
-export const Story: StoryObj<typeof WindowBase> = {
+export const Story: StoryObj<typeof Window> = {
   render: args => {
     return (
       <div style={{ position: 'relative' }}>
-        <img src="/backg.png" alt="home" style={{ position: 'absolute', top: '0px', background: '#404040' }} />
-        <WindowBase
-          style={{ position: 'absolute', top: '80px', left: '80px', width: '400px', height: '240px' }}
-          {...args}
-        ></WindowBase>
+        <Window
+          shadow={args.shadow}
+          background={args.background}
+          blur={args.blur}
+          style={{ '--bm-card-radius': '10px', width: '500px' } as CSSProperties}
+        >
+          <Alert
+            title={'ウィンドウのタイトル'}
+            footer={
+              <Button appearance={AppearanceType.TINT} style={{ width: '100px' }}>
+                OK
+              </Button>
+            }
+          >
+            ウィンドウの本文
+          </Alert>
+        </Window>
+        <Window
+          className={RootStyle.CONTENT_BASE}
+          shadow={args.shadow}
+          background={args.background}
+          blur={args.blur}
+          style={
+            {
+              '--bm-content-padding': '5px',
+              '--bm-card-radius': '5px',
+              marginTop: '20px',
+              width: '300px'
+            } as CSSProperties
+          }
+        >
+          <List appearance="plain">
+            <ListItem>ああああ</ListItem>
+            <ListItem status="selected">ああああ</ListItem>
+            <ListItem>ああああ</ListItem>
+            <ListItem>ああああ</ListItem>
+          </List>
+        </Window>
       </div>
     );
   },
   args: {
-    backgroundLevel: 1,
-    shadowLevel: 1,
-    blurLevel: 0
+    shadow: 1,
+    background: 0,
+    blur: 0
   }
 };
 

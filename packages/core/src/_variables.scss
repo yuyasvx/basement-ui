@@ -49,9 +49,13 @@ $bm-switcher-border-width: 1px !default;
 $bm-switcher-padding: 2px !default;
 
 // Segmented Switcher
+
 $bm-segmented-switcher-radius: 6px !default;
 $bm-segmented-switcher-border-width: 1px !default;
 $bm-segmented-switcher-padding: 2px !default;
+
+// Alert
+$bm-alert-content-gap: 20px !default;
 
 // Navigation List
 
@@ -60,3 +64,6 @@ $bm-navigation-list-padding-lr: 0 !default;
 $bm-navigation-list-item-padding-tb: 5px !default;
 $bm-navigation-list-item-padding-lr: 10px !default;
 $bm-navigation-list-item-radius: 5px !default;
+
+$bm-tooltip-padding: 4px !default;
+$bm-tooltip-radius: 5px !default;

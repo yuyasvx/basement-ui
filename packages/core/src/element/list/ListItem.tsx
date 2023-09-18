@@ -1,6 +1,5 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, FC, PropsWithChildren, ReactNode, useCallback } from 'react';
 import { MouseEvents } from '../../domain/EventProps';
-import { LIST_ITEM_STYLE, LIST_STYLE } from '../../domain/StyleClass';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { useListLogic } from '../../hook/ListHook';
 import { ListItemContent } from './ListItemContent';
@@ -17,6 +16,8 @@ interface ListItemDetailedProps {
 }
 
 export type ListItemProps = BaseComponentProps & ListItemDetailedProps & MouseEvents<HTMLLIElement>;
+
+const NAME = 'bm-e-list-item';
 export const ListItem: FC<PropsWithChildren<ListItemProps>> = props => {
   const { newProps } = useListLogic(props);
 
@@ -35,7 +36,7 @@ export const ListItem: FC<PropsWithChildren<ListItemProps>> = props => {
 };
 
 export const ListItemOuter: FC<PropsWithChildren> = props => {
-  return <li className={`${LIST_ITEM_STYLE}__outer`}>{props.children}</li>;
+  return <li className={`${NAME}__outer`}>{props.children}</li>;
 };
 
 export type ListItemLinkProps = BaseComponentProps &
@@ -98,7 +99,6 @@ export const ListItemButton: FC<PropsWithChildren<ListItemButtonProps>> = props 
 
   return (
     <ListItemOuter>
-      {/* TODO ボタン自体にマウスイベントを置かないという愚行 */}
       {/* TODO ボタンのスタイリング優先度がなんか低くなるのでめんどいことになる */}
       <button {...attribute} {...newProps}>
         <ListItemContent
@@ -116,5 +116,5 @@ export const ListItemButton: FC<PropsWithChildren<ListItemButtonProps>> = props 
 
 export const ListItemSeparator: FC<PropsWithChildren> = () => {
   // TODO 命名の仕方、よくない
-  return <li className={`${LIST_STYLE}-separator`}></li>;
+  return <li className={`bm-e-list-separator`}></li>;
 };

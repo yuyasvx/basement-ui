@@ -1,4 +1,6 @@
-.bm-c-radio {
+$name: 'bm-c-radio';
+
+.#{$name} {
   position: relative;
   display: flex;
   //padding-top: var(--ds-checkbox-padding, #{defaultValue.$ds-checkbox-padding});
@@ -20,7 +22,7 @@
       outline: none;
     }
 
-    &:focus ~ .bm-c-radio__inner-radio {
+    &:focus ~ .#{$name}__inner-radio {
       outline: 2px solid rgba(var(--bm-tint-rgb), 0.5);
       outline-offset: 1px;
     }

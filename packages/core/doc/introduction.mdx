@@ -30,4 +30,15 @@ import 'basement-ui/module/basement-ui.css';
 <link rel="stylesheet" href="https://unpkg.com/basement-ui/module/basement-ui.css">
 ```
 
-各コンポーネントはES Moduleとして提供しています。
+`BasementUIProvider`をReactアプリの直下に追加する必要があります。
+
+```
+export function App() {
+  return (
+    <BasementUIProvider>
+      {...}
+    </BasementUIProvider>
+  );
+}
+```
+

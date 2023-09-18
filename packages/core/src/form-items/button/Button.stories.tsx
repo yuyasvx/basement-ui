@@ -25,7 +25,11 @@ export const Story: StoryObj<typeof Button> = {
             <Button {...restArgs} onClick={() => alert('クリックしました')}>
               {children}
             </Button>
-            <Button {...restArgs} onClick={() => alert('クリックしました')} dataProps={{ 'data-bm-default-key': true }}>
+            <Button
+              {...restArgs}
+              onClick={() => alert('クリックしました')}
+              nativeProps={{ 'data-bm-default-key': true }}
+            >
               ボタン（Data属性つき）
             </Button>
           </div>

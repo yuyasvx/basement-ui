@@ -2,7 +2,6 @@ import { FC, PropsWithChildren, useMemo } from 'react';
 import clsx from 'clsx';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
-import { LIST_STYLE } from '../../domain/StyleClass';
 import { getMouseEventHandler } from '../../util/Handler';
 
 interface ListDetailedProps {
@@ -12,11 +11,11 @@ interface ListDetailedProps {
 
 export type ListProps = ListDetailedProps & BaseComponentProps & MouseEvents<HTMLUListElement>;
 
-// const NAME = 'bm-c-navigation-list';
+const NAME = 'bm-e-list';
 export const List: FC<PropsWithChildren<ListProps>> = props => {
   const appearance = props.appearance ?? 'plain';
   const decideAppearanceClassName = useMemo(() => `--${appearance}`, [appearance]);
-  const classNames = clsx(LIST_STYLE, decideAppearanceClassName, props.className);
+  const classNames = clsx(NAME, decideAppearanceClassName, props.className);
   const me = getMouseEventHandler(props);
   const p = getBaseComponentProps(props);
 

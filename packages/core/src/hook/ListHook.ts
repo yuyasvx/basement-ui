@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
 import { getMouseEventHandler } from '../util/Handler';
-import { FOCUSABLE_STYLE, LIST_ITEM_STYLE, RootStyle } from '../domain/StyleClass';
+import { FOCUSABLE_STYLE, RootStyle } from '../domain/StyleClass';
 import { ListItemProps } from '../element/list/ListItem';
 import { getBaseComponentProps } from '../base/BaseComponent';
 
@@ -12,7 +12,7 @@ export const useListLogic = (props: ListItemProps) => {
   const classNames = useMemo(
     () =>
       clsx(
-        LIST_ITEM_STYLE,
+        'bm-e-list-item',
         RootStyle.TEXT_BASE,
         RootStyle.BASE,
         statusClassName,
