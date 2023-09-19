@@ -1,4 +1,5 @@
 import {
+  CSSProperties,
   Dispatch,
   FC,
   forwardRef,
@@ -10,6 +11,7 @@ import {
   RefObject,
   SetStateAction,
   useEffect,
+  useMemo,
   useState
 } from 'react';
 import { Case } from '../../util/Case';
@@ -20,7 +22,7 @@ import { determinePosition, useTooltip } from './TooltipHook';
 
 const NAME = 'bm-c-tooltip';
 
-interface Tooltip2DetailedProps {
+interface TooltipDetailedProps {
   content?: ReactNode;
   position?: Case<typeof TooltipPosition>;
   displayAs?: Case<typeof TooltipSourceDisplayMode>;
@@ -28,6 +30,10 @@ interface Tooltip2DetailedProps {
   hideDelay?: number;
   disabled?: boolean;
   offset?: number;
+  enableCardStyle?: boolean;
+  tooltipStyle?: CSSProperties;
+  tooltipClassName?: string;
+  // TODO 未実装
   hideTriggers?: Case<typeof TooltipHideTrigger>[];
 }
 
@@ -38,9 +44,9 @@ const TooltipHideTrigger = {
   SCROLL: 'scroll'
 } as const;
 
-export type Tooltip2Props = Tooltip2DetailedProps & BaseComponentProps;
+export type TooltipProps = TooltipDetailedProps & BaseComponentProps;
 
-export const Tooltip: FC<PropsWithChildren<Tooltip2Props>> = props => {
+export const Tooltip: FC<PropsWithChildren<TooltipProps>> = props => {
   const displayAs = props.displayAs ?? 'inline-block';
   const { props: newProps } = useTooltip(NAME, props);
   return (
@@ -56,17 +62,22 @@ export const Tooltip: FC<PropsWithChildren<Tooltip2Props>> = props => {
   );
 };
 
-export type Tooltip2InnerProps = PropsWithChildren<{
+export type TooltipInnerProps = PropsWithChildren<{
   className: string;
   position: Case<typeof TooltipPosition>;
   targetRef: RefObject<HTMLElement>;
   mouseEventRef: MutableRefObject<MouseEvent<HTMLElement> | null>;
   offset: number;
+  style?: CSSProperties;
+  id?: string;
 }>;
 
-const TooltipInner = forwardRef<HTMLDivElement, Tooltip2InnerProps>((props, ref) => {
-  const { className, position, targetRef, mouseEventRef } = props;
-
+const TooltipInner = forwardRef<HTMLDivElement, TooltipInnerProps>((props, ref) => {
+  const { className, position, targetRef, mouseEventRef, id, style } = props;
+  const newStyle: CSSProperties = useMemo(
+    () => ({ ...{ visibility: 'hidden', pointerEvents: 'none' }, ...style }),
+    [style]
+  );
   const r = ref as RefObject<HTMLDivElement> | null;
 
   useEffect(() => {
@@ -81,13 +92,13 @@ const TooltipInner = forwardRef<HTMLDivElement, Tooltip2InnerProps>((props, ref)
   }, [mouseEventRef, position, props.offset, r, targetRef]);
 
   return (
-    <div className={className} style={{ visibility: 'hidden', pointerEvents: 'none' }} ref={ref}>
+    <div className={className} style={newStyle} ref={ref} id={id}>
       {props.children}
     </div>
   );
 });
 
-export const TooltipRenderer: FC<PropsWithChildren> = props => {
+export const TooltipRenderer: FC = () => {
   const { tooltip } = useBasementUIContext();
   const [contents, setContents] = useState(tooltip.contents.current);
 
@@ -114,6 +125,8 @@ export const TooltipRenderer: FC<PropsWithChildren> = props => {
               position={entry[1].position}
               ref={entry[1].ref}
               offset={entry[1].offset}
+              style={entry[1].style}
+              id={entry[1].id}
             >
               {entry[1].content}
             </TooltipInner>

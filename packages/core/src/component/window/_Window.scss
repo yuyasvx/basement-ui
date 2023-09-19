@@ -1,0 +1,16 @@
+$name: 'bm-c-window';
+
+.#{$name} {
+  transition: opacity 0.2s, transform 0.2s;
+  position: relative;
+
+  &.-opening {
+    opacity: 0;
+    transform: scaleX(90%) scaleY(90%);
+  }
+
+  &.-closing {
+    opacity: 0;
+    transform: scaleX(95%) scaleY(95%);
+  }
+}

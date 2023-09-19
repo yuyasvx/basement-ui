@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+import { CSSProperties } from 'react';
 import { BasementUIProvider } from '../../context/BasementUIContext';
 import { Button } from '../../form-items/button/Button';
 import { Tooltip, TooltipPosition, TooltipSourceDisplayMode } from './Tooltip';
@@ -14,10 +15,6 @@ export default {
     //   options: [undefined, ...Object.values(TooltipOrigin)],
     //   control: { type: 'select' }
     // },
-    show: {
-      options: [undefined, true, false],
-      control: { type: 'inline-radio' }
-    },
     displayAs: {
       options: [undefined, ...Object.values(TooltipSourceDisplayMode)],
       control: { type: 'inline-radio' }
@@ -44,22 +41,39 @@ export const Story: StoryObj<typeof Tooltip> = {
           hideDelay={args.hideDelay}
           position={args.position}
           offset={args.offset}
+          enableCardStyle={args.enableCardStyle}
         >
           ここにマウスカーソルを当てると、説明が表示されます その1
         </Tooltip>
         <br />
         <Tooltip
-          content={<img src="/home-icon.svg" alt="home" style={{ width: '40px', height: '40px' }} />}
-          displayAs={'block'}
-          style={{ width: '500px', height: '800px', background: '#CFCFCF' }}
+          content={'スタイルの調整も行えます'}
+          displayAs={'inline-block'}
           showDelay={args.showDelay}
           hideDelay={args.hideDelay}
           position={args.position}
           offset={args.offset}
+          tooltipStyle={{ '--bm-card-radius': '10px', '--bm-content-padding': '20px' } as CSSProperties}
+          className={'test'}
+          tooltipClassName={'test-2'}
+          enableCardStyle={args.enableCardStyle}
         >
           ここにマウスカーソルを当てると、説明が表示されます その2
         </Tooltip>
-        <Tooltip content={'ボタンの説明です。'}>
+        <br />
+        <Tooltip
+          content={<img src="/home-icon.svg" alt="home" style={{ width: '40px', height: '40px' }} />}
+          displayAs={'block'}
+          showDelay={args.showDelay}
+          hideDelay={args.hideDelay}
+          position={args.position}
+          offset={args.offset}
+          style={{ width: '500px', height: '800px', background: '#CFCFCF' }}
+          enableCardStyle={args.enableCardStyle}
+        >
+          ここにマウスカーソルを当てると、説明が表示されます その3
+        </Tooltip>
+        <Tooltip content={'ボタンの説明です。'} enableCardStyle={args.enableCardStyle}>
           <Button>ボタンの説明</Button>
         </Tooltip>
       </BasementUIProvider>
@@ -73,7 +87,8 @@ export const Story: StoryObj<typeof Tooltip> = {
     hideDelay: 500,
     // origin: TooltipOrigin.CURSOR,
     // show: undefined
-    offset: 8
+    offset: 8,
+    enableCardStyle: true
   }
 };
 

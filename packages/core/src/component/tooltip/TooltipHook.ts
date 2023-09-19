@@ -6,7 +6,7 @@ import { Case } from '../../util/Case';
 import { CARD_STYLE, RootStyle } from '../../domain/StyleClass';
 import { useBasementUIContext } from '../../context/BasementUIContext';
 import { getBaseComponentProps } from '../../base/BaseComponent';
-import { Tooltip2Props, TooltipPosition } from './Tooltip';
+import { TooltipProps, TooltipPosition } from './Tooltip';
 
 function cursorBasedPosition(
   mouseEvent: MouseEvent<HTMLElement>,
@@ -99,25 +99,34 @@ export function determinePosition(
   // return staticPosition(target.current, tooltip.current, position);
 }
 
-export function useTooltip(componentName: string, props: Tooltip2Props) {
+export function useTooltip(componentName: string, props: TooltipProps) {
   const { getShadowStyleClass, getBlurStyleClass, getBackgroundStyleClass } = useCardStyle();
+  const enableCardStyle = props.enableCardStyle ?? true;
   const className = useMemo(
     () =>
       clsx([
         componentName,
-        CARD_STYLE,
+        { [CARD_STYLE]: enableCardStyle },
         RootStyle.TEXT_BASE,
-        RootStyle.CONTENT_BASE,
-        getBackgroundStyleClass(3),
-        getShadowStyleClass(1),
-        getBlurStyleClass(1)
+        { [RootStyle.CONTENT_BASE]: enableCardStyle },
+        { [getBackgroundStyleClass(3)]: enableCardStyle },
+        { [getShadowStyleClass(1)]: enableCardStyle },
+        { [getBlurStyleClass(1)]: enableCardStyle },
+        props.tooltipClassName
       ]),
-    [componentName, getBackgroundStyleClass, getBlurStyleClass, getShadowStyleClass]
+    [
+      componentName,
+      enableCardStyle,
+      getBackgroundStyleClass,
+      getBlurStyleClass,
+      getShadowStyleClass,
+      props.tooltipClassName
+    ]
   );
   const displayAs = props.displayAs ?? 'inline-block';
   const targetClassName = useMemo(
-    () => clsx(`${componentName}-source`, { '-inline': displayAs === 'inline-block' }),
-    [componentName, displayAs]
+    () => clsx(`${componentName}-source`, { '-inline': displayAs === 'inline-block' }, props.className),
+    [componentName, displayAs, props.className]
   );
   const showDelay = props.showDelay ?? 500;
   const hideDelay = props.hideDelay ?? 500;
@@ -147,11 +156,12 @@ export function useTooltip(componentName: string, props: Tooltip2Props) {
           content: props.content,
           mouseEventRef: eventRef,
           ref: tooltipRef,
-          offset: props.offset ?? 8
+          offset: props.offset ?? 8,
+          style: props.tooltipStyle
         });
       }, showDelay);
     },
-    [className, props.content, props.offset, props.position, showDelay, tooltip]
+    [className, props.content, props.offset, props.position, props.tooltipStyle, showDelay, tooltip]
   );
 
   const mouseMoveHandler = useCallback((evt: MouseEvent<HTMLElement>) => {
@@ -188,13 +198,6 @@ export function useTooltip(componentName: string, props: Tooltip2Props) {
       onMouseMove: mouseMoveHandler,
       onMouseLeave: mouseLeaveHandler,
       ...getBaseComponentProps(props)
-    },
-    innerProps: {
-      className,
-      position: props.position ?? TooltipPosition.AUTO,
-      ref: tooltipRef,
-      targetRef,
-      mouseEventRef: eventRef
     }
   };
 }

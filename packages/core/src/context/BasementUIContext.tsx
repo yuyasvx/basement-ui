@@ -9,7 +9,7 @@ import {
   SetStateAction,
   useContext
 } from 'react';
-import { Tooltip2InnerProps, TooltipRenderer } from '../component/tooltip/Tooltip';
+import { TooltipInnerProps, TooltipRenderer } from '../component/tooltip/Tooltip';
 import { useTooltipContextInitializer } from './TooltipContext';
 
 function useContextInitializer() {
@@ -21,10 +21,10 @@ function useContextInitializer() {
 const context = createContext({
   tooltip: {
     contents: {} as MutableRefObject<
-      Record<number, (Tooltip2InnerProps & { content: ReactNode; ref: RefObject<HTMLDivElement> }) | undefined>
+      Record<number, (TooltipInnerProps & { content: ReactNode; ref: RefObject<HTMLDivElement> }) | undefined>
     >,
     dispatchers: {} as MutableRefObject<Record<string, Dispatch<SetStateAction<unknown>> | undefined>>,
-    add: (content: Tooltip2InnerProps & { content: ReactNode; ref: RefObject<HTMLDivElement> }) => 0 as number,
+    add: (content: TooltipInnerProps & { content: ReactNode; ref: RefObject<HTMLDivElement> }) => 0 as number,
     remove: (id: number) => false as boolean
   }
 });

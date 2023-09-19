@@ -68,6 +68,11 @@ export const useFrameHook = (props: FrameProps) => {
   };
 };
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export const WindowBase: FC<FrameProps> = props => {
   const { baseProps, classNames } = useFrameHook(props);
   // todo divタグに限定させたくない。
