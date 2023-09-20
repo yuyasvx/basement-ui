@@ -3,6 +3,10 @@ $name: 'bm-c-window';
 .#{$name} {
   position: relative;
 
+  &.-pending {
+    visibility: hidden;
+  }
+
   &.-opening {
     animation-name: bm-window-show;
     animation-duration: 0.2s;

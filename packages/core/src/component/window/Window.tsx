@@ -44,7 +44,8 @@ export const WindowAnimation = {
 export type WindowProps = WindowDetailProps & BaseComponentProps & Partial<CardStyle>;
 
 const WindowControlContainer: FC<PropsWithChildren<{ controlPosition: string; style?: CSSProperties }>> = props => {
-  const newStyle = props.style ?? {};
+  // TODO スタイル強制ねじ込みを辞める
+  const newStyle = props.style ? { ...props.style } : {};
   newStyle.position = 'absolute';
   if (props.controlPosition === 'top-right' && newStyle.right == null) {
     newStyle.right = '0';
@@ -66,7 +67,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   const hideAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.HIDE;
   const { getShadowStyleClass, getBackgroundStyleClass, getBlurStyleClass } = useCardStyle();
   const controlPosition = props.controlPosition ?? 'top-right';
-  const prevShow = useRef(null as boolean | null);
+  const pending = useRef(true);
   const windowRef = useRef<HTMLDivElement>(null);
   const r = ref != null ? (ref as RefObject<HTMLDivElement>) : windowRef;
   const closingTimeout = useRef(null as NodeJS.Timeout | null);
@@ -80,7 +81,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
         getBackgroundStyleClass(props.background),
         getBlurStyleClass(props.blur),
         props.className,
-        { '-opening': showAnimation }
+        { '-pending': showAnimation && pending.current }
       ),
     [
       getBackgroundStyleClass,
@@ -94,42 +95,43 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
     ]
   );
 
-  if (prevShow.current == null) {
-    prevShow.current = props.show ?? true;
+  if (!hideAnimation && !props.show && !pending.current) {
+    pending.current = true;
+  }
+
+  if (!showAnimation && props.show) {
+    pending.current = false;
   }
 
   useEffect(() => {
-    if (r.current && r.current.classList.contains('-opening')) {
+    if (showAnimation && pending.current && r.current) {
+      if (closingTimeout.current != null) {
+        clearTimeout(closingTimeout.current);
+        closingTimeout.current = null;
+      }
+      r.current.classList.remove('-pending');
+      r.current.classList.add('-opening');
+      pending.current = false;
       setTimeout(() => {
         r.current && r.current.classList.remove('-opening');
       }, 200);
-    }
-    if (props.show && r.current) {
-      r.current.classList.remove('-closing');
-      closingTimeout.current && clearTimeout(closingTimeout.current);
-      closingTimeout.current = null;
       return;
     }
-    if (props.show && !prevShow.current) {
-      prevShow.current = true;
-      forceRefresh();
-      return;
-    }
-    if (hideAnimation && props.show === false && prevShow.current && r.current) {
+
+    if (hideAnimation && !props.show && !pending.current && r.current) {
       r.current.classList.add('-closing');
+      pending.current = true;
+
       closingTimeout.current = setTimeout(() => {
-        prevShow.current = false;
+        r.current && r.current.classList.remove('-closing');
+        pending.current = true;
+        closingTimeout.current = null;
         forceRefresh();
-        props.onClose && props.onClose();
       }, 200);
     }
-    if (!hideAnimation && props.show === false && prevShow.current) {
-      prevShow.current = false;
-      forceRefresh();
-    }
-  }, [forceRefresh, hideAnimation, props, props.show, r]);
+  }, [forceRefresh, hideAnimation, props.show, r, showAnimation]);
 
-  return prevShow.current ? (
+  return props.show || !pending.current ? (
     <div className={className} {...baseProps} ref={r}>
       {props.control && (
         <WindowControlContainer controlPosition={controlPosition} style={props.controlStyle}>
