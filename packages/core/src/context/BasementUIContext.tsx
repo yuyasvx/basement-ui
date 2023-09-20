@@ -42,3 +42,4 @@ export const BasementUIProvider: FC<PropsWithChildren> = props => {
 export function useBasementUIContext() {
   return useContext(context);
 }
+export type BasementUIContext = ReturnType<typeof useBasementUIContext>;

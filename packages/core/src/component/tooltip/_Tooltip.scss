@@ -5,11 +5,12 @@ $name: 'bm-c-tooltip';
   height: var(--bm-tooltip-height, max-content);
   --bm-content-padding: var(--bm-tooltip-padding);
   --bm-card-radius: var(--bm-tooltip-radius);
-  transition: opacity 1s;
   user-select: none;
 
   &.-closing {
-    opacity: 0;
+    animation-name: bm-tooltip-close;
+    animation-duration: var(--bm-tooltip-animation-duration);
+    animation-fill-mode: forwards;
   }
 
   &.-opening {
@@ -23,5 +24,14 @@ $name: 'bm-c-tooltip';
 
   &.-inline {
     display: inline-block;
+  }
+}
+
+@keyframes bm-tooltip-close {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

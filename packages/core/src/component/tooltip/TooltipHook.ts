@@ -1,11 +1,12 @@
-import { MouseEvent, MutableRefObject, RefObject, useCallback, useMemo, useRef } from 'react';
+import { MouseEvent, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 
 import clsx from 'clsx';
 import { useCardStyle } from '../../hook/CardStyleHook';
 import { Case } from '../../util/Case';
 import { CARD_STYLE, RootStyle } from '../../domain/StyleClass';
-import { useBasementUIContext } from '../../context/BasementUIContext';
+import { BasementUIContext, useBasementUIContext } from '../../context/BasementUIContext';
 import { getBaseComponentProps } from '../../base/BaseComponent';
+import { convertDurationToMillis } from '../../util/UnitConverter';
 import { TooltipProps, TooltipPosition } from './Tooltip';
 
 function cursorBasedPosition(
@@ -130,13 +131,22 @@ export function useTooltip(componentName: string, props: TooltipProps) {
   );
   const showDelay = props.showDelay ?? 500;
   const hideDelay = props.hideDelay ?? 500;
-  const { tooltip } = useBasementUIContext();
+  const uiContext = useBasementUIContext();
+  const { tooltip } = uiContext;
   const mouseOverTimerRef: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
   const mouseLeaveTimerRefs: MutableRefObject<NodeJS.Timeout[]> = useRef([]);
   const targetRef = useRef<HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const eventRef = useRef(null as MouseEvent<HTMLElement> | null);
   const tooltipId = useRef(null as null | number);
+  const { triggerHide } = useHideAnimationWorker(
+    tooltipRef,
+    mouseLeaveTimerRefs,
+    tooltipId,
+    uiContext,
+    hideDelay,
+    true
+  );
   // const origin = props.origin ?? TooltipOrigin.CURSOR;
 
   const mouseOverHandler = useCallback(
@@ -168,27 +178,12 @@ export function useTooltip(componentName: string, props: TooltipProps) {
     eventRef.current = evt;
   }, []);
 
-  const hide = useCallback(() => {
-    if (tooltipId.current == null) {
-      return;
-    }
-    tooltip.remove(tooltipId.current);
-    tooltipId.current = null;
-  }, [tooltip]);
-
   const mouseLeaveHandler = useCallback(() => {
     if (mouseOverTimerRef.current) {
       clearTimeout(mouseOverTimerRef.current);
     }
-
-    mouseLeaveTimerRefs.current[0] = setTimeout(() => {
-      hide();
-    }, hideDelay + 1000);
-
-    mouseLeaveTimerRefs.current[1] = setTimeout(() => {
-      tooltipRef.current?.classList.add('-closing');
-    }, hideDelay);
-  }, [hide, hideDelay]);
+    triggerHide();
+  }, [triggerHide]);
 
   return {
     props: {
@@ -200,4 +195,55 @@ export function useTooltip(componentName: string, props: TooltipProps) {
       ...getBaseComponentProps(props)
     }
   };
+}
+
+export function useTooltipScrollTrigger(
+  ref: RefObject<HTMLDivElement> | null | undefined,
+  tooltipId: MutableRefObject<number | null>
+) {
+  const uiContext = useBasementUIContext();
+  const timers = useRef([]);
+  const { triggerHide } = useHideAnimationWorker(ref, timers, tooltipId, uiContext, 0, true);
+
+  useEffect(() => {
+    document.addEventListener('scroll', triggerHide);
+
+    return () => document.removeEventListener('scroll', triggerHide);
+  }, [triggerHide]);
+}
+
+function useHideAnimationWorker(
+  ref: RefObject<HTMLDivElement> | null | undefined,
+  mouseLeaveTimerRefs: MutableRefObject<NodeJS.Timeout[]>,
+  tooltipId: MutableRefObject<number | null>,
+  uiContext: BasementUIContext,
+  delayMs: number,
+  enable = true
+) {
+  const hide = useCallback(() => {
+    if (tooltipId.current == null) {
+      return;
+    }
+    uiContext.tooltip.remove(tooltipId.current);
+    tooltipId.current = null;
+  }, [tooltipId, uiContext.tooltip]);
+
+  const triggerHide = useCallback(() => {
+    let animationDurationMs = 0;
+    if (ref && ref.current && enable) {
+      const cs = window.getComputedStyle(ref.current);
+      const rawValue = cs.getPropertyValue('--bm-tooltip-animation-duration');
+      animationDurationMs = convertDurationToMillis(rawValue, 1000);
+    }
+
+    mouseLeaveTimerRefs.current[0] = setTimeout(() => {
+      hide();
+    }, delayMs + animationDurationMs);
+
+    mouseLeaveTimerRefs.current[1] = setTimeout(() => {
+      ref && ref.current?.classList.add('-closing');
+    }, delayMs);
+  }, [delayMs, enable, hide, mouseLeaveTimerRefs, ref]);
+
+  return { triggerHide };
 }

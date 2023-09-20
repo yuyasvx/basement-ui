@@ -21,7 +21,7 @@ export function useTooltipContextInitializer() {
     if (contents.current[id] == null) {
       return false;
     }
-    contents.current[id] = undefined;
+    delete contents.current[id];
     contents.current = { ...contents.current };
     Object.values(dispatchers.current).forEach(d => {
       d(contents.current);

@@ -109,9 +109,12 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
         clearTimeout(closingTimeout.current);
         closingTimeout.current = null;
       }
-      r.current.classList.remove('-pending');
+      r.current.classList.remove('-closing');
       r.current.classList.add('-opening');
       pending.current = false;
+      setTimeout(() => {
+        r.current && r.current.classList.remove('-pending');
+      }, 0);
       setTimeout(() => {
         r.current && r.current.classList.remove('-opening');
       }, 200);
@@ -123,13 +126,14 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
       pending.current = true;
 
       closingTimeout.current = setTimeout(() => {
-        r.current && r.current.classList.remove('-closing');
         pending.current = true;
         closingTimeout.current = null;
         forceRefresh();
+        props.onClose && props.onClose();
       }, 200);
     }
-  }, [forceRefresh, hideAnimation, props.show, r, showAnimation]);
+    // TODO hideAnimationがなくてもonCloseを動作させる
+  }, [forceRefresh, hideAnimation, props, props.show, r, showAnimation]);
 
   return props.show || !pending.current ? (
     <div className={className} {...baseProps} ref={r}>

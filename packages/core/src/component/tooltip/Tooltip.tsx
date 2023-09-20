@@ -12,13 +12,14 @@ import {
   SetStateAction,
   useEffect,
   useMemo,
+  useRef,
   useState
 } from 'react';
 import { Case } from '../../util/Case';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { useBasementUIContext } from '../../context/BasementUIContext';
 import { Overlay } from '../overlay/Overlay';
-import { determinePosition, useTooltip } from './TooltipHook';
+import { determinePosition, useTooltip, useTooltipScrollTrigger } from './TooltipHook';
 
 const NAME = 'bm-c-tooltip';
 
@@ -70,6 +71,7 @@ export type TooltipInnerProps = PropsWithChildren<{
   offset: number;
   style?: CSSProperties;
   id?: string;
+  tooltipId?: number;
 }>;
 
 const TooltipInner = forwardRef<HTMLDivElement, TooltipInnerProps>((props, ref) => {
@@ -79,6 +81,8 @@ const TooltipInner = forwardRef<HTMLDivElement, TooltipInnerProps>((props, ref) 
     [style]
   );
   const r = ref as RefObject<HTMLDivElement> | null;
+  const tooltipId = useRef(props.tooltipId ?? null);
+  useTooltipScrollTrigger(r, tooltipId);
 
   useEffect(() => {
     if (r && r.current) {
@@ -127,6 +131,7 @@ export const TooltipRenderer: FC = () => {
               offset={entry[1].offset}
               style={entry[1].style}
               id={entry[1].id}
+              tooltipId={Number(entry[0])}
             >
               {entry[1].content}
             </TooltipInner>
