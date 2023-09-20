@@ -80,8 +80,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
         getBackgroundStyleClass(props.background),
         getBlurStyleClass(props.blur),
         props.className,
-        { '-opening': showAnimation && prevShow.current == null },
-        { '-with-open-animation': showAnimation }
+        { '-opening': showAnimation }
       ),
     [
       getBackgroundStyleClass,
@@ -102,9 +101,8 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   useEffect(() => {
     if (r.current && r.current.classList.contains('-opening')) {
       setTimeout(() => {
-        // TODO keyframesに変更する
         r.current && r.current.classList.remove('-opening');
-      }, 1);
+      }, 200);
     }
     if (props.show && r.current) {
       r.current.classList.remove('-closing');

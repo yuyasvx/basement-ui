@@ -1,16 +1,29 @@
 $name: 'bm-c-window';
 
 .#{$name} {
-  transition: opacity 0.2s, transform 0.2s;
   position: relative;
 
   &.-opening {
-    opacity: 0;
-    transform: scaleX(90%) scaleY(90%);
+    animation-name: bm-window-show;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
   }
 
   &.-closing {
+    animation-name: bm-window-show;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-direction: reverse;
+  }
+}
+
+@keyframes bm-window-show {
+  0% {
     opacity: 0;
     transform: scaleX(95%) scaleY(95%);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(100%) scaleY(100%);
   }
 }
