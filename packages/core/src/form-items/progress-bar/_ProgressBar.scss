@@ -1,0 +1,50 @@
+$name: 'bm-c-progress-bar';
+
+.#{$name} {
+  width: 100px;
+  position: relative;
+}
+
+.#{$name} > .#{$name}__item {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  &.-visible {
+    opacity: 1;
+  }
+}
+
+.#{$name}__indeterminate {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    rgba(var(--bm-tint-rgb), 1),
+    rgba(var(--bm-tint-dim-rgb), 1),
+    rgba(var(--bm-tint-dim-rgb), 0),
+    rgba(var(--bm-tint-rgb), 1),
+    rgba(var(--bm-tint-dim-rgb), 1)
+  );
+  background-size: 400% 100%;
+  transition: opacity 0.5s;
+
+  &.-animated {
+    animation-name: bm-progress-bar-indeterminate;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: backwards;
+  }
+}
+
+@keyframes bm-progress-bar-indeterminate {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
