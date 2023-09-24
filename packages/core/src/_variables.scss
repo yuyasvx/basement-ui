@@ -6,7 +6,8 @@ $bm-content-padding: 20px !default;
 $bm-base-color: #f0f0f0 !default;
 $bm-primary-color: #ffffff !default;
 $bm-primary-dim-color: #eaeaea !default;
-$bm-secondary-color: rgb(166, 166, 166) !default;
+$bm-secondary-color: rgb(180, 180, 180) !default;
+$bm-overlay-color: #1a1a1a !default;
 $bm-tint-color: #0066ff !default;
 $bm-tint-dim-color: #0042a7 !default;
 $bm-foreground-color: #1a1a1a !default;
@@ -68,3 +69,6 @@ $bm-navigation-list-item-radius: 5px !default;
 $bm-tooltip-padding: 4px !default;
 $bm-tooltip-radius: 5px !default;
 $bm-tooltip-animation-duration: 1s !default;
+
+$bm-window-radius: 5px !default;
+$bm-window-animation-duration: 0.2s !default;

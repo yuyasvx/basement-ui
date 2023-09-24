@@ -7,7 +7,10 @@ import { List } from '../../element/list/List';
 import { ListItem } from '../../element/list/ListItem';
 import { RootStyle } from '../../domain/StyleClass';
 import { Overlay } from '../overlay/Overlay';
-import { Window, WindowAnimation, WindowProps } from './Window';
+import { useHeaderStyle } from '../../style-element/header/Header';
+import { useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
+import { Window, WindowAnimation, WindowControlPosition, WindowProps } from './Window';
+import { CloseButton } from './WindowControl';
 
 export default {
   title: 'Component/Window',
@@ -27,6 +30,14 @@ export default {
     animated: {
       options: [undefined, ...Object.values(WindowAnimation)],
       control: { type: 'select' }
+    },
+    showControl: {
+      options: [undefined, 'auto', true, false],
+      control: { type: 'inline-radio' }
+    },
+    controlPosition: {
+      options: [undefined, ...Object.values(WindowControlPosition)],
+      control: { type: 'inline-radio' }
     }
   }
 } as Meta;
@@ -38,10 +49,14 @@ const WindowShowHidePreview: FC<WindowProps> = args => {
     setShow(true);
   }, [setShow]);
 
+  const { props: headerProps } = useHeaderStyle({});
+  const { className: flexStackClass } = useFlexStackLayout({});
+
   return (
     <>
       <Overlay>
         <Window
+          nativeProps={{ role: 'dialog' }}
           animated={args.animated}
           show={show}
           shadow={2}
@@ -49,36 +64,34 @@ const WindowShowHidePreview: FC<WindowProps> = args => {
           blur={0}
           style={
             {
-              '--bm-card-radius': '10px',
               width: '500px',
-              position: 'absolute',
-              left: '500px',
-              top: '100px'
+              top: '150px',
+              left: '50px'
             } as CSSProperties
           }
-          controlStyle={{ padding: '5px', '--bm-card-radius': '50%' } as CSSProperties}
-          control={
-            <Button
-              appearance={AppearanceType.SUPER_FLAT}
-              style={
-                {
-                  width: '24px',
-                  height: '24px',
-                  '--bm-button-padding-tb': '0',
-                  '--bm-button-padding-lr': '0'
-                } as CSSProperties
-              }
-              onClick={() => setShow(false)}
-              icon={'×'}
-            />
-          }
+          control={<CloseButton onClick={() => setShow(false)} />}
+          controlPosition={args.controlPosition}
+          absolutePosition
         >
+          <header
+            className={`${flexStackClass} ${headerProps.className}`}
+            style={{ padding: '5px', boxSizing: 'border-box' }}
+          >
+            <Button appearance={AppearanceType.SUPER_FLAT}>ボタン1</Button>
+            <Button appearance={AppearanceType.SUPER_FLAT}>送信</Button>
+            <Button appearance={AppearanceType.SUPER_FLAT}>削除</Button>
+          </header>
           <Alert
             title={'ウィンドウのタイトル'}
             footer={
-              <Button appearance={AppearanceType.TINT} style={{ width: '100px' }}>
-                OK
-              </Button>
+              <>
+                <Button appearance={AppearanceType.NORMAL} style={{ width: '100px' }}>
+                  Cancel
+                </Button>
+                <Button appearance={AppearanceType.TINT} style={{ width: '100px' }}>
+                  OK
+                </Button>
+              </>
             }
           >
             ウィンドウの本文
@@ -97,15 +110,16 @@ export const Story: StoryObj<typeof Window> = {
         <WindowShowHidePreview {...args} />
         <Window
           className={RootStyle.CONTENT_BASE}
+          showControl={args.showControl}
           shadow={args.shadow}
           background={args.background}
           blur={args.blur}
           show={args.show}
           animated={args.animated}
+          absolutePosition={args.absolutePosition}
           style={
             {
               '--bm-content-padding': '5px',
-              '--bm-card-radius': '5px',
               marginTop: '20px',
               width: '300px'
             } as CSSProperties
@@ -126,7 +140,10 @@ export const Story: StoryObj<typeof Window> = {
     background: 0,
     blur: 0,
     animated: undefined,
-    show: true
+    show: true,
+    showControl: 'auto',
+    absolutePosition: false,
+    controlPosition: undefined
   }
 };
 

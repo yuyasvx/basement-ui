@@ -3,36 +3,45 @@ import clsx from 'clsx';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { getMouseEventHandler } from '../../util/Handler';
+import { Case } from '../../util/Case';
 
 interface FlexStackDetailedProps {
-  direction?: 'horizontal' | 'vertical';
-  as?: keyof JSX.IntrinsicElements;
+  // direction?: Case<typeof FlexStackDirection>;
+  vertical?: boolean;
+  inline?: boolean;
+  reversed?: boolean;
+  justify?: Case<typeof FlexStackJustify>;
 }
 
+export const FlexStackJustify = {
+  SPACE_BETWEEN: 'space-between',
+  END: 'end',
+  CENTER: 'center'
+} as const;
+
 const NAME = 'bm-l-flex-stack';
+const ITEM_NAME = `${NAME}__item`;
 
-export type FlexStackProps<T> = FlexStackDetailedProps & BaseComponentProps & MouseEvents<T>;
+export type FlexStackProps = FlexStackDetailedProps;
 
-export const useFlexStackHook = <T extends Element>(props: FlexStackProps<T>, componentName: string) => {
-  const baseProps = getBaseComponentProps(props);
-  const mouseEvents = getMouseEventHandler<T, typeof props>(props);
-  const classNames = clsx(componentName, props.className);
-  const Component = useMemo(() => props.as ?? 'div', [props.as]);
+export const useFlexStackLayout = (props: FlexStackProps) => {
+  const classNames = useMemo(
+    () =>
+      clsx(
+        NAME,
+        { '-vertical': props.vertical === true },
+        { '-inline': props.inline === true },
+        { '-reversed': props.reversed === true },
+        { '-space-between': props.justify === FlexStackJustify.SPACE_BETWEEN },
+        { '-end': props.justify === FlexStackJustify.END },
+        { '-center': props.justify === FlexStackJustify.CENTER }
+      ),
+    [props.inline, props.justify, props.reversed, props.vertical]
+  );
 
   return {
-    baseProps,
-    mouseEvents,
-    classNames,
-    Component,
-    newProps: {
-      ...baseProps,
-      ...mouseEvents,
-      className: classNames
-    }
+    name: NAME,
+    itemName: ITEM_NAME,
+    className: classNames
   };
-};
-
-export const FlexStack: FC<PropsWithChildren<FlexStackProps<HTMLDivElement>>> = props => {
-  const { Component, newProps } = useFlexStackHook(props, NAME);
-  return <div {...newProps}>{props.children}</div>;
 };

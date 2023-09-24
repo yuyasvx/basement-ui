@@ -49,6 +49,16 @@ export const Story: StoryObj<typeof Button> = {
               icon={<img src="/home-icon.svg" alt="home" style={{ width: 'auto', height: '24px' }} />}
             ></Button>
           </div>
+          <div>
+            <Button
+              {...restArgs}
+              onClick={() => alert('クリックしました')}
+              style={{ width: '160px' }}
+              icon={<img src="/home-icon.svg" alt="home" style={{ width: 'auto', height: '15px' }} />}
+            >
+              {children}
+            </Button>
+          </div>
         </div>
       </>
     );

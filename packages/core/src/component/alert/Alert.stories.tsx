@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
-import { WindowBase } from '../../element/window-base/WindowBase';
 import { Button } from '../../form-items/button/Button';
 import { AppearanceType } from '../../domain/AppearanceType';
+import { useCardStyle } from '../../hook/CardStyleHook';
 import { Alert, AlertContentLayout } from './Alert';
 // import { Checkbox } from './Checkbox';
 
@@ -22,9 +22,10 @@ export default {
 
 export const Story: StoryObj<typeof Alert> = {
   render: args => {
+    const { className } = useCardStyle({ blur: 0, background: 3, shadow: 0 });
     return (
       <>
-        <WindowBase shadowLevel={1} backgroundLevel={4} style={{ width: '400px' }}>
+        <div className={className} style={{ width: '400px' }}>
           <Alert
             centered={args.centered}
             layout={args.layout}
@@ -34,15 +35,15 @@ export const Story: StoryObj<typeof Alert> = {
           >
             {args.children}
           </Alert>
-        </WindowBase>
+        </div>
         <div style={{ width: '20px', height: '20px' }}></div>
-        <WindowBase shadowLevel={1} backgroundLevel={4}>
+        <div className={className}>
           <Alert centered={args.centered} layout={args.layout} title={args.title} iconPosition={args.iconPosition}>
             {args.children}
           </Alert>
-        </WindowBase>
+        </div>
         <div style={{ width: '20px', height: '20px' }}></div>
-        <WindowBase shadowLevel={1} backgroundLevel={4} style={{ width: '400px' }}>
+        <div className={className} style={{ width: '400px' }}>
           <Alert
             centered={args.centered}
             layout={args.layout}
@@ -51,10 +52,10 @@ export const Story: StoryObj<typeof Alert> = {
           >
             {args.children}
           </Alert>
-        </WindowBase>
+        </div>
         <div style={{ width: '20px', height: '20px' }}></div>
         <div style={{ width: '20px', height: '20px' }}></div>
-        <WindowBase shadowLevel={1} backgroundLevel={4} style={{ display: 'inline-block' }}>
+        <div className={className} style={{ display: 'inline-block' }}>
           <Alert
             style={{ width: '500px', height: '300px' }}
             iconPosition={args.iconPosition}
@@ -72,7 +73,7 @@ export const Story: StoryObj<typeof Alert> = {
           >
             ああああ
           </Alert>
-        </WindowBase>
+        </div>
       </>
     );
   },

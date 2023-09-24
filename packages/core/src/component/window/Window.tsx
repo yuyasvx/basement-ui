@@ -2,7 +2,6 @@ import {
   CSSProperties,
   FC,
   forwardRef,
-  Fragment,
   PropsWithChildren,
   ReactNode,
   RefObject,
@@ -16,23 +15,29 @@ import { CardStyle, useCardStyle } from '../../hook/CardStyleHook';
 import { CARD_STYLE } from '../../domain/StyleClass';
 import { Case } from '../../util/Case';
 import { useForceRefresh } from '../../util/ForceRefreshHook';
+import { convertDurationToMillis } from '../../util/UnitConverter';
 
 const NAME = 'bm-c-window';
 const CONTROL_NAME = `${NAME}__control`;
 
-// const closeEvent = new CustomEvent('bm-window-closed');
+const openEvent = new CustomEvent('bm-window-open');
 
 export interface WindowDetailProps {
   show?: boolean;
   control?: ReactNode;
   showControl?: 'auto' | boolean;
-  controlPosition?: 'top-left' | 'top-right';
+  controlPosition?: Case<typeof WindowControlPosition>;
   controlStyle?: CSSProperties;
-  disablePositionStyle?: boolean;
+  absolutePosition?: boolean;
   onClose?: () => void;
-  onOpen?: () => void;
+  onOpen?: (event: Event) => void;
   animated?: Case<typeof WindowAnimation>;
 }
+
+export const WindowControlPosition = {
+  TOP_LEFT: 'top-left',
+  TOP_RIGHT: 'top-right'
+} as const;
 
 export const WindowAnimation = {
   SHOW: 'show',
@@ -43,25 +48,26 @@ export const WindowAnimation = {
 
 export type WindowProps = WindowDetailProps & BaseComponentProps & Partial<CardStyle>;
 
-const WindowControlContainer: FC<PropsWithChildren<{ controlPosition: string; style?: CSSProperties }>> = props => {
-  // TODO スタイル強制ねじ込みを辞める
-  const newStyle = props.style ? { ...props.style } : {};
-  newStyle.position = 'absolute';
-  if (props.controlPosition === 'top-right' && newStyle.right == null) {
-    newStyle.right = '0';
-  }
-
-  return (
-    <div className={CONTROL_NAME} style={newStyle}>
-      {props.children}
-    </div>
+const WindowControlContainer: FC<
+  PropsWithChildren<{ controlPosition: Case<typeof WindowControlPosition>; style?: CSSProperties }>
+> = props => {
+  const className = useMemo(
+    () =>
+      clsx(
+        CONTROL_NAME,
+        { '-right': props.controlPosition === 'top-right' },
+        { '-left': props.controlPosition === 'top-left' }
+      ),
+    [props.controlPosition]
   );
+
+  return <div className={className}>{props.children}</div>;
 };
 
 export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>((props, ref) => {
   const baseProps = getBaseComponentProps(props);
-  // TODO どうします？
-  // const disablePositionStyle = props.disablePositionStyle ?? false;
+  const show = props.show ?? true;
+  const absolutePosition = props.absolutePosition ?? false;
   const animation = props.animated ?? WindowAnimation.HIDE;
   const showAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.SHOW;
   const hideAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.HIDE;
@@ -81,62 +87,70 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
         getBackgroundStyleClass(props.background),
         getBlurStyleClass(props.blur),
         props.className,
-        { '-pending': showAnimation && pending.current }
+        { '-absolute': absolutePosition }
       ),
     [
+      absolutePosition,
       getBackgroundStyleClass,
       getBlurStyleClass,
       getShadowStyleClass,
       props.background,
       props.blur,
       props.className,
-      props.shadow,
-      showAnimation
+      props.shadow
     ]
   );
-
-  if (!hideAnimation && !props.show && !pending.current) {
-    pending.current = true;
-  }
-
-  if (!showAnimation && props.show) {
-    pending.current = false;
-  }
+  // FIXME あまりにもワークアラウンド
+  const openingFlag = showAnimation && pending.current ? ' -opening' : '';
 
   useEffect(() => {
-    if (showAnimation && pending.current && r.current) {
+    const currentRef = r.current;
+    if (currentRef && props.onOpen) {
+      currentRef.addEventListener('bm-window-open', props.onOpen);
+    }
+
+    let animationDurationMs = 0;
+    if (currentRef && (showAnimation || hideAnimation)) {
+      const cs = window.getComputedStyle(currentRef);
+      const rawValue = cs.getPropertyValue('--bm-window-animation-duration');
+      animationDurationMs = convertDurationToMillis(rawValue, 200);
+    }
+
+    if (pending.current && currentRef) {
       if (closingTimeout.current != null) {
         clearTimeout(closingTimeout.current);
         closingTimeout.current = null;
       }
-      r.current.classList.remove('-closing');
-      r.current.classList.add('-opening');
+      currentRef.classList.remove('-closing');
       pending.current = false;
       setTimeout(() => {
-        r.current && r.current.classList.remove('-pending');
-      }, 0);
-      setTimeout(() => {
-        r.current && r.current.classList.remove('-opening');
-      }, 200);
-      return;
+        currentRef.classList.remove('-opening');
+        currentRef.dispatchEvent(openEvent);
+      }, animationDurationMs);
+
+      return () => {
+        props.onOpen && currentRef?.removeEventListener('bm-window-open' as keyof HTMLElementEventMap, props.onOpen);
+      };
     }
 
-    if (hideAnimation && !props.show && !pending.current && r.current) {
-      r.current.classList.add('-closing');
-      pending.current = true;
+    if (!show && !pending.current && currentRef) {
+      hideAnimation && currentRef.classList.add('-closing');
 
       closingTimeout.current = setTimeout(() => {
         pending.current = true;
         closingTimeout.current = null;
         forceRefresh();
         props.onClose && props.onClose();
-      }, 200);
+      }, animationDurationMs);
     }
-    // TODO hideAnimationがなくてもonCloseを動作させる
-  }, [forceRefresh, hideAnimation, props, props.show, r, showAnimation]);
 
-  return props.show || !pending.current ? (
-    <div className={className} {...baseProps} ref={r}>
+    return () => {
+      props.onOpen && currentRef?.removeEventListener('bm-window-open' as keyof HTMLElementEventMap, props.onOpen);
+    };
+  }, [forceRefresh, hideAnimation, props, r, show, showAnimation]);
+
+  return show || !pending.current ? (
+    <div className={className + openingFlag} {...baseProps} ref={r} role={'dialog'}>
       {props.control && (
         <WindowControlContainer controlPosition={controlPosition} style={props.controlStyle}>
           {props.control}
@@ -144,7 +158,5 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
       )}
       {props.children}
     </div>
-  ) : (
-    <Fragment></Fragment>
-  );
+  ) : null;
 });

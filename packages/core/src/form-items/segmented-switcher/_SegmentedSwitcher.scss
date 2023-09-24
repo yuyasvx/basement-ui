@@ -1,8 +1,8 @@
 $name: 'bm-c-segmented-switcher';
 
 .#{$name} {
-  --bm-switcher-width: auto;
-  --bm-switcher-height: auto;
+  --bm-switcher-width: max-content;
+  --bm-switcher-height: max-content;
   --bm-switcher-radius: var(--bm-segmented-switcher-radius);
   --bm-switcher-border-width: var(--bm-segmented-switcher-border-width);
   --bm-switcher-padding: var(--bm-segmented-switcher-padding);
@@ -47,13 +47,13 @@ $name: 'bm-c-segmented-switcher';
 }
 
 .#{$name}:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):hover {
-  background: rgba(var(--bm-secondary-rgb), 0.35);
-  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.2);
+  box-shadow: none;
 }
 
 .#{$name}:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):active {
-  background: rgba(var(--bm-secondary-rgb), 0.5);
-  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.35);
+  box-shadow: none;
 }
 
 .#{$name}:not(.-pending) .#{$name}__item.-selected {
@@ -73,17 +73,22 @@ $name: 'bm-c-segmented-switcher';
 }
 
 .#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled).-selected {
-  background: rgba(var(--bm-secondary-rgb), 0.35);
-  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.15);
+  box-shadow: none;
+}
+
+.#{$name}:not(.-pending).--flat .#{$name}__item.-disabled.-selected {
+  background: rgba(var(--bm-disabled-rgb), 0.85);
+  box-shadow: none;
 }
 
 .#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled, .-selected):hover {
-  background: rgba(var(--bm-secondary-rgb), 0);
+  background: rgba(var(--bm-overlay-rgb), 0.1);
   box-shadow: none;
 }
 
 .#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled, .-selected):active {
-  background: rgba(var(--bm-secondary-rgb), 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.35);
   box-shadow: none;
 }
 
@@ -106,7 +111,7 @@ $name: 'bm-c-segmented-switcher';
 }
 
 .#{$name}__item.-disabled {
-  color: rgba(var(--bm-foreground-rgb), 0.4);
+  color: rgba(var(--bm-foreground-rgb), 0.5);
 }
 
 .#{$name}__bar {

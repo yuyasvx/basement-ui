@@ -2,6 +2,11 @@ $name: 'bm-c-window';
 
 .#{$name} {
   position: relative;
+  --bm-card-radius: var(--bm-window-radius);
+
+  &.-absolute {
+    position: absolute;
+  }
 
   &.-pending {
     visibility: hidden;
@@ -9,14 +14,27 @@ $name: 'bm-c-window';
 
   &.-opening {
     animation-name: bm-window-show;
-    animation-duration: 0.2s;
+    animation-duration: var(--bm-window-animation-duration);
     animation-fill-mode: forwards;
   }
 
   &.-closing {
     animation-name: bm-window-hide;
-    animation-duration: 0.2s;
+    animation-duration: var(--bm-window-animation-duration);
     animation-fill-mode: forwards;
+  }
+}
+
+.#{$name} > .#{$name}__control {
+  position: absolute;
+  --bm-button-padding-tb: 0;
+  --bm-button-padding-lr: 0;
+
+  &.-left {
+    left: 0;
+  }
+  &.-right {
+    right: 0;
   }
 }
 

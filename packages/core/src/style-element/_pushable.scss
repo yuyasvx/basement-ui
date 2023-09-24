@@ -38,23 +38,23 @@ $name: 'bm-a-pushable';
 
 .#{$name}.--flat,
 .#{$name}:not(.-disabled).--super-flat:hover {
-  background: rgba(var(--bm-secondary-rgb), 0.35);
-  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.15);
+  box-shadow: none;
 }
 
 .#{$name}:not(.-disabled).--flat:hover,
 .#{$name}:not(.-disabled).--super-flat:active {
-  background: rgba(var(--bm-secondary-rgb), 0.5);
-  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.2);
+  box-shadow: none;
 }
 
 .#{$name}:not(.-disabled).--flat:active {
-  background: rgba(var(--bm-secondary-rgb), 0.65);
-  box-shadow: inset 0 0 1px rgba(198, 198, 198, 0.5);
+  background: rgba(var(--bm-overlay-rgb), 0.35);
+  box-shadow: none;
 }
 
 .#{$name}.--super-flat {
-  background: rgba(var(--bm-secondary-rgb), 0);
+  background: rgba(var(--bm-overlay-rgb), 0);
   box-shadow: none;
 }
 
@@ -62,10 +62,10 @@ $name: 'bm-a-pushable';
 .#{$name}.-disabled.--tint {
   box-shadow: none;
   background: rgba(var(--bm-disabled-rgb), 0.6);
-  color: rgba(var(--bm-foreground-rgb), 0.4);
+  color: rgba(var(--bm-foreground-rgb), 0.5);
 
   .bm-e-symbol {
-    fill: rgba(var(--bm-foreground-rgb), 0.4);
+    fill: rgba(var(--bm-foreground-rgb), 0.5);
   }
 }
 

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
-import { backgroundStyle, blurStyle, shadowStyle } from '../domain/StyleClass';
+import { backgroundStyle, blurStyle, CARD_STYLE, shadowStyle } from '../domain/StyleClass';
 
 export type BackgroundLevel = 0 | 1 | 2 | 3 | 4;
 export type ShadowLevel = 0 | 1 | 2 | 3 | 4;
@@ -12,6 +12,7 @@ export const useCardStyle = (style?: CardStyle) => {
       style == null
         ? ''
         : clsx([
+            CARD_STYLE,
             getBackgroundStyleClass(style.background),
             getShadowStyleClass(style.shadow),
             getBlurStyleClass(style.blur)

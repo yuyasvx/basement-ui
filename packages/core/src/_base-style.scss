@@ -11,6 +11,7 @@
   --bm-primary-rgb: #{util.toRgb($bm-primary-color)};
   --bm-primary-dim-rgb: #{util.toRgb($bm-primary-dim-color)};
   --bm-secondary-rgb: #{util.toRgb($bm-secondary-color)};
+  --bm-overlay-rgb: #{util.toRgb($bm-overlay-color)};
   --bm-tint-rgb: #{util.toRgb($bm-tint-color)};
   --bm-tint-dim-rgb: #{util.toRgb($bm-tint-dim-color)};
   --bm-foreground-rgb: #{util.toRgb($bm-foreground-color)};
@@ -59,6 +60,9 @@
   --bm-tooltip-padding: #{$bm-tooltip-padding};
   --bm-tooltip-radius: #{$bm-tooltip-radius};
   --bm-tooltip-animation-duration: #{$bm-tooltip-animation-duration};
+
+  --bm-window-radius: #{$bm-window-radius};
+  --bm-window-animation-duration: #{$bm-window-animation-duration};
 }
 
 .bm-base {

@@ -13,7 +13,7 @@ const ICON_NAME = `${NAME}__icon`;
 const DETAIL_NAME = `${NAME}__detail`;
 
 export const Alert: FC<AlertProps> = props => {
-  const { mainProps, innerProps, contentProps, iconProps } = useAlertHook(props);
+  const { mainProps, innerProps, contentProps, iconProps } = useAlertComponent(props);
 
   return (
     <div {...mainProps}>
@@ -42,7 +42,7 @@ export const AlertContentLayout = {
   VERTICAL: 'vertical'
 } as const;
 
-export const useAlertHook = (props: AlertProps) => {
+export const useAlertComponent = (props: AlertProps) => {
   const layoutClassName = useMemo(() => {
     const l = props.layout ?? AlertContentLayout.HORIZONTAL;
     return `-${l}`;
@@ -89,6 +89,10 @@ export const useAlertHook = (props: AlertProps) => {
       title: props.title,
       footer: props.footer,
       className: useMemo(() => clsx(DETAIL_NAME, alertContentClassName), [alertContentClassName])
-    }
+    },
+    name: NAME,
+    innerName: INNER_NAME,
+    iconName: ICON_NAME,
+    detailName: DETAIL_NAME
   };
 };

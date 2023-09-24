@@ -6,7 +6,7 @@ $name: 'bm-e-switchable';
   height: var(--bm-switcher-height);
   border-radius: var(--bm-switcher-radius);
   border: var(--bm-switcher-border-width) solid rgba(var(--bm-border2-rgb), 0.2);
-  background: rgba(var(--bm-secondary-rgb), 0.4);
+  background: rgba(var(--bm-secondary-rgb), 0.6);
   padding: var(--bm-switcher-padding);
   transition: background 0.1s, border 0.1s;
 
@@ -41,7 +41,7 @@ $name: 'bm-e-switchable';
 .#{$name}.--flat,
 .#{$name}.-disabled.--flat {
   border-color: transparent;
-  background: rgba(var(--bm-secondary-rgb), 0.2);
+  background: rgba(var(--bm-overlay-rgb), 0.2);
 }
 
 .#{$name}.-disabled {

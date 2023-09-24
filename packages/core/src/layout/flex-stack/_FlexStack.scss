@@ -1,0 +1,41 @@
+$name: 'bm-l-flex-stack';
+
+.#{$name} {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: var(--bm-flex-stack-gap);
+
+  &.-inline {
+    display: inline-flex;
+  }
+
+  &.-reversed {
+    flex-direction: row-reverse;
+  }
+
+  &.-vertical {
+    flex-direction: column;
+  }
+
+  &.-vertical.-reversed {
+    flex-direction: column-reverse;
+  }
+
+  &.-space-between {
+    justify-content: space-between;
+  }
+
+  &.-end {
+    justify-content: flex-end;
+  }
+
+  &.-center {
+    justify-content: center;
+  }
+}
+
+.#{$name} > .#{$name}__item {
+  flex-shrink: 0;
+  flex-grow: 0;
+}

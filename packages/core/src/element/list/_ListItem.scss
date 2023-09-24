@@ -12,7 +12,7 @@ $name: 'bm-e-list-item';
   display: flex;
   align-items: center;
   gap: var(--bm-list-item-gap);
-  padding: var(--bm-list-item-padding-tb) var(--bm-list-item-padding-lr);
+  padding: var(--bm-list-item-padding-tb, 0) var(--bm-list-item-padding-lr, 0);
   margin: 0;
 
   > .#{$name}__indicator {
@@ -46,15 +46,15 @@ $name: 'bm-e-list-item';
 }
 
 .#{$name}.-active.-disabled {
-  color: rgba(var(--bm-foreground-rgb-2), 0.4);
+  color: rgba(var(--bm-foreground-rgb-2), 0.5);
 }
 
 .#{$name}.-selected {
-  background-color: rgba(var(--bm-secondary-rgb), 0.5);
+  background-color: rgba(var(--bm-secondary-rgb), 0.7);
 }
 
 .#{$name}.-disabled {
-  color: rgba(var(--bm-foreground-rgb), 0.4);
+  color: rgba(var(--bm-foreground-rgb), 0.5);
 }
 
 .#{$name}.-with-indicator {

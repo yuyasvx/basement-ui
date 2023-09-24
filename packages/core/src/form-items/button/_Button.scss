@@ -4,20 +4,20 @@ $name: 'bm-c-button';
   border: 0;
   padding: var(--bm-button-padding-tb) var(--bm-button-padding-lr);
   margin: 0;
-  display: inline-flex;
+  //display: inline-flex;
   align-content: center;
   align-items: center;
-  column-gap: var(--bm-button-icon-gap);
+  --bm-flex-stack-gap: var(--bm-button-icon-gap);
   user-select: none;
 
   & > .#{$name}__icon > * {
     vertical-align: middle;
   }
 
-  & > span {
-    flex-grow: 0;
+  & > .#{$name}__content {
+    flex-grow: 1;
     flex-shrink: 0;
-    display: inline-block;
+    display: block;
   }
 }
 
