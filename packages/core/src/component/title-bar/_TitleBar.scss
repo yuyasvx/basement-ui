@@ -1,0 +1,50 @@
+$name: 'bm-c-title-bar';
+
+.#{$name} {
+  display: flex;
+  gap: var(--bm-title-bar-gap, 5px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  padding: var(--bm-title-bar-padding-tb, 5px) var(--bm-title-bar-padding-lr, 5px);
+
+  &.-centered {
+    justify-content: space-between;
+
+    &::before {
+      display: block;
+      flex: 0 10000 24px;
+    }
+
+    &::after {
+      display: block;
+      flex: 0 0 24px;
+    }
+  }
+}
+
+.#{$name}__accessory {
+  flex-shrink: 0;
+  flex-grow: 0;
+
+  &.-shrink {
+    flex-shrink: 1000000;
+  }
+}
+
+.#{$name}.-center {
+  justify-content: space-between;
+
+  > .#{$name}-content {
+    flex-grow: 0;
+  }
+}
+
+.#{$name}-content {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
