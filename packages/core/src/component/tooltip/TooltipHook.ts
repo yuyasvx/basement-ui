@@ -1,8 +1,8 @@
 import { MouseEvent, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
-import { useCardStyle } from '../../hook/CardStyleHook';
+import { useCardStyle } from '../../style-element/card/Card';
 import { Case } from '../../util/Case';
-import { CARD_STYLE, RootStyle } from '../../domain/StyleClass';
+import { RootStyle } from '../../domain/StyleClass';
 import { BasementUIContext, useBasementUIContext } from '../../context/BasementUIContext';
 import { getBaseComponentProps } from '../../base/BaseComponent';
 import { convertDurationToMillis } from '../../util/UnitConverter';
@@ -100,13 +100,13 @@ export function determinePosition(
 }
 
 export function useTooltip(componentName: string, props: TooltipProps) {
-  const { getShadowStyleClass, getBlurStyleClass, getBackgroundStyleClass } = useCardStyle();
+  const { getShadowStyleClass, getBlurStyleClass, getBackgroundStyleClass, name: cardStyleName } = useCardStyle();
   const enableCardStyle = props.enableCardStyle ?? true;
   const className = useMemo(
     () =>
       clsx([
         componentName,
-        { [CARD_STYLE]: enableCardStyle },
+        { [cardStyleName]: enableCardStyle },
         RootStyle.TEXT_BASE,
         { [RootStyle.CONTENT_BASE]: enableCardStyle },
         { [getBackgroundStyleClass(2)]: enableCardStyle },

@@ -7,7 +7,7 @@ import { Button } from '../../../form-items/button/Button';
 import { List } from '../../../element/list/List';
 import { ListItem } from '../../../element/list/ListItem';
 import { ListContainer } from '../../../element/list/ListContainer';
-import { useCardStyle } from '../../../hook/CardStyleHook';
+import { useCardStyle } from '../../../style-element/card/Card';
 import { Header } from '../../../style-element/header/Header';
 
 export const WindowIntegrated: FC<WindowProps> = args => {

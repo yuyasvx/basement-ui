@@ -11,8 +11,7 @@ import React, {
 } from 'react';
 import clsx from 'clsx';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { CardStyle, useCardStyle } from '../../hook/CardStyleHook';
-import { CARD_STYLE } from '../../domain/StyleClass';
+import { CardStyle, useCardStyle } from '../../style-element/card/Card';
 import { Case } from '../../util/Case';
 import { useForceRefresh } from '../../util/ForceRefreshHook';
 import { convertDurationToMillis } from '../../util/UnitConverter';
@@ -71,7 +70,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   const animation = props.animated ?? WindowAnimation.HIDE;
   const showAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.SHOW;
   const hideAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.HIDE;
-  const { getShadowStyleClass, getBackgroundStyleClass, getBlurStyleClass } = useCardStyle();
+  const { getShadowStyleClass, getBackgroundStyleClass, getBlurStyleClass, name: cardStyleName } = useCardStyle();
   const controlPosition = props.controlPosition ?? 'top-right';
   const pending = useRef(true);
   const windowRef = useRef<HTMLDivElement>(null);
@@ -82,7 +81,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
     () =>
       clsx(
         NAME,
-        CARD_STYLE,
+        cardStyleName,
         getShadowStyleClass(props.shadow),
         getBackgroundStyleClass(props.background),
         getBlurStyleClass(props.blur),

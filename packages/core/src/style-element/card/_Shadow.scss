@@ -1,4 +1,4 @@
-@use '../variables' as *;
+@use '../../variables' as *;
 
 .bm-a-shadow-lv4 {
   box-shadow: 0 1px 5px rgba(var(--bm-shadow-rgb), 0.1), 0 15px 40px rgba(var(--bm-shadow-rgb), 0.3);

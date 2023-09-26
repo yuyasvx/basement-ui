@@ -2,7 +2,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../form-items/button/Button';
 import { AppearanceType } from '../../domain/AppearanceType';
-import { useCardStyle } from '../../hook/CardStyleHook';
+import { useCardStyle } from '../../style-element/card/Card';
 import { Alert, AlertContentLayout } from './Alert';
 // import { Checkbox } from './Checkbox';
 

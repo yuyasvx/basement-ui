@@ -1,18 +1,19 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
-import { backgroundStyle, blurStyle, CARD_STYLE, shadowStyle } from '../domain/StyleClass';
+import { backgroundStyle, blurStyle, shadowStyle } from '../../domain/StyleClass';
 
 export type BackgroundLevel = 0 | 1 | 2 | 3 | 4;
 export type ShadowLevel = 0 | 1 | 2 | 3 | 4;
 export type BlurLevel = 0 | 1;
 
+const NAME = 'bm-a-card';
 export const useCardStyle = (style?: CardStyle) => {
   const className = useMemo(
     () =>
       style == null
         ? ''
         : clsx([
-            CARD_STYLE,
+            NAME,
             getBackgroundStyleClass(style.background),
             getShadowStyleClass(style.shadow),
             getBlurStyleClass(style.blur)
@@ -21,6 +22,7 @@ export const useCardStyle = (style?: CardStyle) => {
   );
 
   return {
+    name: NAME,
     className,
     getBackgroundStyleClass,
     getShadowStyleClass,
