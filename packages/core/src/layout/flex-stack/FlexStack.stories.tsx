@@ -2,7 +2,6 @@ import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
 import { Button } from '../../form-items/button/Button';
 import { Window } from '../../component/window/Window';
-import { RootStyle } from '../../domain/StyleClass';
 import { ListContainer } from '../../element/list/ListContainer';
 import { List } from '../../element/list/List';
 import { ListItem, ListItemSeparator } from '../../element/list/ListItem';

@@ -1,8 +1,5 @@
-import { FC, PropsWithChildren, useMemo } from 'react';
+import { useMemo } from 'react';
 import clsx from 'clsx';
-import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { MouseEvents } from '../../domain/EventProps';
-import { getMouseEventHandler } from '../../util/Handler';
 import { Case } from '../../util/Case';
 
 interface FlexStackDetailedProps {

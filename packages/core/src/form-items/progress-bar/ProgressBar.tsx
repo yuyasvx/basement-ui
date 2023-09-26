@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useRef } from 'react';
+import { CSSProperties, FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { GaugeBar, GaugeBarFiller } from '../../element/gauge/Gauge';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
@@ -8,6 +8,24 @@ const ITEM_NAME = `${NAME}__item`;
 const INDETERMINATE_NAME = `${NAME}__indeterminate`;
 
 export const ProgressBar: FC<ProgressBarProps> = props => {
+  const { gaugeBarProps, fillerProps, indeterminateProps } = useProgressBarComponent(props);
+
+  return (
+    <GaugeBar {...gaugeBarProps}>
+      <GaugeBarFiller {...fillerProps} />
+      <GaugeBarFiller {...indeterminateProps} />
+    </GaugeBar>
+  );
+};
+
+export type ProgressBarProps = {
+  maxValue?: number;
+  value?: number;
+  completed?: boolean;
+  indeterminate?: boolean;
+} & BaseComponentProps;
+
+export function useProgressBarComponent(props: ProgressBarProps) {
   const baseProps = getBaseComponentProps(props);
   const maxValue = props.maxValue ?? 100;
   const value = props.value ?? 0;
@@ -42,24 +60,30 @@ export const ProgressBar: FC<ProgressBarProps> = props => {
     }
   }, [completed, indeterminate]);
 
-  return (
-    <GaugeBar {...baseProps} className={className}>
-      <GaugeBarFiller
-        className={fillerClassName}
-        gradient={!completed}
-        animated
-        shadow
-        style={{ width: calcFillerLength(value, maxValue, completed) }}
-        value={value > 0}
-      />
-      <GaugeBarFiller className={indeterminateClassName} fill={false} ref={fr} animated={false} />
-    </GaugeBar>
-  );
-};
-
-export type ProgressBarProps = {
-  maxValue?: number;
-  value?: number;
-  completed?: boolean;
-  indeterminate?: boolean;
-} & BaseComponentProps;
+  return {
+    gaugeBarProps: {
+      ...baseProps,
+      className,
+      nativeProps: {
+        role: 'progressbar',
+        'aria-valuemin': 0,
+        'aria-valuemax': maxValue,
+        'aria-valuenow': value
+      }
+    },
+    fillerProps: {
+      className: fillerClassName,
+      gradient: !completed,
+      animated: true,
+      shadow: true,
+      style: { width: calcFillerLength(value, maxValue, completed) } as CSSProperties,
+      value: value > 0
+    },
+    indeterminateProps: {
+      className: indeterminateClassName,
+      fill: false,
+      ref: fr,
+      animated: false
+    }
+  };
+}
