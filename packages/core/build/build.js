@@ -7,6 +7,7 @@ import { buildScss } from './scss-builder.js';
 const getTargetScripts = () =>
   [...glob.sync('src/**/*.ts'), ...glob.sync('src/**/*.tsx')]
     .filter(p => !p.endsWith('.stories.tsx'))
+    .filter(p => !p.includes('/stories/'))
     .filter(p => !p.endsWith('.spec.ts'))
     .filter(p => !p.endsWith('.spec.tsx'));
 

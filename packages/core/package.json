@@ -6,9 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./module && npm run type-check && npm run build:scripts",
+    "build": "rm -rf ./module && npm run build:typedef && npm run build:scripts",
     "type-check": "tsc",
     "build:scripts": "node ./build/build.js",
+    "build:typedef": "tsc --p tsconfig.build.json",
     "build:generate-scss": "node ./build/generate-scss-imports.js",
     "build:scss": "node ./build/build-scss.js",
     "storybook": "storybook dev -p 6006",

@@ -11,7 +11,8 @@ const createImportStatement = path => {
 const files = [
   ...glob.sync('src/component/**/*.scss'),
   ...glob.sync('src/form-items/**/*.scss'),
-  ...glob.sync('src/element/**/*.scss')
+  ...glob.sync('src/element/**/*.scss'),
+  ...glob.sync('src/layout/**/*.scss')
 ]
   // .filter(f => f.match(/^src\/.*\//))
   .map(p => createImportStatement(p));
