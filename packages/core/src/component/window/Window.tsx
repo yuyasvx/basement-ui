@@ -1,4 +1,4 @@
-import {
+import React, {
   CSSProperties,
   FC,
   forwardRef,
@@ -102,6 +102,11 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   );
   // FIXME あまりにもワークアラウンド
   const openingFlag = showAnimation && pending.current ? ' -opening' : '';
+
+  if (!show && !pending.current && !hideAnimation) {
+    pending.current = true;
+    props.onClose && setTimeout(props.onClose, 0);
+  }
 
   useEffect(() => {
     const currentRef = r.current;

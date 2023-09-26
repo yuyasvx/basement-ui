@@ -110,7 +110,7 @@ export const TooltipRenderer: FC = () => {
     tooltip.dispatchers.current.tooltipRenderer = setContents as Dispatch<SetStateAction<unknown>>;
 
     return () => {
-      tooltip.dispatchers.current.tooltipRenderer = undefined;
+      delete tooltip.dispatchers.current.tooltipRenderer;
     };
   }, [tooltip.dispatchers]);
 

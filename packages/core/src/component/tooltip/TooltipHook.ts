@@ -1,5 +1,4 @@
 import { MouseEvent, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
-
 import clsx from 'clsx';
 import { useCardStyle } from '../../hook/CardStyleHook';
 import { Case } from '../../util/Case';
@@ -110,7 +109,7 @@ export function useTooltip(componentName: string, props: TooltipProps) {
         { [CARD_STYLE]: enableCardStyle },
         RootStyle.TEXT_BASE,
         { [RootStyle.CONTENT_BASE]: enableCardStyle },
-        { [getBackgroundStyleClass(3)]: enableCardStyle },
+        { [getBackgroundStyleClass(2)]: enableCardStyle },
         { [getShadowStyleClass(1)]: enableCardStyle },
         { [getBlurStyleClass(1)]: enableCardStyle },
         props.tooltipClassName

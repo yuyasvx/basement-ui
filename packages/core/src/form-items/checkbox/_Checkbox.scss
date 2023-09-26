@@ -23,7 +23,7 @@ $name: 'bm-c-checkbox';
     }
 
     &:focus-visible ~ .#{$name}__inner-checkbox {
-      outline: 2px solid rgba(var(--bm-tint-rgb), 0.5);
+      outline: 2px solid rgba(var(--bm-tint-rgb), 0.6);
       outline-offset: 1px;
     }
   }

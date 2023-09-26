@@ -49,7 +49,7 @@ $name: 'bm-a-pushable';
 }
 
 .#{$name}:not(.-disabled).--flat:active {
-  background: rgba(var(--bm-overlay-rgb), 0.35);
+  background: rgba(var(--bm-overlay-rgb), 0.3);
   box-shadow: none;
 }
 

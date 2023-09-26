@@ -41,7 +41,7 @@ $name: 'bm-e-switchable';
 .#{$name}.--flat,
 .#{$name}.-disabled.--flat {
   border-color: transparent;
-  background: rgba(var(--bm-overlay-rgb), 0.2);
+  background: rgba(var(--bm-overlay-rgb), 0.1);
 }
 
 .#{$name}.-disabled {

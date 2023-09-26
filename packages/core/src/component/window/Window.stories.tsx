@@ -1,16 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { CSSProperties, FC, useCallback, useState } from 'react';
-import { Alert } from '../alert/Alert';
-import { Button } from '../../form-items/button/Button';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { CSSProperties } from 'react';
 import { List } from '../../element/list/List';
 import { ListItem } from '../../element/list/ListItem';
 import { RootStyle } from '../../domain/StyleClass';
-import { Overlay } from '../overlay/Overlay';
-import { useHeaderStyle } from '../../style-element/header/Header';
-import { useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
-import { Window, WindowAnimation, WindowControlPosition, WindowProps } from './Window';
-import { CloseButton } from './WindowControl';
+import { Window, WindowAnimation, WindowControlPosition } from './Window';
+import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
+import { WindowIntegrated } from './stories/WindowIntegratedStory';
 
 export default {
   title: 'Component/Window',
@@ -42,72 +37,21 @@ export default {
   }
 } as Meta;
 
-const WindowShowHidePreview: FC<WindowProps> = args => {
-  const [show, setShow] = useState(true);
-
-  const showWindow = useCallback(() => {
-    setShow(true);
-  }, [setShow]);
-
-  const { props: headerProps } = useHeaderStyle({});
-  const { className: flexStackClass } = useFlexStackLayout({});
-
-  return (
-    <>
-      <Overlay>
-        <Window
-          nativeProps={{ role: 'dialog' }}
-          animated={args.animated}
-          show={show}
-          shadow={2}
-          background={4}
-          blur={0}
-          style={
-            {
-              width: '500px',
-              top: '150px',
-              left: '50px'
-            } as CSSProperties
-          }
-          control={<CloseButton onClick={() => setShow(false)} />}
-          controlPosition={args.controlPosition}
-          absolutePosition
-        >
-          <header
-            className={`${flexStackClass} ${headerProps.className}`}
-            style={{ padding: '5px', boxSizing: 'border-box' }}
-          >
-            <Button appearance={AppearanceType.SUPER_FLAT}>ボタン1</Button>
-            <Button appearance={AppearanceType.SUPER_FLAT}>送信</Button>
-            <Button appearance={AppearanceType.SUPER_FLAT}>削除</Button>
-          </header>
-          <Alert
-            title={'ウィンドウのタイトル'}
-            footer={
-              <>
-                <Button appearance={AppearanceType.NORMAL} style={{ width: '100px' }}>
-                  Cancel
-                </Button>
-                <Button appearance={AppearanceType.TINT} style={{ width: '100px' }}>
-                  OK
-                </Button>
-              </>
-            }
-          >
-            ウィンドウの本文
-          </Alert>
-        </Window>
-      </Overlay>
-      <Button onClick={showWindow}>ウィンドウを再表示</Button>
-    </>
-  );
-};
-
 export const Story: StoryObj<typeof Window> = {
   render: args => {
     return (
       <div style={{ position: 'relative' }}>
-        <WindowShowHidePreview {...args} />
+        <div
+          style={{
+            position: 'absolute',
+            left: '120px',
+            top: '40px',
+            width: '300px',
+            height: '300px',
+            backgroundImage: 'linear-gradient(90deg, #eeaaaa, #7777cc)'
+          }}
+        ></div>
+        <WindowShowAndHide {...args} />
         <Window
           className={RootStyle.CONTENT_BASE}
           showControl={args.showControl}
@@ -148,3 +92,12 @@ export const Story: StoryObj<typeof Window> = {
 };
 
 Story.storyName = '単体';
+
+export const WindowIntegratedStory: StoryObj = {
+  render: args => {
+    return <WindowIntegrated />;
+  },
+  args: {}
+};
+
+WindowIntegratedStory.storyName = '結合';

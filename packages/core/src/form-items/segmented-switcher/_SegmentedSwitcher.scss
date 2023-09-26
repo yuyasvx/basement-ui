@@ -52,7 +52,7 @@ $name: 'bm-c-segmented-switcher';
 }
 
 .#{$name}:not(.-pending) .#{$name}__item:not(.-disabled, .-selected):active {
-  background: rgba(var(--bm-overlay-rgb), 0.35);
+  background: rgba(var(--bm-overlay-rgb), 0.3);
   box-shadow: none;
 }
 
@@ -88,7 +88,7 @@ $name: 'bm-c-segmented-switcher';
 }
 
 .#{$name}:not(.-pending).--flat .#{$name}__item:not(.-disabled, .-selected):active {
-  background: rgba(var(--bm-overlay-rgb), 0.35);
+  background: rgba(var(--bm-overlay-rgb), 0.3);
   box-shadow: none;
 }
 

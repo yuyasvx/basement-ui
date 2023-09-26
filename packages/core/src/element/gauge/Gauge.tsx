@@ -16,18 +16,7 @@ export const GaugeBar: FC<PropsWithChildren<BaseComponentProps>> = props => {
 };
 
 export const GaugeBarFiller = forwardRef(
-  (
-    props: {
-      className?: string;
-      style?: CSSProperties;
-      shadow?: boolean;
-      gradient?: boolean;
-      animated?: boolean;
-      fill?: boolean;
-      value?: boolean;
-    },
-    ref: ForwardedRef<HTMLDivElement>
-  ) => {
+  (props: PropsWithChildren<GaugeBarFillerProps>, ref: ForwardedRef<HTMLDivElement>) => {
     return (
       <div
         className={clsx(
@@ -41,7 +30,19 @@ export const GaugeBarFiller = forwardRef(
         )}
         style={props.style}
         ref={ref}
-      ></div>
+      >
+        {props.children}
+      </div>
     );
   }
 );
+
+export type GaugeBarFillerProps = {
+  className?: string;
+  style?: CSSProperties;
+  shadow?: boolean;
+  gradient?: boolean;
+  animated?: boolean;
+  fill?: boolean;
+  value?: boolean;
+};

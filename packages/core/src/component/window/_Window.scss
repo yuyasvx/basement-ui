@@ -29,6 +29,7 @@ $name: 'bm-c-window';
   position: absolute;
   --bm-button-padding-tb: 0;
   --bm-button-padding-lr: 0;
+  z-index: 1000;
 
   &.-left {
     left: 0;
