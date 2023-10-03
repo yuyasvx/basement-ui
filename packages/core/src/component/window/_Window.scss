@@ -1,6 +1,7 @@
 $name: 'bm-c-window';
 
 .#{$name} {
+  overflow: hidden;
   position: relative;
   --bm-card-radius: var(--bm-window-radius);
 

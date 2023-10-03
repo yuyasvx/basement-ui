@@ -5,7 +5,6 @@ import { ListItem } from '../../element/list/ListItem';
 import { RootStyle } from '../../domain/StyleClass';
 import { Window, WindowAnimation, WindowControlPosition } from './Window';
 import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
-import { WindowIntegrated } from './stories/WindowIntegratedStory';
 
 export default {
   title: 'Component/Window',
@@ -92,12 +91,3 @@ export const Story: StoryObj<typeof Window> = {
 };
 
 Story.storyName = '単体';
-
-export const WindowIntegratedStory: StoryObj = {
-  render: args => {
-    return <WindowIntegrated />;
-  },
-  args: {}
-};
-
-WindowIntegratedStory.storyName = '結合';

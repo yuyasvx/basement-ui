@@ -1,10 +1,19 @@
-import { AnchorHTMLAttributes, ButtonHTMLAttributes, FC, PropsWithChildren, ReactNode, useCallback } from 'react';
+import {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  FC,
+  ForwardedRef,
+  forwardRef,
+  PropsWithChildren,
+  ReactNode,
+  useCallback
+} from 'react';
 import { MouseEvents } from '../../domain/EventProps';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { useListLogic } from '../../hook/ListHook';
 import { ListItemContent } from './ListItemContent';
 
-interface ListItemDetailedProps {
+export interface ListItemDetailedProps {
   icon?: ReactNode;
   status?: 'normal' | 'active' | 'selected';
   focusable?: boolean;
@@ -80,39 +89,43 @@ export type ListItemButtonProps = BaseComponentProps &
   MouseEvents<HTMLLIElement> &
   ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const ListItemButton: FC<PropsWithChildren<ListItemButtonProps>> = props => {
-  const { disabled, form, formAction, formEncType, formMethod, formNoValidate, formTarget, name, type, value } = props;
-  const attribute = {
-    disabled,
-    form,
-    formAction,
-    formEncType,
-    formMethod,
-    formNoValidate,
-    formTarget,
-    name,
-    type,
-    value
-  };
+// TODO refがListItemButtonだけしか対応していない
+export const ListItemButton = forwardRef(
+  (props: PropsWithChildren<ListItemButtonProps>, ref: ForwardedRef<HTMLButtonElement>) => {
+    const { disabled, form, formAction, formEncType, formMethod, formNoValidate, formTarget, name, type, value } =
+      props;
+    const attribute = {
+      disabled,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      name,
+      type,
+      value
+    };
 
-  const { newProps } = useListLogic(props);
+    const { newProps } = useListLogic(props);
 
-  return (
-    <ListItemOuter>
-      {/* TODO ボタンのスタイリング優先度がなんか低くなるのでめんどいことになる */}
-      <button {...attribute} {...newProps}>
-        <ListItemContent
-          showIndicator={props.showIndicator}
-          indicator={props.indicator}
-          icon={props.icon}
-          secondary={props.secondary}
-        >
-          {props.children}
-        </ListItemContent>
-      </button>
-    </ListItemOuter>
-  );
-};
+    return (
+      <ListItemOuter>
+        {/* TODO ボタンのスタイリング優先度がなんか低くなるのでめんどいことになる */}
+        <button {...attribute} {...newProps} ref={ref}>
+          <ListItemContent
+            showIndicator={props.showIndicator}
+            indicator={props.indicator}
+            icon={props.icon}
+            secondary={props.secondary}
+          >
+            {props.children}
+          </ListItemContent>
+        </button>
+      </ListItemOuter>
+    );
+  }
+);
 
 export const ListItemSeparator: FC<PropsWithChildren> = () => {
   // TODO 命名の仕方、よくない

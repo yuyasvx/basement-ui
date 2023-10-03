@@ -1,0 +1,27 @@
+$name: 'bm-c-menu-list';
+
+.#{$name} {
+  width: max-content;
+  --bm-list-padding-tb: var(--bm-menu-list-padding-tb);
+  --bm-list-padding-lr: var(--bm-menu-list-padding-lr);
+  --bm-card-radius: var(--bm-menu-list-radius);
+  --bm-list-item-padding-tb: var(--bm-menu-list-item-padding-tb);
+  --bm-list-item-padding-lr: var(--bm-menu-list-item-padding-lr);
+  --bm-list-item-radius: var(--bm-menu-list-item-radius);
+  --bm-list-separator-margin-tb: var(--bm-menu-list-separator-margin-tb);
+  --bm-list-separator-margin-lr: var(--bm-menu-list-separator-margin-lr);
+
+  img,
+  svg {
+    vertical-align: middle;
+  }
+}
+
+.#{$name}.-submenu {
+  position: absolute;
+}
+
+.#{$name}.-pending {
+  //visibility: hidden;
+  opacity: 0;
+}

@@ -90,6 +90,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
       ),
     [
       absolutePosition,
+      cardStyleName,
       getBackgroundStyleClass,
       getBlurStyleClass,
       getShadowStyleClass,

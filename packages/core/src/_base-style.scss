@@ -63,6 +63,15 @@
 
   --bm-window-radius: #{$bm-window-radius};
   --bm-window-animation-duration: #{$bm-window-animation-duration};
+
+  --bm-menu-list-padding-tb: #{$bm-menu-list-padding-tb};
+  --bm-menu-list-padding-lr: #{$bm-menu-list-padding-lr};
+  --bm-menu-list-radius: #{$bm-menu-list-radius};
+  --bm-menu-list-item-padding-tb: #{$bm-menu-list-item-padding-tb};
+  --bm-menu-list-item-padding-lr: #{$bm-menu-list-item-padding-lr};
+  --bm-menu-list-item-radius: #{$bm-menu-list-item-radius};
+  --bm-menu-list-separator-margin-tb: #{$bm-menu-list-separator-margin-tb};
+  --bm-menu-list-separator-margin-lr: #{$bm-menu-list-separator-margin-lr};
 }
 
 .bm-base {

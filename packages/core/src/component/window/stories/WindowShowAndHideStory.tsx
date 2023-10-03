@@ -4,10 +4,7 @@ import { Overlay } from '../../overlay/Overlay';
 import { CloseButton } from '../WindowControl';
 import { Alert } from '../../alert/Alert';
 import { Button } from '../../../form-items/button/Button';
-import { AppearanceType } from '../../../domain/AppearanceType';
 import { ProgressBar } from '../../../form-items/progress-bar/ProgressBar';
-import { SegmentedSwitcher } from '../../../form-items/segmented-switcher/SegmentedSwitcher';
-import { SegmentedSwitcherItem } from '../../../form-items/segmented-switcher/SegmentedSwitcherItem';
 
 export const WindowShowAndHide: FC<WindowProps> = args => {
   const [show, setShow] = useState(true);
@@ -38,27 +35,16 @@ export const WindowShowAndHide: FC<WindowProps> = args => {
           absolutePosition
         >
           <Alert
+            icon={<span style={{ fontSize: '32px' }}>ℹ️</span>}
             footer={
               <>
-                <Button appearance={AppearanceType.FLAT} style={{ width: '100px' }}>
-                  Cancel
-                </Button>
-                <Button appearance={AppearanceType.TINT} style={{ width: '100px' }}>
-                  OK
-                </Button>
+                <Button disabled>アップデートを中止</Button>
               </>
             }
           >
-            <div>読み込み中...</div>
+            <div>アップデート中...</div>
             <div>
-              <SegmentedSwitcher>
-                <SegmentedSwitcherItem>あ</SegmentedSwitcherItem>
-                <SegmentedSwitcherItem>あかさ</SegmentedSwitcherItem>
-                <SegmentedSwitcherItem>あかさたな</SegmentedSwitcherItem>
-              </SegmentedSwitcher>
-            </div>
-            <div>
-              <ProgressBar value={20} style={{ width: '100%' }} />
+              <ProgressBar value={98} style={{ width: '100%' }} />
             </div>
           </Alert>
         </Window>

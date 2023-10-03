@@ -1,9 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties, FC, PropsWithChildren, useMemo } from 'react';
-import { Window, WindowAnimation, WindowControlPosition } from '../window/Window';
+import { Window } from '../window/Window';
 import { useHeaderStyle } from '../../style-element/header/Header';
 import { RootStyle } from '../../domain/StyleClass';
-import { CloseButton } from '../window/WindowControl';
 import { TitleBar, TitleBarProps } from './TitleBar';
 
 const TrafficLights: FC = () => {
@@ -81,7 +80,10 @@ export const StoryMacOSLike: StoryObj<typeof TitleBar> = {
             {args.children}
           </TitleBar>
         </header>
-        <div className={RootStyle.CONTENT_BASE}>ウィンドウの中身</div>
+        <div className={RootStyle.CONTENT_BASE} style={{ textAlign: 'center' }}>
+          <div>|</div>
+          <div>↑ここがウインドウの中心</div>
+        </div>
       </Window>
     );
   },

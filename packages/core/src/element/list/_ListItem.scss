@@ -50,7 +50,7 @@ $name: 'bm-e-list-item';
 }
 
 .#{$name}.-selected {
-  background-color: rgba(var(--bm-secondary-rgb), 0.7);
+  background-color: rgba(var(--bm-overlay-rgb), 0.2);
 }
 
 .#{$name}.-disabled {
