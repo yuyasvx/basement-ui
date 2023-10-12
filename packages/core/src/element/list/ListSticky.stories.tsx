@@ -14,7 +14,7 @@ export default {
   }
 } as Meta;
 
-type ArgsType = ListProps & ListItemProps;
+type ArgsType = ListProps & ListItemProps<HTMLElement>;
 
 export const StorySticky: StoryObj<ArgsType> = {
   render: args => {
