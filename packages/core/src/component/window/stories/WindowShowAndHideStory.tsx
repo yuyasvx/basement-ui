@@ -49,7 +49,7 @@ export const WindowShowAndHide: FC<WindowProps> = args => {
           </Alert>
         </Window>
       </Overlay>
-      <Button onClick={showWindow}>ウィンドウを再表示</Button>
+      <Button onClick={showWindow}>閉じたウィンドウを再表示</Button>
     </>
   );
 };

@@ -3,8 +3,12 @@ import { CSSProperties } from 'react';
 import { List } from '../../element/list/List';
 import { ListItem } from '../../element/list/ListItem';
 import { RootStyle } from '../../domain/StyleClass';
-import { Window, WindowAnimation, WindowControlPosition } from './Window';
+import { Button } from '../../form-items/button/Button';
+import { ProgressBar } from '../../form-items/progress-bar/ProgressBar';
+import { Alert } from '../alert/Alert';
+import { AppearanceType } from '../../domain/AppearanceType';
 import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
+import { Window, WindowAnimation, WindowControlPosition } from './Window';
 
 export default {
   title: 'Component/Window',
@@ -52,7 +56,6 @@ export const Story: StoryObj<typeof Window> = {
         ></div>
         <WindowShowAndHide {...args} />
         <Window
-          className={RootStyle.CONTENT_BASE}
           showControl={args.showControl}
           shadow={args.shadow}
           background={args.background}
@@ -62,26 +65,25 @@ export const Story: StoryObj<typeof Window> = {
           absolutePosition={args.absolutePosition}
           style={
             {
-              '--bm-content-padding': '5px',
               marginTop: '20px',
               width: '300px'
             } as CSSProperties
           }
         >
-          <List appearance="plain">
-            <ListItem>ああああ</ListItem>
-            <ListItem status="selected">ああああ</ListItem>
-            <ListItem>ああああ</ListItem>
-            <ListItem>ああああ</ListItem>
-          </List>
+          <Alert
+            title={'ウィンドウ表示サンプル'}
+            footer={<Button appearance={AppearanceType.FLAT}>フッターに表示するボタン</Button>}
+          >
+            <div>サンプルです</div>
+          </Alert>
         </Window>
       </div>
     );
   },
   args: {
     shadow: 1,
-    background: 0,
-    blur: 0,
+    background: 1,
+    blur: 1,
     animated: undefined,
     show: true,
     showControl: 'auto',
