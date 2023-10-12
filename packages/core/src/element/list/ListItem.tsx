@@ -24,10 +24,10 @@ export interface ListItemDetailedProps {
   secondary?: ReactNode;
 }
 
-export type ListItemProps = BaseComponentProps & ListItemDetailedProps & MouseEvents<HTMLLIElement>;
+export type ListItemProps<EL extends HTMLElement> = BaseComponentProps & ListItemDetailedProps & MouseEvents<EL>;
 
 const NAME = 'bm-e-list-item';
-export const ListItem: FC<PropsWithChildren<ListItemProps>> = props => {
+export const ListItem: FC<PropsWithChildren<ListItemProps<HTMLLIElement>>> = props => {
   const { newProps } = useListLogic(props);
 
   return (
@@ -86,7 +86,7 @@ export const ListItemLink: FC<PropsWithChildren<ListItemLinkProps>> = props => {
 
 export type ListItemButtonProps = BaseComponentProps &
   ListItemDetailedProps &
-  MouseEvents<HTMLLIElement> &
+  MouseEvents<HTMLButtonElement> &
   ButtonHTMLAttributes<HTMLButtonElement>;
 
 // TODO refがListItemButtonだけしか対応していない
@@ -107,7 +107,7 @@ export const ListItemButton = forwardRef(
       value
     };
 
-    const { newProps } = useListLogic(props);
+    const { newProps } = useListLogic<HTMLButtonElement>(props);
 
     return (
       <ListItemOuter>

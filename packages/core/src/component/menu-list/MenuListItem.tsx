@@ -23,7 +23,7 @@ const NAME = 'bm-c-menu-list-item';
 export const MenuListItem = memo((props: MenuListItemProps) => {
   const [itemId] = useState(useId());
   const { className: oldClassName, secondary, ...restProps } = props;
-  const { selectableRef } = useContext(menuListContext);
+  const { lockedRef, lockWait, onSelect } = useContext(menuListContext);
   const { selectedId, setSelectedId } = useContext(menuItemContext);
   const className = clsx(NAME, oldClassName);
   const status = useMemo(() => (selectedId === itemId ? 'selected' : 'normal'), [itemId, selectedId]);
@@ -39,7 +39,7 @@ export const MenuListItem = memo((props: MenuListItemProps) => {
       } as Record<string, unknown>),
     [itemId, props.submenu, selectedId]
   );
-  const newSecondary = props.submenu ? <ChevronRight /> : props.secondary;
+  const newSecondary = props.submenu ? <ChevronRight style={{ display: 'block' }} /> : props.secondary;
 
   const handleSubmenu = useCallback(() => {
     setShowSubmenu(true);
@@ -47,52 +47,59 @@ export const MenuListItem = memo((props: MenuListItemProps) => {
   }, []);
 
   const mouseEnterHandler = useCallback(() => {
-    if (selectableRef.current) {
+    if (!lockedRef.current) {
       setSelectedId(itemId);
     }
 
     if (props.submenu) {
       timeoutRef.current = setTimeout(handleSubmenu, 300);
     }
-  }, [handleSubmenu, itemId, props.submenu, selectableRef, setSelectedId]);
+  }, [handleSubmenu, itemId, lockedRef, props.submenu, setSelectedId]);
 
   const mouseLeaveHandler = useCallback(() => {
     if (showSubmenu) {
       return;
     }
-    if (selectableRef.current) {
+    if (!lockedRef.current) {
       setSelectedId(null);
     }
-  }, [selectableRef, setSelectedId, showSubmenu]);
+  }, [lockedRef, setSelectedId, showSubmenu]);
 
-  const fire = useCallback(() => {
-    if (!selectableRef.current || props.submenu) {
-      return;
-    }
-    const elm = ref.current;
-    if (elm == null) {
-      return;
-    }
-    selectableRef.current = false;
-    elm.classList.remove('-selected');
-    elm.classList.add('-active');
+  const fire = useCallback(
+    (evt: CustomEvent | MouseEvent<HTMLButtonElement>) => {
+      if (lockedRef.current || props.submenu) {
+        return;
+      }
+      const elm = ref.current;
+      if (elm == null) {
+        return;
+      }
+      lockedRef.current = true;
+      elm.classList.remove('-selected');
+      elm.classList.add('-active');
 
-    const execFn = props.onExec;
-    setTimeout(() => {
-      execFn && execFn();
+      const menuItemHandler = props.handler;
       setTimeout(() => {
-        selectableRef.current = true;
-      }, 5000);
-    }, 100);
-  }, [props.onExec, props.submenu, selectableRef]);
+        menuItemHandler && menuItemHandler(evt);
+        onSelect.current?.(props.name);
+        setTimeout(() => {
+          lockedRef.current = false;
+        }, lockWait);
+      }, 200);
+    },
+    [lockWait, lockedRef, onSelect, props.handler, props.name, props.submenu]
+  );
 
-  const handleExecution = useCallback(() => {
-    if (props.submenu) {
-      setShowSubmenu(true);
-      return;
-    }
-    fire();
-  }, [fire, props.submenu]);
+  const handleExecution = useCallback(
+    (evt: CustomEvent | Event) => {
+      if (props.submenu) {
+        setShowSubmenu(true);
+        return;
+      }
+      fire(evt as CustomEvent);
+    },
+    [fire, props.submenu]
+  );
 
   const hideSubmenu = useCallback(() => {
     if (showSubmenu) {
@@ -144,6 +151,6 @@ export const MenuListItem = memo((props: MenuListItemProps) => {
 export type MenuListItemProps = {
   name?: string;
   submenu?: ReactElement<PropsWithChildren<MenuListProps>>;
-  onExec?: () => void;
+  handler?: (event: MouseEvent<HTMLButtonElement> | CustomEvent) => void;
 } & PropsWithChildren<ListItemDetailedProps> &
   Omit<BaseComponentProps, 'nativeProps'>;

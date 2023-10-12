@@ -4,18 +4,23 @@ const execEvent = new CustomEvent('bm-list-item-exec-inner');
 const hideSubmenuEvent = new CustomEvent('bm-list-item-hide-submenu-inner');
 
 export const menuListContext = createContext({
-  selectableRef: {} as MutableRefObject<boolean>,
-  currentMenuElement: {} as MutableRefObject<HTMLUListElement | null>
-  // TODO RootだけOnMenuSelectedみたいなイベントを出して、メニューを閉じさせるようなことをしたい。MenuListContextとSubmenuContextが必要？
+  lockedRef: {} as MutableRefObject<boolean>,
+  currentMenuElement: {} as MutableRefObject<HTMLUListElement | null>,
+  lockWait: 0,
+  onSelect: {} as MutableRefObject<((name?: string) => void) | undefined>
 });
 
-export function useMenuListContextInitializer() {
-  // 選択操作ができる状態か TODO : lockedに名前を変える
-  const selectableRef = useRef(true);
+export function useMenuListContextInitializer(lockWaitDuration = 0) {
+  // 選択操作ができる状態か
+  const lockedRef = useRef(false);
   // 現在選択対象のメニュー自体のRef
   const currentMenuElement = useRef(null as HTMLUListElement | null);
 
-  return { selectableRef, currentMenuElement };
+  const [lockWait] = useState(lockWaitDuration);
+
+  const onSelect = useRef(undefined as undefined | ((name?: string) => void));
+
+  return { lockedRef, currentMenuElement, lockWait, onSelect };
 }
 
 export const menuItemContext = createContext({

@@ -23,14 +23,9 @@ import {
   useMenuItemContextInitializer,
   useMenuListContextInitializer
 } from './MenuListContext';
-import { setMenuPosition } from './MenuLogic';
+import { handleKeyboard, setMenuPosition } from './MenuLogic';
 
 const NAME = 'bm-c-menu-list';
-
-const nextEvent = new CustomEvent('bm-list-item-next');
-const prevEvent = new CustomEvent('bm-list-item-prev');
-const execEvent = new CustomEvent('bm-list-item-exec');
-const hideSubmenuEvent = new CustomEvent('bm-list-item-hide-submenu');
 
 const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUListElement> }> = props => {
   const contextValue = useMenuItemContextInitializer();
@@ -45,24 +40,22 @@ const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUList
 
 export const MenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<HTMLUListElement>) => {
   return (
-    <menuListContext.Provider value={useMenuListContextInitializer()}>
+    <menuListContext.Provider value={useMenuListContextInitializer(props.lockWaitDuration)}>
       <ListInner {...props} ref={ref} root />
     </menuListContext.Provider>
   );
 });
 
 export const SubmenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<HTMLUListElement>) => {
-  return (
-    // <menuListContext.Provider value={useContextInitializer()}>
-    <ListInner {...props} ref={ref} root={false} />
-    // </menuListContext.Provider>
-  );
+  return <ListInner {...props} ref={ref} root={false} />;
 });
 
-export type MenuListProps = PropsWithChildren & { initialSelectedItem?: string } & Omit<
-    BaseComponentProps,
-    'tabIndex' | 'nativeProps'
-  >;
+export type MenuListProps = PropsWithChildren & {
+  initialSelectedItem?: string;
+  lockWaitDuration?: number;
+  onSelect?: (name?: string) => void;
+  relativePosition?: boolean;
+} & Omit<BaseComponentProps, 'tabIndex' | 'nativeProps'>;
 export type MenuListHookProps = { root: boolean } & MenuListProps;
 
 export function useMenuListComponent(
@@ -75,10 +68,18 @@ export function useMenuListComponent(
   const baseProps = getBaseComponentProps(props);
   const { className: cardClass } = useCardStyle({ blur: 1, background: 3, shadow: 1 });
   const className = useMemo(
-    () => clsx(NAME, cardClass, props.className, { '-submenu': !props.root }, { '-pending': pendingRef.current }),
-    [cardClass, props.className, props.root]
+    () =>
+      clsx(
+        NAME,
+        cardClass,
+        props.className,
+        { '-submenu': !props.root },
+        { '-pending': pendingRef.current },
+        { '-relative': props.relativePosition ?? true }
+      ),
+    [cardClass, props.className, props.relativePosition, props.root]
   );
-  const { currentMenuElement } = useContext(menuListContext);
+  const { currentMenuElement, onSelect } = useContext(menuListContext);
   const { prev, next, exec, hideSubmenu, menuElement } = context;
   const fallbackRef = useRef<HTMLUListElement>(null);
   const menuRef = ref != null ? (ref as RefObject<HTMLUListElement>) : fallbackRef;
@@ -96,36 +97,23 @@ export function useMenuListComponent(
     [props.root]
   );
 
-  const handleKeyEvent = useCallback(
+  const keyboardHandler = useCallback(
     (evt: KeyboardEvent<HTMLUListElement>) => {
-      if (evt.key === 'ArrowDown') {
-        evt.preventDefault();
-        currentMenuElement.current?.dispatchEvent(nextEvent);
-        return;
-      }
-      if (evt.key === 'ArrowUp') {
-        evt.preventDefault();
-        currentMenuElement.current?.dispatchEvent(prevEvent);
-        return;
-      }
-      if (evt.key === 'Enter' || evt.key === ' ') {
-        evt.preventDefault();
-        currentMenuElement.current?.dispatchEvent(execEvent);
-        return;
-      }
-      if (evt.key === 'ArrowLeft') {
-        evt.preventDefault();
-        const parent = currentMenuElement.current?.parentElement;
-        if (parent != null && parent.dataset.bmMenu === '') {
-          parent.dispatchEvent(hideSubmenuEvent);
-        }
+      if (currentMenuElement.current) {
+        handleKeyboard(evt, currentMenuElement.current);
       }
     },
     [currentMenuElement]
   );
 
+  if (props.root) {
+    onSelect.current = props.onSelect;
+  }
+
   useEffect(() => {
+    // 最後に表示しているメニューがアクティブなメニュー
     currentMenuElement.current = menuRef.current;
+
     menuElement.current = menuRef.current;
 
     if (!props.root && pendingRef.current && menuRef.current) {
@@ -134,7 +122,7 @@ export function useMenuListComponent(
     }
     const parent = menuRef.current?.parentElement;
 
-    // 親要素もメニューな場合、選択中のアイテムを親要素の選択アイテムに更新してメニューを破棄
+    // 親要素もメニューな場合、親要素メニューをアクティブにする
     return () => {
       if (parent == null || parent.dataset.bmMenu == null) {
         return;
@@ -166,7 +154,7 @@ export function useMenuListComponent(
     name: NAME,
     props: {
       className,
-      onKeyDown: handleKeyEvent,
+      onKeyDown: keyboardHandler,
       tabIndex: props.root ? 0 : -1,
       ref: menuRef,
       style: getStylePosition(baseProps.style),

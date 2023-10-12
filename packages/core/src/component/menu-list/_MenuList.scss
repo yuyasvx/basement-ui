@@ -8,6 +8,7 @@ $name: 'bm-c-menu-list';
   --bm-list-item-padding-tb: var(--bm-menu-list-item-padding-tb);
   --bm-list-item-padding-lr: var(--bm-menu-list-item-padding-lr);
   --bm-list-item-radius: var(--bm-menu-list-item-radius);
+  --bm-list-item-gap: var(--bm-menu-list-item-gap);
   --bm-list-separator-margin-tb: var(--bm-menu-list-separator-margin-tb);
   --bm-list-separator-margin-lr: var(--bm-menu-list-separator-margin-lr);
 
@@ -19,6 +20,10 @@ $name: 'bm-c-menu-list';
 
 .#{$name}.-submenu {
   position: absolute;
+}
+
+.#{$name}:not(.-submenu).-relative {
+  position: relative;
 }
 
 .#{$name}.-pending {

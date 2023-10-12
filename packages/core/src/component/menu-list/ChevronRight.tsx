@@ -1,14 +1,15 @@
 import { FC } from 'react';
+import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 
-export const ChevronRight: FC = () => {
+export const ChevronRight: FC<BaseComponentProps> = props => {
+  const b = getBaseComponentProps(props);
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" {...b}>
       <path
         className="bm-e-symbol"
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M13.2426 6.58578L9 2.34314L7.58579 3.75735L11.8284 7.99999L7.58579 12.2426L9 13.6568L13.2426 9.41421L14.6569 7.99999L13.2426 6.58578Z"
-        fill="#1A1A1A"
+        d="M10.2426 4.58578L6 0.34314L4.58579 1.75735L8.82843 5.99999L4.58579 10.2426L6 11.6568L10.2426 7.41421L11.6569 5.99999L10.2426 4.58578Z"
       />
     </svg>
   );

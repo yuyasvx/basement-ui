@@ -5,7 +5,7 @@ import { FOCUSABLE_STYLE, RootStyle } from '../domain/StyleClass';
 import { ListItemProps } from '../element/list/ListItem';
 import { getBaseComponentProps } from '../base/BaseComponent';
 
-export const useListLogic = (props: ListItemProps) => {
+export const useListLogic = <EL extends HTMLElement>(props: ListItemProps<EL>) => {
   const mouseEvents = useMemo(() => (props.disabled ? {} : getMouseEventHandler(props)), [props]);
   const statusClassName = useMemo(() => (props.status != null ? `-${props.status}` : '-normal'), [props.status]);
   const baseProps = getBaseComponentProps(props);
