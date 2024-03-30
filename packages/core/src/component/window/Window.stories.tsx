@@ -25,10 +25,6 @@ export default {
       options: [undefined, ...Object.values(WindowAnimation)],
       control: { type: 'select' }
     },
-    showControl: {
-      options: [undefined, 'auto', true, false],
-      control: { type: 'inline-radio' }
-    },
     controlPosition: {
       options: [undefined, ...Object.values(WindowControlPosition)],
       control: { type: 'inline-radio' }
@@ -82,7 +78,7 @@ export const Story: StoryObj<typeof Window> = {
     blur: 1,
     animated: undefined,
     show: true,
-    showControl: 'auto',
+    showControl: true,
     absolutePosition: false,
     controlPosition: undefined
   }

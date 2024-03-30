@@ -27,16 +27,13 @@ import { handleKeyboard, setMenuPosition } from './MenuLogic';
 
 const NAME = 'bm-c-menu-list';
 
-const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUListElement> }> = props => {
-  const contextValue = useMenuItemContextInitializer();
-  const { props: newProps } = useMenuListComponent(props, props.ref, contextValue);
-
-  return (
-    <menuItemContext.Provider value={contextValue}>
-      <List {...newProps}>{props.children}</List>
-    </menuItemContext.Provider>
-  );
-};
+export type MenuListProps = PropsWithChildren & {
+  initialSelectedItem?: string;
+  lockWaitDuration?: number;
+  onSelect?: (name?: string) => void;
+  relativePosition?: boolean;
+} & Omit<BaseComponentProps, 'tabIndex' | 'nativeProps'>;
+export type MenuListHookProps = { root: boolean } & MenuListProps;
 
 export const MenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<HTMLUListElement>) => {
   return (
@@ -50,14 +47,16 @@ export const SubmenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<H
   return <ListInner {...props} ref={ref} root={false} />;
 });
 
-export type MenuListProps = PropsWithChildren & {
-  initialSelectedItem?: string;
-  lockWaitDuration?: number;
-  onSelect?: (name?: string) => void;
-  relativePosition?: boolean;
-} & Omit<BaseComponentProps, 'tabIndex' | 'nativeProps'>;
-export type MenuListHookProps = { root: boolean } & MenuListProps;
+const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUListElement> }> = props => {
+  const contextValue = useMenuItemContextInitializer();
+  const { props: newProps } = useMenuListComponent(props, props.ref, contextValue);
 
+  return (
+    <menuItemContext.Provider value={contextValue}>
+      <List {...newProps}>{props.children}</List>
+    </menuItemContext.Provider>
+  );
+};
 export function useMenuListComponent(
   props: MenuListHookProps,
   ref: ForwardedRef<HTMLUListElement>,

@@ -7,5 +7,7 @@ module.exports = {
   },
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   setupFilesAfterEnv: ['./test/setup.ts'],
-  collectCoverageFrom:["./src/**/*.{ts,tsx}", "!./src/**/*.stories.tsx", "!./src/**/stories/**"]
+  collectCoverage: false,
+  collectCoverageFrom: ["./src/**/*.{ts,tsx}", "!./src/**/*.stories.tsx", "!./src/**/stories/**"],
+  coverageReporters: ["clover", "json", "lcov", "text-summary"]
 };

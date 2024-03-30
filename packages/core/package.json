@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "test:no-coverage": "jest",
+    "test:coverage": "jest --collectCoverage=true",
     "build": "rm -rf ./module && npm run build:typedef && npm run build:scripts",
     "type-check": "tsc",
     "build:scripts": "node ./build/build.js",

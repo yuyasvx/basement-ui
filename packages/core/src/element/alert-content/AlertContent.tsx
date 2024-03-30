@@ -15,6 +15,7 @@ export interface AlertContentDetailedProps {
   footer?: ReactNode;
   centered?: boolean;
   footerPosition?: 'bottom' | 'right';
+  // TODO これ使ってます？
   footerItemDirection?: '';
 }
 

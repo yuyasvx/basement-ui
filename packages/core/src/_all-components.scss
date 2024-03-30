@@ -1,7 +1,6 @@
 @use './component/alert/_Alert.scss';
 @use './component/menu-list/_MenuList.scss';
 @use './component/navigation-list/_NavigationList.scss';
-@use './component/screen-lock/_ScreenLock.scss';
 @use './component/title-bar/_TitleBar.scss';
 @use './component/tooltip/_Tooltip.scss';
 @use './component/window/_Window.scss';
@@ -19,5 +18,6 @@
 @use './element/list/_ListItem.scss';
 @use './element/list/_ListSeparator.scss';
 @use './element/markable/_Markable.scss';
+@use './element/screen-lock/_ScreenLock.scss';
 @use './element/switchable/_Switchable.scss';
 @use './layout/flex-stack/_FlexStack.scss';

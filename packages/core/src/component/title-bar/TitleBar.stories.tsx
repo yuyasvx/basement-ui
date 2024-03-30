@@ -32,9 +32,9 @@ const Preview: FC<PropsWithChildren<TitleBarProps>> = props => {
       <header {...headerProps}>
         <TitleBar
           leftAccessory={props.leftAccessory}
-          leftAccessoryProps={{ autoShrink: false }}
+          leftAccessoryProps={props.leftAccessoryProps}
           rightAccessory={props.rightAccessory}
-          rightAccessoryProps={{ autoShrink: false }}
+          rightAccessoryProps={props.rightAccessoryProps}
           center={props.center}
         >
           {props.children}
@@ -53,7 +53,15 @@ export const Story: StoryObj<typeof TitleBar> = {
     children: 'タイトルです',
     leftAccessory: '🟩',
     rightAccessory: '',
-    center: false
+    center: false,
+    leftAccessoryProps: {
+      show: true,
+      autoShrink: false
+    },
+    rightAccessoryProps: {
+      show: false,
+      autoShrink: false
+    }
   }
 };
 

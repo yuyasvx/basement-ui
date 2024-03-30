@@ -31,6 +31,11 @@ export function useOverlayInitializer(state: typeof internalState) {
   return initialized;
 }
 
+/**
+ * @deprecated Overlay表示を一元管理することにあまり意味が無いように思える。高さや幅を親要素の100%で指定できなくなるから。
+ * @param props
+ * @constructor
+ */
 export const Overlay: FC<PropsWithChildren> = props => {
   const initialized = useOverlayInitializer(internalState);
   if (!initialized) {

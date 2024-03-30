@@ -44,7 +44,7 @@ export const Story: StoryObj<typeof MenuList> = {
             backgroundImage: 'linear-gradient(90deg, #eeaaaa, #7777cc)'
           }}
         ></div>
-        <MenuList lockWaitDuration={100} onSelect={selectHandler}>
+        <MenuList lockWaitDuration={1000} onSelect={selectHandler}>
           <MenuListItem secondary={'⌘ O'} disabled>
             開く
           </MenuListItem>
@@ -133,7 +133,7 @@ export const Story: StoryObj<typeof MenuList> = {
     );
   },
   args: {},
-  storyName: '単体'
+  name: '単体'
 };
 
 export const MenuSelectionStory: StoryObj = {
@@ -141,5 +141,5 @@ export const MenuSelectionStory: StoryObj = {
     return <MenuSelectionStoryContent />;
   },
   args: {},
-  storyName: '選択可能なメニューの実装'
+  name: '選択可能なメニューの実装'
 };

@@ -24,7 +24,7 @@ const openEvent = new CustomEvent('bm-window-open');
 export interface WindowDetailProps {
   show?: boolean;
   control?: ReactNode;
-  showControl?: 'auto' | boolean;
+  showControl?: boolean;
   controlPosition?: Case<typeof WindowControlPosition>;
   controlStyle?: CSSProperties;
   absolutePosition?: boolean;
@@ -71,6 +71,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   const showAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.SHOW;
   const hideAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.HIDE;
   const { getShadowStyleClass, getBackgroundStyleClass, getBlurStyleClass, name: cardStyleName } = useCardStyle();
+  const showControl = props.showControl ?? true;
   const controlPosition = props.controlPosition ?? 'top-right';
   const pending = useRef(true);
   const windowRef = useRef<HTMLDivElement>(null);
@@ -156,7 +157,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
 
   return show || !pending.current ? (
     <div className={className + openingFlag} {...baseProps} ref={r} role={'dialog'}>
-      {props.control && (
+      {props.control && showControl && (
         <WindowControlContainer controlPosition={controlPosition} style={props.controlStyle}>
           {props.control}
         </WindowControlContainer>

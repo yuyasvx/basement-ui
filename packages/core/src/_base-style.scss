@@ -115,3 +115,9 @@
   line-height: var(--bm-line-height);
   font-weight: 600;
 }
+
+body.bm-scroll-lock {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}

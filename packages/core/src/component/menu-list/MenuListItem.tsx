@@ -23,6 +23,7 @@ const NAME = 'bm-c-menu-list-item';
 export const MenuListItem = memo((props: MenuListItemProps) => {
   const [itemId] = useState(useId());
   const { className: oldClassName, secondary, ...restProps } = props;
+  // TODO lockWaitはキー操作には効かない（ロック中なのにキー操作はできてしまう）
   const { lockedRef, lockWait, onSelect } = useContext(menuListContext);
   const { selectedId, setSelectedId } = useContext(menuItemContext);
   const className = clsx(NAME, oldClassName);

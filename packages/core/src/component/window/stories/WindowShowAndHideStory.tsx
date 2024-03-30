@@ -31,6 +31,7 @@ export const WindowShowAndHide: FC<WindowProps> = args => {
             } as CSSProperties
           }
           control={<CloseButton onClick={() => setShow(false)} />}
+          showControl={args.showControl}
           controlPosition={args.controlPosition}
           absolutePosition
         >
