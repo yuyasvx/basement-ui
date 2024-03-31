@@ -1,7 +1,7 @@
-import { createContext, FC, PropsWithChildren, useContext } from 'react';
+import { FC, PropsWithChildren, createContext, useContext } from 'react';
 import { TooltipRenderer } from '../component/tooltip/Tooltip';
-import { useTooltipContextInitializer } from './TooltipContext';
 import { useScrollLockContextInitializer } from './ScriollLockContext';
+import { useTooltipContextInitializer } from './TooltipContext';
 
 function useContextInitializer() {
   return {
@@ -12,7 +12,7 @@ function useContextInitializer() {
 
 const context = createContext({} as ReturnType<typeof useContextInitializer>);
 
-export const BasementUIProvider: FC<PropsWithChildren> = props => {
+export const BasementUIProvider: FC<PropsWithChildren> = (props) => {
   const defaults = useContextInitializer();
   return (
     <context.Provider value={defaults}>

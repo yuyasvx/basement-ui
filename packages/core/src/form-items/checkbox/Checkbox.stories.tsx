@@ -15,7 +15,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Checkbox> = {
-  render: args => {
+  render: (args) => {
     const [flg, setFlg] = useState(false);
     const onChangeFn = useCallback(() => {
       setFlg(!flg);

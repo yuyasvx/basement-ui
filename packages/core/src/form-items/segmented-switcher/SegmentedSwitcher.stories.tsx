@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { ChangeEvent, CSSProperties, FC, useCallback, useState } from 'react';
+import { CSSProperties, ChangeEvent, FC, useCallback, useState } from 'react';
 import { AppearanceType } from '../../domain/AppearanceType';
 import { SegmentedSwitcher } from './SegmentedSwitcher';
 import { SegmentedSwitcherItem } from './SegmentedSwitcherItem';
@@ -51,7 +51,7 @@ const Preview2: FC = () => {
 };
 
 export const Story: StoryObj<typeof SegmentedSwitcher> = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [val, setVal] = useState('1');
     return (

@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { createContext, FC, PropsWithChildren, useCallback, useEffect, useMemo, useRef, KeyboardEvent } from 'react';
+import { FC, KeyboardEvent, PropsWithChildren, createContext, useCallback, useEffect, useMemo, useRef } from 'react';
+import { AppearanceAdaptable, BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
+import { AppearanceType, getAppearanceClassName } from '../../domain/AppearanceType';
+import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, PUSHABLE_STYLE, RootStyle } from '../../domain/StyleClass';
 import { getMouseEventHandler } from '../../util/Handler';
-import { AppearanceAdaptable, BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { MouseEvents } from '../../domain/EventProps';
-import { AppearanceType, getAppearanceClassName } from '../../domain/AppearanceType';
 
 const NAME = 'bm-c-segmented-switcher';
 const INNER_NAME = `${NAME}__inner`;
@@ -154,7 +154,7 @@ export const useSegmentedSwitcherHook = (props: PropsWithChildren<SegmentedSwitc
   };
 };
 
-export const SegmentedSwitcher: FC<PropsWithChildren<SegmentedSwitcherProps>> = props => {
+export const SegmentedSwitcher: FC<PropsWithChildren<SegmentedSwitcherProps>> = (props) => {
   const { context, newProps, innerProps, buttonContainerProps, barProps } = useSegmentedSwitcherHook(props);
   // -------
 

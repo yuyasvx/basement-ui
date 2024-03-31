@@ -10,7 +10,7 @@ interface ListItemContentDetailedProps {
 export type ListItemContentProps = ListItemContentDetailedProps;
 
 const NAME = 'bm-e-list-item';
-export const ListItemContent: FC<PropsWithChildren<ListItemContentProps>> = props => {
+export const ListItemContent: FC<PropsWithChildren<ListItemContentProps>> = (props) => {
   return (
     <>
       {props.showIndicator && <div className={`${NAME}__indicator`}>{props.indicator}</div>}

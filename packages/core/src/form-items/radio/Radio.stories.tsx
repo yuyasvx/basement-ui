@@ -15,7 +15,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Radio> = {
-  render: args => {
+  render: (args) => {
     const [select, setSelect] = useState('1');
 
     return (

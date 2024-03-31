@@ -31,7 +31,7 @@ function selectHandler(itemName?: string) {
 }
 
 export const Story: StoryObj<typeof MenuList> = {
-  render: args => {
+  render: (args) => {
     return (
       <>
         <div
@@ -137,7 +137,7 @@ export const Story: StoryObj<typeof MenuList> = {
 };
 
 export const MenuSelectionStory: StoryObj = {
-  render: args => {
+  render: (args) => {
     return <MenuSelectionStoryContent />;
   },
   args: {},

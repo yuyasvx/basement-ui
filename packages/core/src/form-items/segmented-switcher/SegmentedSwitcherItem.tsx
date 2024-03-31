@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, useContext, useMemo } from 'react';
 import clsx from 'clsx';
+import { FC, PropsWithChildren, useContext, useMemo } from 'react';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
 import { getFormEventHandler, getMouseEventHandler } from '../../util/Handler';
@@ -18,7 +18,7 @@ export type SegmentedSwitcherItemProps = SegmentedSwitcherItemDetailedProps &
   MouseEvents<HTMLLabelElement> &
   FormEvents<HTMLInputElement>;
 
-export const SegmentedSwitcherItem: FC<PropsWithChildren<SegmentedSwitcherItemProps>> = props => {
+export const SegmentedSwitcherItem: FC<PropsWithChildren<SegmentedSwitcherItemProps>> = (props) => {
   const ctx = useContext(useSegmentedSwitcherContext());
   const disabled = useMemo(() => ctx.disabled || (props.disabled ?? false), [ctx.disabled, props.disabled]);
   // const appearanceClassName = useMemo(() => (props.selected ? '-selected' : ''), [props.selected]);

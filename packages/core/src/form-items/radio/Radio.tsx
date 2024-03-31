@@ -1,10 +1,10 @@
 import { CSSProperties, FC, InputHTMLAttributes, PropsWithChildren, ReactNode } from 'react';
 import { AppearanceAdaptable, BaseComponentProps } from '../../base/BaseComponent';
-import { FormEvents, MouseEvents } from '../../domain/EventProps';
-import { Markable } from '../../element/markable/Markable';
-import { BulletMark } from '../../element/markable/BulletMark';
-import { useAppearanceHook } from '../../hook/AppearanceHook';
 import { AppearanceType } from '../../domain/AppearanceType';
+import { FormEvents, MouseEvents } from '../../domain/EventProps';
+import { BulletMark } from '../../element/markable/BulletMark';
+import { Markable } from '../../element/markable/Markable';
+import { useAppearanceHook } from '../../hook/AppearanceHook';
 import { useInputHook } from '../../hook/InputHook';
 
 interface RadioDetailedProps {
@@ -72,7 +72,7 @@ export const useRadioHook = (props: RadioProps) => {
   };
 };
 
-export const Radio: FC<RadioProps> = props => {
+export const Radio: FC<RadioProps> = (props) => {
   const { labelProps, inputProps, markableProps, innerProps } = useRadioHook(props);
 
   return (

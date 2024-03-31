@@ -1,12 +1,12 @@
-import { MouseEvent, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
+import { MouseEvent, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useRef } from 'react';
+import { getBaseComponentProps } from '../../base/BaseComponent';
+import { BasementUIContext, useBasementUIContext } from '../../context/BasementUIContext';
+import { RootStyle } from '../../domain/StyleClass';
 import { useCardStyle } from '../../style-element/card/Card';
 import { Case } from '../../util/Case';
-import { RootStyle } from '../../domain/StyleClass';
-import { BasementUIContext, useBasementUIContext } from '../../context/BasementUIContext';
-import { getBaseComponentProps } from '../../base/BaseComponent';
 import { convertDurationToMillis } from '../../util/UnitConverter';
-import { TooltipProps, TooltipPosition } from './Tooltip';
+import { TooltipPosition, TooltipProps } from './Tooltip';
 
 function cursorBasedPosition(
   mouseEvent: MouseEvent<HTMLElement>,
@@ -115,6 +115,7 @@ export function useTooltip(componentName: string, props: TooltipProps) {
         props.tooltipClassName
       ]),
     [
+      cardStyleName,
       componentName,
       enableCardStyle,
       getBackgroundStyleClass,
@@ -152,7 +153,7 @@ export function useTooltip(componentName: string, props: TooltipProps) {
     (evt: MouseEvent<HTMLElement>) => {
       eventRef.current = evt;
       if (mouseLeaveTimerRefs.current.length > 0) {
-        mouseLeaveTimerRefs.current.forEach(t => {
+        mouseLeaveTimerRefs.current.forEach((t) => {
           clearTimeout(t);
         });
       }

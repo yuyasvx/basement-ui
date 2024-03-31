@@ -2,7 +2,6 @@ import {
   CSSProperties,
   Dispatch,
   FC,
-  forwardRef,
   Fragment,
   MouseEvent,
   MutableRefObject,
@@ -10,14 +9,15 @@ import {
   ReactNode,
   RefObject,
   SetStateAction,
+  forwardRef,
   useEffect,
   useMemo,
   useRef,
   useState
 } from 'react';
-import { Case } from '../../util/Case';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { useBasementUIContext } from '../../context/BasementUIContext';
+import { Case } from '../../util/Case';
 import { Overlay } from '../overlay/Overlay';
 import { determinePosition, useTooltip, useTooltipScrollTrigger } from './TooltipHook';
 
@@ -47,7 +47,7 @@ const TooltipHideTrigger = {
 
 export type TooltipProps = TooltipDetailedProps & BaseComponentProps;
 
-export const Tooltip: FC<PropsWithChildren<TooltipProps>> = props => {
+export const Tooltip: FC<PropsWithChildren<TooltipProps>> = (props) => {
   const displayAs = props.displayAs ?? 'inline-block';
   const { props: newProps } = useTooltip(NAME, props);
   return (
@@ -117,7 +117,7 @@ export const TooltipRenderer: FC = () => {
   return (
     <>
       <Overlay>
-        {Object.entries(contents).map(entry =>
+        {Object.entries(contents).map((entry) =>
           entry[1] == null ? (
             <Fragment key={entry[0]} />
           ) : (

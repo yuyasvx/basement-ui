@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { backgroundStyle, blurStyle, shadowStyle } from '../../domain/StyleClass';
 
 export type BackgroundLevel = 0 | 1 | 2 | 3 | 4;

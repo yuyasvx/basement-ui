@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Case } from '../util/Case';
 import { AppearanceType } from '../domain/AppearanceType';
+import { Case } from '../util/Case';
 
 export const useAppearanceHook = (
   appearance?: Case<typeof AppearanceType>,

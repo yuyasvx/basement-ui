@@ -1,8 +1,8 @@
-import { FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
+import { FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { RootStyle } from '../../domain/StyleClass';
 import { MouseEvents } from '../../domain/EventProps';
+import { RootStyle } from '../../domain/StyleClass';
 import { getMouseEventHandler } from '../../util/Handler';
 
 const NAME = 'bm-e-alert-content';
@@ -49,7 +49,7 @@ export const useAlertContentHook = (props: AlertContentProps) => {
   };
 };
 
-export const AlertContent: FC<PropsWithChildren<AlertContentProps>> = props => {
+export const AlertContent: FC<PropsWithChildren<AlertContentProps>> = (props) => {
   const { mainProps, descriptionProps, footerProps, spacerProps } = useAlertContentHook(props);
   return (
     <div {...mainProps}>

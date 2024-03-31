@@ -14,7 +14,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Switcher> = {
-  render: args => {
+  render: (args) => {
     const [markedFlag, setMarkedFlag] = useState(true);
     const clickHandler = useCallback(() => {
       setMarkedFlag(!markedFlag);

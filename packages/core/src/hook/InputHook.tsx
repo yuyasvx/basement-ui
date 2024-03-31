@@ -1,9 +1,9 @@
-import { CSSProperties, InputHTMLAttributes, useMemo, useRef } from 'react';
 import clsx from 'clsx';
-import { getInputAttributes } from '../util/InputAttributes';
-import { getFormEventHandler, getMouseEventHandler } from '../util/Handler';
-import { RootStyle } from '../domain/StyleClass';
+import { CSSProperties, InputHTMLAttributes, useMemo, useRef } from 'react';
 import { FormEvents, MouseEvents } from '../domain/EventProps';
+import { RootStyle } from '../domain/StyleClass';
+import { getFormEventHandler, getMouseEventHandler } from '../util/Handler';
+import { getInputAttributes } from '../util/InputAttributes';
 
 export type CustomizedInputHTMLAttributes = Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>;
 

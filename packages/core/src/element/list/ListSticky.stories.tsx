@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
 import { List, ListProps } from './List';
-import { ListItem, ListItemProps } from './ListItem';
 import { ListContainer } from './ListContainer';
+import { ListItem, ListItemProps } from './ListItem';
 
 export default {
   title: 'Element/List',
@@ -17,7 +17,7 @@ export default {
 type ArgsType = ListProps & ListItemProps<HTMLElement>;
 
 export const StorySticky: StoryObj<ArgsType> = {
-  render: args => {
+  render: () => {
     return (
       <>
         <ListContainer

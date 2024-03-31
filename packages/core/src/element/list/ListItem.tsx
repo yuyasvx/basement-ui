@@ -3,13 +3,13 @@ import {
   ButtonHTMLAttributes,
   FC,
   ForwardedRef,
-  forwardRef,
   PropsWithChildren,
   ReactNode,
+  forwardRef,
   useCallback
 } from 'react';
-import { MouseEvents } from '../../domain/EventProps';
 import { BaseComponentProps } from '../../base/BaseComponent';
+import { MouseEvents } from '../../domain/EventProps';
 import { useListLogic } from '../../hook/ListHook';
 import { ListItemContent } from './ListItemContent';
 
@@ -27,7 +27,7 @@ export interface ListItemDetailedProps {
 export type ListItemProps<EL extends HTMLElement> = BaseComponentProps & ListItemDetailedProps & MouseEvents<EL>;
 
 const NAME = 'bm-e-list-item';
-export const ListItem: FC<PropsWithChildren<ListItemProps<HTMLLIElement>>> = props => {
+export const ListItem: FC<PropsWithChildren<ListItemProps<HTMLLIElement>>> = (props) => {
   const { newProps } = useListLogic(props);
 
   return (
@@ -44,7 +44,7 @@ export const ListItem: FC<PropsWithChildren<ListItemProps<HTMLLIElement>>> = pro
   );
 };
 
-export const ListItemOuter: FC<PropsWithChildren> = props => {
+export const ListItemOuter: FC<PropsWithChildren> = (props) => {
   return <li className={`${NAME}__outer`}>{props.children}</li>;
 };
 
@@ -53,7 +53,7 @@ export type ListItemLinkProps = BaseComponentProps &
   MouseEvents<HTMLLIElement> &
   AnchorHTMLAttributes<unknown>;
 
-export const ListItemLink: FC<PropsWithChildren<ListItemLinkProps>> = props => {
+export const ListItemLink: FC<PropsWithChildren<ListItemLinkProps>> = (props) => {
   const { newProps } = useListLogic(props);
   const getAnchorAttributes = useCallback((props: AnchorHTMLAttributes<unknown>): AnchorHTMLAttributes<unknown> => {
     return {

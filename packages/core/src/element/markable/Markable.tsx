@@ -1,8 +1,8 @@
-import { CSSProperties, FC, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
-import { Case } from '../../util/Case';
+import { CSSProperties, FC, ReactNode, useMemo } from 'react';
 import { AppearanceType, getAppearanceClassName } from '../../domain/AppearanceType';
 import { PUSHABLE_STYLE } from '../../domain/StyleClass';
+import { Case } from '../../util/Case';
 
 export interface CheckboxElementProps {
   appearance?: Case<typeof AppearanceType>;
@@ -38,7 +38,7 @@ export const useMarkableClassHook = (context: MarkableContext) => {
   return { markableClass };
 };
 
-export const Markable: FC<CheckboxElementProps & MarkableContext> = props => {
+export const Markable: FC<CheckboxElementProps & MarkableContext> = (props) => {
   const { checkboxClass } = useCheckboxElementHook(props);
   const { markableClass } = useMarkableClassHook(props);
   const appearanceClassName = getAppearanceClassName(props.appearance);

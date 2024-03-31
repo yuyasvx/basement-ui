@@ -1,22 +1,22 @@
+import clsx from 'clsx';
 import {
   MouseEvent,
-  memo,
   PropsWithChildren,
   ReactElement,
+  memo,
   useCallback,
   useContext,
-  useRef,
-  useState,
-  useMemo,
+  useEffect,
   useId,
-  useEffect
+  useMemo,
+  useRef,
+  useState
 } from 'react';
-import clsx from 'clsx';
-import { ListItemButton, ListItemDetailedProps } from '../../element/list/ListItem';
 import { BaseComponentProps } from '../../base/BaseComponent';
+import { ListItemButton, ListItemDetailedProps } from '../../element/list/ListItem';
+import { ChevronRight } from './ChevronRight';
 import { MenuListProps } from './MenuList';
 import { menuItemContext, menuListContext } from './MenuListContext';
-import { ChevronRight } from './ChevronRight';
 
 const NAME = 'bm-c-menu-list-item';
 
@@ -37,7 +37,7 @@ export const MenuListItem = memo((props: MenuListItemProps) => {
         'data-bm-menu-item': itemId,
         'data-bm-selected': selectedId === itemId,
         'data-bm-has-submenu': props.submenu != null
-      } as Record<string, unknown>),
+      }) as Record<string, unknown>,
     [itemId, props.submenu, selectedId]
   );
   const newSecondary = props.submenu ? <ChevronRight style={{ display: 'block' }} /> : props.secondary;

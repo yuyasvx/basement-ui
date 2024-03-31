@@ -1,14 +1,14 @@
-import { FC } from 'react';
 import clsx from 'clsx';
-import { Button, ButtonProps } from '../../form-items/button/Button';
+import { FC } from 'react';
 import { AppearanceType } from '../../domain/AppearanceType';
+import { Button, ButtonProps } from '../../form-items/button/Button';
 import { CloseIcon } from './WindowControlIcon';
 
-export const CloseButton: FC<Omit<ButtonProps, 'icon'>> = props => {
+export const CloseButton: FC<Omit<ButtonProps, 'icon'>> = (props) => {
   return <WindowControlButton {...props} icon={<CloseIcon />} />;
 };
 
-export const WindowControlButton: FC<ButtonProps> = props => {
+export const WindowControlButton: FC<ButtonProps> = (props) => {
   const newProps = { ...props };
   if (newProps.appearance == null) {
     newProps.appearance = AppearanceType.SUPER_FLAT;

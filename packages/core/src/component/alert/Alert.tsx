@@ -1,18 +1,18 @@
-import { FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
-import { RootStyle } from '../../domain/StyleClass';
+import { FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { Case } from '../../util/Case';
 import { MouseEvents } from '../../domain/EventProps';
-import { getMouseEventHandler } from '../../util/Handler';
+import { RootStyle } from '../../domain/StyleClass';
 import { AlertContent, AlertContentDetailedProps } from '../../element/alert-content/AlertContent';
+import { Case } from '../../util/Case';
+import { getMouseEventHandler } from '../../util/Handler';
 
 const NAME = 'bm-c-alert';
 const INNER_NAME = `${NAME}__inner`;
 const ICON_NAME = `${NAME}__icon`;
 const DETAIL_NAME = `${NAME}__detail`;
 
-export const Alert: FC<AlertProps> = props => {
+export const Alert: FC<AlertProps> = (props) => {
   const { mainProps, innerProps, contentProps, iconProps } = useAlertComponent(props);
 
   return (

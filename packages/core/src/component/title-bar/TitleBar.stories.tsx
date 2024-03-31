@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties, FC, PropsWithChildren, useMemo } from 'react';
-import { Window } from '../window/Window';
-import { useHeaderStyle } from '../../style-element/header/Header';
 import { RootStyle } from '../../domain/StyleClass';
+import { useHeaderStyle } from '../../style-element/header/Header';
+import { Window } from '../window/Window';
 import { TitleBar, TitleBarProps } from './TitleBar';
 
 const TrafficLights: FC = () => {
-  const style = useMemo(() => ({ padding: '8px', display: 'flex', gap: '8px' } as CSSProperties), []);
+  const style = useMemo(() => ({ padding: '8px', display: 'flex', gap: '8px' }) as CSSProperties, []);
   const lightStyle = useMemo(
-    () => ({ width: '12px', height: '12px', background: '#C0C0C0', borderRadius: '50%' } as CSSProperties),
+    () => ({ width: '12px', height: '12px', background: '#C0C0C0', borderRadius: '50%' }) as CSSProperties,
     []
   );
   return (
@@ -25,7 +25,7 @@ export default {
   argTypes: {}
 } as Meta;
 
-const Preview: FC<PropsWithChildren<TitleBarProps>> = props => {
+const Preview: FC<PropsWithChildren<TitleBarProps>> = (props) => {
   const { props: headerProps } = useHeaderStyle({ blur: false });
   return (
     <Window style={{ width: '500px' }} shadow={2}>
@@ -46,7 +46,7 @@ const Preview: FC<PropsWithChildren<TitleBarProps>> = props => {
 };
 
 export const Story: StoryObj<typeof TitleBar> = {
-  render: args => {
+  render: (args) => {
     return <Preview {...args} />;
   },
   args: {
@@ -68,7 +68,7 @@ export const Story: StoryObj<typeof TitleBar> = {
 Story.storyName = '単体';
 
 export const StoryMacOSLike: StoryObj<typeof TitleBar> = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { props: headerProps } = useHeaderStyle({ blur: false });
     return (

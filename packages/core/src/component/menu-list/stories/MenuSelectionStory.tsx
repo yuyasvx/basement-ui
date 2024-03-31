@@ -1,7 +1,7 @@
 import { FC, useCallback, useState } from 'react';
 import { Button } from '../../../form-items/button/Button';
-import { MenuListItem } from '../MenuListItem';
 import { MenuList } from '../MenuList';
+import { MenuListItem } from '../MenuListItem';
 
 export const MenuSelectionStoryContent: FC = () => {
   const [show, setShow] = useState(false);
@@ -30,4 +30,3 @@ export const MenuSelectionStoryContent: FC = () => {
     </>
   );
 };
-5;

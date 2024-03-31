@@ -36,7 +36,7 @@ export function useOverlayInitializer(state: typeof internalState) {
  * @param props
  * @constructor
  */
-export const Overlay: FC<PropsWithChildren> = props => {
+export const Overlay: FC<PropsWithChildren> = (props) => {
   const initialized = useOverlayInitializer(internalState);
   if (!initialized) {
     return <></>;
