@@ -22,10 +22,10 @@ module.exports = {
         'import/no-duplicates': 'off'
       }
     },
-    {
-      files: ['**/*.stories.tsx'],
-      extends: ['plugin:storybook/recommended']
-    }
+    // {
+    //   files: ['**/*.stories.tsx'],
+    //   extends: ['plugin:storybook/recommended']
+    // }
   ],
   ignorePatterns: ['build/*.js'],
   rules: {
@@ -56,7 +56,6 @@ module.exports = {
       { accessibility: 'no-public', overrides: { constructors: 'off' } }
     ],
     'import/no-unresolved': 'off',
-    'import/order': 'warn',
     'no-var': 'error',
     'prefer-const': 'warn',
     'prefer-template': 'warn',
