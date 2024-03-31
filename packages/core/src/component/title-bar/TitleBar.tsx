@@ -1,5 +1,5 @@
-import { CSSProperties, FC, ForwardedRef, forwardRef, PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
+import { CSSProperties, FC, ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 
@@ -44,7 +44,7 @@ export const TitleBar = forwardRef((props: PropsWithChildren<TitleBarProps>, ref
   );
 });
 
-export const TitleBarAccessory: FC<PropsWithChildren<BaseComponentProps>> = props => {
+export const TitleBarAccessory: FC<PropsWithChildren<BaseComponentProps>> = (props) => {
   const baseProps = getBaseComponentProps(props);
   return (
     <div {...baseProps} className={props.className}>

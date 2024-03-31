@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
+import { AppearanceType } from '../../domain/AppearanceType';
 import { Button } from '../../form-items/button/Button';
 import { Alert } from '../alert/Alert';
-import { AppearanceType } from '../../domain/AppearanceType';
-import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
 import { Window, WindowAnimation, WindowControlPosition } from './Window';
+import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
 
 export default {
   title: 'Component/Window',
@@ -33,7 +33,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Window> = {
-  render: args => {
+  render: (args) => {
     return (
       <div style={{ position: 'relative' }}>
         <div

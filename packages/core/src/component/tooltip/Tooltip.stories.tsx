@@ -31,7 +31,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Tooltip> = {
-  render: args => {
+  render: (args) => {
     return (
       <BasementUIProvider>
         <Tooltip

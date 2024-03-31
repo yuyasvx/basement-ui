@@ -1,8 +1,8 @@
-import { ButtonHTMLAttributes, FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import clsx from 'clsx';
+import { ButtonHTMLAttributes, FC, PropsWithChildren, ReactNode, useMemo } from 'react';
 import { AppearanceAdaptable, BaseComponentProps } from '../../base/BaseComponent';
-import { MouseEvents } from '../../domain/EventProps';
 import { getAppearanceClassName } from '../../domain/AppearanceType';
+import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, PUSHABLE_STYLE, RootStyle } from '../../domain/StyleClass';
 import { useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
 
@@ -62,7 +62,7 @@ export const useButtonComponent = (props: ButtonProps) => {
   };
 };
 
-export const Button: FC<ButtonProps> = props => {
+export const Button: FC<ButtonProps> = (props) => {
   const { newProps, iconProps, contentProps } = useButtonComponent(props);
   const { icon, children } = props;
 

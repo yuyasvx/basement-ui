@@ -13,7 +13,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Button> = {
-  render: args => {
+  render: (args) => {
     const { children, ...restArgs } = args;
     const { children: _, ...restArgs2 } = args;
     const style = { '--bm-button-padding-tb': '5px', '--bm-button-padding-lr': '5px' } as React.CSSProperties;

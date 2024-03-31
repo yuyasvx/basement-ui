@@ -1,11 +1,10 @@
-import { FC, ForwardedRef, forwardRef, PropsWithChildren, useMemo } from 'react';
 import clsx from 'clsx';
+import { ForwardedRef, PropsWithChildren, forwardRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
-import { getMouseEventHandler } from '../../util/Handler';
-import { Overlay, useOverlayInitializer } from '../../component/overlay/Overlay';
 import { useScrollLock } from '../../hook/ScrollLockHook';
+import { getMouseEventHandler } from '../../util/Handler';
 
 const NAME = 'bm-e-lock';
 

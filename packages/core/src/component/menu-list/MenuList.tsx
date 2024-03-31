@@ -1,21 +1,21 @@
+import clsx from 'clsx';
 import {
   CSSProperties,
   FC,
   ForwardedRef,
-  forwardRef,
   KeyboardEvent,
   PropsWithChildren,
   RefObject,
+  forwardRef,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef
 } from 'react';
-import clsx from 'clsx';
+import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { List } from '../../element/list/List';
 import { useCardStyle } from '../../style-element/card/Card';
-import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import {
   MenuItemContext,
   menuItemContext,
@@ -47,7 +47,7 @@ export const SubmenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<H
   return <ListInner {...props} ref={ref} root={false} />;
 });
 
-const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUListElement> }> = props => {
+const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUListElement> }> = (props) => {
   const contextValue = useMenuItemContextInitializer();
   const { props: newProps } = useMenuListComponent(props, props.ref, contextValue);
 

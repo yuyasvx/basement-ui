@@ -1,4 +1,4 @@
-import { SyntheticEvent, ChangeEvent, MouseEventHandler, FormEventHandler, KeyboardEventHandler } from 'react';
+import { ChangeEvent, FormEventHandler, KeyboardEventHandler, MouseEventHandler, SyntheticEvent } from 'react';
 
 export interface MouseEvents<EL = Element> {
   onClick?: MouseEventHandler<EL>;

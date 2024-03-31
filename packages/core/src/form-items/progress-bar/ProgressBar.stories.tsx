@@ -12,7 +12,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof ProgressBar> = {
-  render: args => {
+  render: (args) => {
     return (
       <>
         <ProgressBar {...args} />

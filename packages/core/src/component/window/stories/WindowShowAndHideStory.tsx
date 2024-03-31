@@ -1,12 +1,12 @@
 import { CSSProperties, FC, useCallback, useState } from 'react';
-import { Window, WindowProps } from '../Window';
-import { Overlay } from '../../overlay/Overlay';
-import { CloseButton } from '../WindowControl';
-import { Alert } from '../../alert/Alert';
 import { Button } from '../../../form-items/button/Button';
 import { ProgressBar } from '../../../form-items/progress-bar/ProgressBar';
+import { Alert } from '../../alert/Alert';
+import { Overlay } from '../../overlay/Overlay';
+import { Window, WindowProps } from '../Window';
+import { CloseButton } from '../WindowControl';
 
-export const WindowShowAndHide: FC<WindowProps> = args => {
+export const WindowShowAndHide: FC<WindowProps> = (args) => {
   const [show, setShow] = useState(true);
 
   const showWindow = useCallback(() => {

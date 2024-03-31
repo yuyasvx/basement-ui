@@ -18,7 +18,7 @@ export default {
 
 type ScrollLockStoryType = ScreenLockProps & { show: boolean };
 export const Story: StoryObj<ScrollLockStoryType> = {
-  render: args => {
+  render: (args) => {
     const { show, ...restArgs } = args;
     return (
       <>

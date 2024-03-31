@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, {
   CSSProperties,
   FC,
@@ -9,7 +10,6 @@ import React, {
   useMemo,
   useRef
 } from 'react';
-import clsx from 'clsx';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { CardStyle, useCardStyle } from '../../style-element/card/Card';
 import { Case } from '../../util/Case';
@@ -49,7 +49,7 @@ export type WindowProps = WindowDetailProps & BaseComponentProps & Partial<CardS
 
 const WindowControlContainer: FC<
   PropsWithChildren<{ controlPosition: Case<typeof WindowControlPosition>; style?: CSSProperties }>
-> = props => {
+> = (props) => {
   const className = useMemo(
     () =>
       clsx(

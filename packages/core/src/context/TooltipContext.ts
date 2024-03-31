@@ -8,10 +8,10 @@ export function useTooltipContextInitializer() {
   const dispatchers = useRef({} as Record<string, Dispatch<SetStateAction<unknown>>>);
   const add = useCallback((props: TooltipInnerProps & { content: ReactNode; ref: RefObject<HTMLDivElement> }) => {
     const keys = Object.keys(contents.current);
-    const maxNum = keys.length === 0 ? 0 : Math.max(...Object.keys(contents.current).map(k => Number(k)));
+    const maxNum = keys.length === 0 ? 0 : Math.max(...Object.keys(contents.current).map((k) => Number(k)));
     // TODO 強制上書きにしている
     contents.current = { [maxNum + 1]: props };
-    Object.values(dispatchers.current).forEach(d => {
+    Object.values(dispatchers.current).forEach((d) => {
       d(contents.current);
     });
     return maxNum + 1;
@@ -23,7 +23,7 @@ export function useTooltipContextInitializer() {
     }
     delete contents.current[id];
     contents.current = { ...contents.current };
-    Object.values(dispatchers.current).forEach(d => {
+    Object.values(dispatchers.current).forEach((d) => {
       d(contents.current);
     });
     return true;

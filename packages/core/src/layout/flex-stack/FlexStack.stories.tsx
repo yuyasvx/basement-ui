@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
-import { Button } from '../../form-items/button/Button';
 import { Window } from '../../component/window/Window';
-import { ListContainer } from '../../element/list/ListContainer';
 import { List } from '../../element/list/List';
+import { ListContainer } from '../../element/list/ListContainer';
 import { ListItem, ListItemSeparator } from '../../element/list/ListItem';
+import { Button } from '../../form-items/button/Button';
 import { FlexStackJustify, FlexStackProps, useFlexStackLayout } from './FlexStack';
 
 export default {
@@ -18,7 +18,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<FlexStackProps & { gap: string }> = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { className: flexClassName, itemName: flexItem } = useFlexStackLayout(args);
 
@@ -50,7 +50,7 @@ export const Story: StoryObj<FlexStackProps & { gap: string }> = {
 Story.storyName = '単体';
 
 export const ListStory: StoryObj<FlexStackProps> = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { className: flexClassName, itemName: flexItem } = useFlexStackLayout(args);
 

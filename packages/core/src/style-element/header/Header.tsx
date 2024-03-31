@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { FC, PropsWithChildren, useMemo } from 'react';
-import { useCardStyle } from '../card/Card';
-import { RootStyle } from '../../domain/StyleClass';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
+import { RootStyle } from '../../domain/StyleClass';
+import { useCardStyle } from '../card/Card';
 
 const NAME = 'bm-s-header';
 
-export const Header: FC<PropsWithChildren<HeaderProps>> = props => {
+export const Header: FC<PropsWithChildren<HeaderProps>> = (props) => {
   const { props: headerStyleProps } = useHeaderStyle(props);
   const baseProps = getBaseComponentProps(props);
   const className = useMemo(

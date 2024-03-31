@@ -12,7 +12,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj /* <typeof Checkbox> */ = {
-  render: args => {
+  render: () => {
     return (
       <>
         <input type="text" className="bm-a-input-box -focusable bm-text-base bm-base" />

@@ -2,8 +2,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
 import { Checkmark } from '../markable/Checkmark';
 import { List, ListProps } from './List';
-import { ListItem, ListItemButton, ListItemLink, ListItemProps, ListItemSeparator } from './ListItem';
 import { ListContainer } from './ListContainer';
+import { ListItem, ListItemButton, ListItemLink, ListItemProps, ListItemSeparator } from './ListItem';
 
 export default {
   title: 'Element/List',
@@ -18,7 +18,7 @@ export default {
 type ArgsType = ListProps & ListItemProps<HTMLElement>;
 
 export const Story: StoryObj<ArgsType> = {
-  render: args => {
+  render: (args) => {
     return (
       <>
         <List

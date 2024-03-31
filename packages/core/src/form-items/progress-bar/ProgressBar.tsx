@@ -1,13 +1,13 @@
-import { CSSProperties, FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
-import { GaugeBar, GaugeBarFiller } from '../../element/gauge/Gauge';
+import { CSSProperties, FC, useCallback, useEffect, useMemo, useRef } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
+import { GaugeBar, GaugeBarFiller } from '../../element/gauge/Gauge';
 
 const NAME = 'bm-c-progress-bar';
 const ITEM_NAME = `${NAME}__item`;
 const INDETERMINATE_NAME = `${NAME}__indeterminate`;
 
-export const ProgressBar: FC<ProgressBarProps> = props => {
+export const ProgressBar: FC<ProgressBarProps> = (props) => {
   const { gaugeBarProps, fillerProps, indeterminateProps } = useProgressBarComponent(props);
 
   return (

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { Case } from '../../util/Case';
 
 interface FlexStackDetailedProps {

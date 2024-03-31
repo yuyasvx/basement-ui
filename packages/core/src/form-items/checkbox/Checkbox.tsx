@@ -1,10 +1,10 @@
 import { CSSProperties, FC, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
-import { AppearanceType } from '../../domain/AppearanceType';
 import { AppearanceAdaptable, BaseComponentProps } from '../../base/BaseComponent';
+import { AppearanceType } from '../../domain/AppearanceType';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
-import { Markable } from '../../element/markable/Markable';
-import { IndeterminateMark } from '../../element/markable/IndeterminateMark';
 import { Checkmark } from '../../element/markable/Checkmark';
+import { IndeterminateMark } from '../../element/markable/IndeterminateMark';
+import { Markable } from '../../element/markable/Markable';
 import { useAppearanceHook } from '../../hook/AppearanceHook';
 import { CustomizedInputHTMLAttributes, useInputHook } from '../../hook/InputHook';
 
@@ -56,7 +56,7 @@ export const useCheckboxHook = (props: CheckboxProps) => {
   };
 };
 
-export const Checkbox: FC<CheckboxProps> = props => {
+export const Checkbox: FC<CheckboxProps> = (props) => {
   const { labelProps, markableProps, innerProps, inputProps } = useCheckboxHook(props);
 
   return (

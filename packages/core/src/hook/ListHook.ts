@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
 import clsx from 'clsx';
-import { getMouseEventHandler } from '../util/Handler';
+import { useMemo } from 'react';
+import { getBaseComponentProps } from '../base/BaseComponent';
 import { FOCUSABLE_STYLE, RootStyle } from '../domain/StyleClass';
 import { ListItemProps } from '../element/list/ListItem';
-import { getBaseComponentProps } from '../base/BaseComponent';
+import { getMouseEventHandler } from '../util/Handler';
 
 export const useListLogic = <EL extends HTMLElement>(props: ListItemProps<EL>) => {
   const mouseEvents = useMemo(() => (props.disabled ? {} : getMouseEventHandler(props)), [props]);

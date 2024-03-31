@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
-import { Button } from '../../form-items/button/Button';
 import { AppearanceType } from '../../domain/AppearanceType';
+import { Button } from '../../form-items/button/Button';
 import { useCardStyle } from '../../style-element/card/Card';
 import { Alert, AlertContentLayout } from './Alert';
 // import { Checkbox } from './Checkbox';
@@ -21,7 +21,7 @@ export default {
 } as Meta;
 
 export const Story: StoryObj<typeof Alert> = {
-  render: args => {
+  render: (args) => {
     const { className } = useCardStyle({ blur: 0, background: 3, shadow: 0 });
     return (
       <>
