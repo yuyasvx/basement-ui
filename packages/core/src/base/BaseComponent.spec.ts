@@ -1,7 +1,7 @@
 import { getBaseComponentProps } from './BaseComponent';
 
 describe('Base Component', () => {
-  it('共通のプロパティだけ抽出すること', () => {
+  test('共通のプロパティだけ抽出すること', () => {
     expect(
       getBaseComponentProps({ tabIndex: 2, id: 'abc', hoge: 'def', fuga: true, style: { width: '123px' } })
     ).toEqual({
@@ -11,7 +11,7 @@ describe('Base Component', () => {
     });
   });
 
-  it('ネイティブなプロパティはマージされること', () => {
+  test('ネイティブなプロパティはマージされること', () => {
     expect(
       getBaseComponentProps({
         tabIndex: 2,
@@ -28,7 +28,7 @@ describe('Base Component', () => {
     });
   });
 
-  it('classNameは共通プロパティ抽出の対象外である', () => {
+  test('classNameは共通プロパティ抽出の対象外である', () => {
     expect(
       getBaseComponentProps({ tabIndex: 2, id: 'abc', style: { width: '123px' }, className: 'classname-test' })
     ).toEqual({ tabIndex: 2, id: 'abc', style: { width: '123px' } });

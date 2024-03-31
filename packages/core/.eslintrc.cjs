@@ -3,8 +3,24 @@ module.exports = {
     'jest/globals': true
   },
   plugins: ['jest'],
-  extends: ['standard', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:jest/recommended', 'plugin:jest/style', 'prettier', 'plugin:storybook/recommended'],
+  extends: [
+    'standard',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest/style',
+    'prettier',
+    'plugin:storybook/recommended'
+  ],
   overrides: [
+    {
+      files: ['**/*.tsx'],
+      rules: {
+        'react/prop-types': 'off',
+        'react/display-name': 'off'
+      }
+    },
     {
       files: ['**/*.d.ts'],
       rules: {
@@ -49,7 +65,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
 
-    'jest/consistent-test-it': ['warn', { fn: 'it' }]
+    'jest/consistent-test-it': ['warn', { fn: 'test' }]
   },
   parserOptions: {
     parser: '@typescript-eslint/parser'

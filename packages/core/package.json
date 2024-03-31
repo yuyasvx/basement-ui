@@ -16,7 +16,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint src",
-    "format": "biome check --apply ./src"
+    "format": "biome check --apply ./src",
+    "format:check": "biome check ./src"
   },
   "keywords": [],
   "author": "",
