@@ -1,0 +1,17 @@
+name: Trigger CI On Pull Request
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  setup:
+    uses: ./.github/workflows/job-setup.yml
+    if: |
+      github.event.pull_request.draft == false
+      && !startsWith(github.head_ref, 'release')
+    secrets: inherit
+  type-check:
+    needs: setup
+    uses: ./.github/workflows/job-type-check.yml
+    secrets: inherit

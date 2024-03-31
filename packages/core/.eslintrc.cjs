@@ -3,15 +3,7 @@ module.exports = {
     'jest/globals': true
   },
   plugins: ['jest'],
-  extends: [
-    'standard',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:jest/recommended',
-    'plugin:jest/style',
-    'prettier'
-  ],
+  extends: ['standard', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:jest/recommended', 'plugin:jest/style', 'prettier', 'plugin:storybook/recommended'],
   overrides: [
     {
       files: ['**/*.d.ts'],
