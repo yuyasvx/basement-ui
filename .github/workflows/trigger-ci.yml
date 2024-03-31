@@ -1,0 +1,31 @@
+name: Trigger CI On Pull Request
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/core
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: "**/package-lock.json"
+      - name: Install dependencies
+        run: npm ci
+      - name: Type check
+        run: npm run type-check
+      - name: Lint code
+        run: npm run lint
+      - name: Check code format
+        run: npm run format:check
+      - name: Run unit test
+        run: npm run test:coverage

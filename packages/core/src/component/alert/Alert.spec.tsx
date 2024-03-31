@@ -58,7 +58,7 @@ describe('Alert Component Snapshot', () => {
 });
 
 describe('Alert Component Hook', () => {
-  it('', () => {
+  test('クラス名の合成テスト', () => {
     const { result } = renderHook(() => useAlertComponent({}));
     expect(result.current.mainProps.className).toBe(`bm-c-alert bm-base bm-content-base -horizontal -icon-left`);
   });
