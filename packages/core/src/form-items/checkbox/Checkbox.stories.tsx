@@ -7,7 +7,7 @@ import { Checkbox } from './Checkbox';
 export default {
   title: 'Form Item/Checkbox',
   argTypes: {
-    appearance: {
+    variant: {
       options: Object.values(AppearanceType),
       control: { type: 'select' }
     }
@@ -28,7 +28,7 @@ export const Story: StoryObj<typeof Checkbox> = {
             <Checkbox
               readOnly
               checked={true}
-              appearance={args.appearance}
+              variant={args.variant}
               disabled={args.disabled}
               autoTint={args.autoTint}
               nativeProps={{ 'data-hohoho': true }}
@@ -41,7 +41,7 @@ export const Story: StoryObj<typeof Checkbox> = {
             <Checkbox
               checked={flg}
               onChange={onChangeFn}
-              appearance={args.appearance}
+              variant={args.variant}
               disabled={args.disabled}
               autoTint={args.autoTint}
             >
@@ -52,7 +52,7 @@ export const Story: StoryObj<typeof Checkbox> = {
             <Checkbox
               readOnly
               name={'hogehoge'}
-              appearance={args.appearance}
+              variant={args.variant}
               disabled={args.disabled}
               autoTint={args.autoTint}
             >
@@ -64,7 +64,7 @@ export const Story: StoryObj<typeof Checkbox> = {
           <div>
             <Checkbox
               readOnly
-              appearance={args.appearance}
+              variant={args.variant}
               disabled={args.disabled}
               autoTint={args.autoTint}
               indeterminate={true}
@@ -78,7 +78,7 @@ export const Story: StoryObj<typeof Checkbox> = {
   },
   args: {
     children: 'OK',
-    appearance: AppearanceType.NORMAL,
+    variant: AppearanceType.NORMAL,
     disabled: false,
     autoTint: false
   }

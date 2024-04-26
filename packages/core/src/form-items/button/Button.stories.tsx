@@ -5,7 +5,7 @@ import { Button } from './Button';
 export default {
   title: 'Form Item/Button',
   argTypes: {
-    appearance: {
+    variant: {
       options: Object.values(AppearanceType),
       control: { type: 'select' }
     }
@@ -66,7 +66,7 @@ export const Story: StoryObj<typeof Button> = {
   args: {
     children: 'OK',
     disabled: false,
-    appearance: AppearanceType.NORMAL
+    variant: AppearanceType.NORMAL
   }
 };
 

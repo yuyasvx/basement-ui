@@ -1,9 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
+import { AnimationTrigger } from '../../domain/AnimationTrigger';
 import { AppearanceType } from '../../domain/AppearanceType';
 import { Button } from '../../form-items/button/Button';
 import { Alert } from '../alert/Alert';
-import { Window, WindowAnimation, WindowControlPosition } from './Window';
+import { Window, WindowControlPosition } from './Window';
 import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
 
 export default {
@@ -22,7 +23,7 @@ export default {
       control: { type: 'select' }
     },
     animated: {
-      options: [undefined, ...Object.values(WindowAnimation)],
+      options: [undefined, ...Object.values(AnimationTrigger)],
       control: { type: 'select' }
     },
     controlPosition: {
@@ -64,7 +65,7 @@ export const Story: StoryObj<typeof Window> = {
         >
           <Alert
             title={'ウィンドウ表示サンプル'}
-            footer={<Button appearance={AppearanceType.FLAT}>フッターに表示するボタン</Button>}
+            footer={<Button variant={AppearanceType.FLAT}>フッターに表示するボタン</Button>}
           >
             <div>サンプルです</div>
           </Alert>

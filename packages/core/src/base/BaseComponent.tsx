@@ -15,9 +15,17 @@ export function getBaseComponentProps<P extends BaseComponentProps>(props: P) {
   };
 }
 
+/**
+ * @deprecated
+ */
 export interface AppearanceAdaptable {
   appearance?: Case<typeof AppearanceType>;
 }
+
+export interface VariantAdaptable<VT = typeof AppearanceType> {
+  variant?: Case<VT>;
+}
+
 export interface BaseComponentProps {
   id?: string;
   tabIndex?: number;

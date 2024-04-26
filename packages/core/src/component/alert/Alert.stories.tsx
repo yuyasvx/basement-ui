@@ -65,7 +65,7 @@ export const Story: StoryObj<typeof Alert> = {
             icon={<div style={{ width: '48px', height: '48px', backgroundColor: '#c0c0c0' }}>icon</div>}
             footer={
               <>
-                <Button appearance={AppearanceType.TINT} style={{ width: '100px' }}>
+                <Button variant={AppearanceType.TINT} style={{ width: '100px' }}>
                   了解
                 </Button>
               </>

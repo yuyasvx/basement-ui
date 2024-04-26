@@ -1,164 +1,124 @@
 import clsx from 'clsx';
 import {
-  CSSProperties,
   FC,
-  ForwardedRef,
-  KeyboardEvent,
   PropsWithChildren,
-  RefObject,
-  forwardRef,
-  useCallback,
+  memo,
   useContext,
   useEffect,
+  useId,
+  useLayoutEffect,
   useMemo,
-  useRef
+  useRef,
+  useState
 } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { List } from '../../element/list/List';
 import { useCardStyle } from '../../style-element/card/Card';
-import {
-  MenuItemContext,
-  menuItemContext,
-  menuListContext,
-  useMenuItemContextInitializer,
-  useMenuListContextInitializer
-} from './MenuListContext';
-import { handleKeyboard, setMenuPosition } from './MenuLogic';
+import { useOnce } from '../../util/OnceHook';
+import { menuListContext } from './MenuListContext';
+import { menuItemContext, useMenuItemContextInitializer } from './MenuListItemContext';
+import { MenuListId } from './value/MenuListId';
 
 const NAME = 'bm-c-menu-list';
 
-export type MenuListProps = PropsWithChildren & {
-  initialSelectedItem?: string;
-  lockWaitDuration?: number;
-  onSelect?: (name?: string) => void;
-  relativePosition?: boolean;
-} & Omit<BaseComponentProps, 'tabIndex' | 'nativeProps'>;
-export type MenuListHookProps = { root: boolean } & MenuListProps;
+export type MenuListProps = PropsWithChildren<Omit<BaseComponentProps, 'tabIndex' | 'nativeProps'>>;
 
-export const MenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<HTMLUListElement>) => {
-  return (
-    <menuListContext.Provider value={useMenuListContextInitializer(props.lockWaitDuration)}>
-      <ListInner {...props} ref={ref} root />
-    </menuListContext.Provider>
-  );
-});
-
-export const SubmenuList = forwardRef((props: MenuListProps, ref: ForwardedRef<HTMLUListElement>) => {
-  return <ListInner {...props} ref={ref} root={false} />;
-});
-
-const ListInner: FC<MenuListProps & { root: boolean; ref: ForwardedRef<HTMLUListElement> }> = (props) => {
+export const MenuList: FC<MenuListProps> = memo((props) => {
   const contextValue = useMenuItemContextInitializer();
-  const { props: newProps } = useMenuListComponent(props, props.ref, contextValue);
-
+  const { props: newProps } = useMenuListComponent(props);
   return (
     <menuItemContext.Provider value={contextValue}>
       <List {...newProps}>{props.children}</List>
     </menuItemContext.Provider>
   );
-};
-export function useMenuListComponent(
-  props: MenuListHookProps,
-  ref: ForwardedRef<HTMLUListElement>,
-  context: MenuItemContext
-) {
-  const pendingRef = useRef(!props.root);
-  const positionRef = useRef({ left: '0', top: '0' });
+});
+
+export function useMenuListComponent(props: MenuListProps) {
+  const [menuListId] = useState(MenuListId(useId()));
   const baseProps = getBaseComponentProps(props);
+  const { menuState, removeMenuPath, getParentMenu, getCointainerPosition } = useContext(menuListContext);
+  const { menuPath, menuMap, menuDomMap } = menuState.current;
+
   const { className: cardClass } = useCardStyle({ blur: 1, background: 3, shadow: 1 });
+  const componentName = `${NAME}__inner`;
+  const ref = useRef<HTMLUListElement>(null);
+
+  useOnce(() => {
+    menuPath.push(menuListId);
+  });
+
+  const parentMenu = getParentMenu(menuListId);
+  const child = parentMenu != null;
+
   const className = useMemo(
     () =>
       clsx(
-        NAME,
+        componentName,
         cardClass,
         props.className,
-        { '-submenu': !props.root },
-        { '-pending': pendingRef.current },
-        { '-relative': props.relativePosition ?? true }
+        // { '-pending': pendingRef.current }
+        { '-absolute': child }
       ),
-    [cardClass, props.className, props.relativePosition, props.root]
-  );
-  const { currentMenuElement, onSelect } = useContext(menuListContext);
-  const { prev, next, exec, hideSubmenu, menuElement } = context;
-  const fallbackRef = useRef<HTMLUListElement>(null);
-  const menuRef = ref != null ? (ref as RefObject<HTMLUListElement>) : fallbackRef;
-
-  const getStylePosition = useCallback(
-    (style?: CSSProperties) => {
-      if (props.root) {
-        return style;
-      }
-      const newStyle = style ?? ({} as CSSProperties);
-      newStyle.left = positionRef.current.left;
-      newStyle.top = positionRef.current.top;
-      return newStyle;
-    },
-    [props.root]
+    [cardClass, child, componentName, props.className]
   );
 
-  const keyboardHandler = useCallback(
-    (evt: KeyboardEvent<HTMLUListElement>) => {
-      if (currentMenuElement.current) {
-        handleKeyboard(evt, currentMenuElement.current);
-      }
-    },
-    [currentMenuElement]
-  );
-
-  if (props.root) {
-    onSelect.current = props.onSelect;
-  }
-
-  useEffect(() => {
-    // 最後に表示しているメニューがアクティブなメニュー
-    currentMenuElement.current = menuRef.current;
-
-    menuElement.current = menuRef.current;
-
-    if (!props.root && pendingRef.current && menuRef.current) {
-      setMenuPosition(menuRef.current, positionRef);
-      pendingRef.current = false;
+  useLayoutEffect(() => {
+    if (ref.current == null) {
+      return;
     }
-    const parent = menuRef.current?.parentElement;
-
-    // 親要素もメニューな場合、親要素メニューをアクティブにする
-    return () => {
-      if (parent == null || parent.dataset.bmMenu == null) {
-        return;
-      }
-      currentMenuElement.current = parent as HTMLUListElement;
-    };
-  }, [currentMenuElement, menuElement, menuRef, props.root]);
-
-  useEffect(() => {
-    const menu = menuRef.current;
-    if (menu == null) {
+    const idx = menuPath.indexOf(menuListId);
+    if (idx === 0) {
+      return;
+    }
+    const parentId = menuPath[idx - 1];
+    const parentDom = menuDomMap.get(parentId);
+    if (parentDom?.current == null) {
       return;
     }
 
-    menu.addEventListener('bm-list-item-next', next);
-    menu.addEventListener('bm-list-item-prev', prev);
-    menu.addEventListener('bm-list-item-exec', exec);
-    menu.addEventListener('bm-list-item-hide-submenu', hideSubmenu);
+    const pos = getSubmenuPosition(parentDom.current, getCointainerPosition());
+    ref.current.style.top = pos.top;
+    ref.current.style.left = pos.left;
+  }, [getCointainerPosition, menuDomMap, menuListId, menuPath]);
 
+  useEffect(() => {
     return () => {
-      menu.removeEventListener('bm-list-item-next', next);
-      menu.removeEventListener('bm-list-item-prev', prev);
-      menu.removeEventListener('bm-list-item-exec', exec);
-      menu.removeEventListener('bm-list-item-hide-submenu', hideSubmenu);
+      removeMenuPath(menuListId);
+      menuMap.delete(menuListId);
     };
-  }, [exec, hideSubmenu, menuRef, next, prev]);
+  }, [menuListId, menuMap, removeMenuPath]);
 
   return {
-    name: NAME,
+    name: componentName,
+    menuListId,
     props: {
       className,
-      onKeyDown: keyboardHandler,
-      tabIndex: props.root ? 0 : -1,
-      ref: menuRef,
-      style: getStylePosition(baseProps.style),
+      // onKeyDown: keyboardHandler,
+      // tabIndex: props.root ? 0 : -1,
+      // ref: menuRef,
       id: baseProps.id,
-      nativeProps: { 'data-bm-menu': '' }
+      nativeProps: { 'data-bm-menu': '' },
+      ref,
+      tabIndex: child ? -1 : 0
     }
   };
+}
+
+/**
+ * @internal
+ * @param dom
+ * @param containerPosition
+ */
+export function getSubmenuPosition(dom: HTMLLIElement, containerPosition: DOMRect) {
+  // FIXME ポジションを算出した結果、画面からはみ出る場合は考慮していません
+  const parentElement = dom.parentElement;
+  const computedStyle = parentElement != null ? window.getComputedStyle(parentElement) : undefined;
+  const paddingTop = computedStyle != null ? computedStyle.getPropertyValue('padding-top') : 0;
+  const paddingLeft = computedStyle != null ? computedStyle.getPropertyValue('padding-left') : 0;
+
+  const parentRect = dom.getBoundingClientRect();
+  const left = parentRect.width + parentRect.left - containerPosition.left;
+  const top = parentRect.top - containerPosition.top;
+
+  return { left: `calc(${left}px - ${paddingLeft})`, top: `calc(${top}px - ${paddingTop})` };
 }

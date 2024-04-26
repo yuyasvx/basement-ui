@@ -3,13 +3,13 @@ $name: 'bm-e-list-container';
 .#{$name} {
   > .#{$name}__header {
     padding: var(--bm-list-header-padding-top) var(--bm-list-header-padding-right) var(--bm-list-header-padding-bottom)
-      var(--bm-list-header-padding-left);
+    var(--bm-list-header-padding-left);
     color: rgba(var(--bm-foreground-rgb), 0.7);
   }
 
   > .#{$name}__footer {
     padding: var(--bm-list-footer-padding-top) var(--bm-list-footer-padding-right) var(--bm-list-footer-padding-bottom)
-      var(--bm-list-footer-padding-left);
+    var(--bm-list-footer-padding-left);
     color: rgba(var(--bm-foreground-rgb), 0.7);
   }
 }

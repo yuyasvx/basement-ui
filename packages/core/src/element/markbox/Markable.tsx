@@ -38,6 +38,11 @@ export const useMarkableClassHook = (context: MarkableContext) => {
   return { markableClass };
 };
 
+/**
+ * @deprecated
+ * @param props
+ * @constructor
+ */
 export const Markable: FC<CheckboxElementProps & MarkableContext> = (props) => {
   const { checkboxClass } = useCheckboxElementHook(props);
   const { markableClass } = useMarkableClassHook(props);
