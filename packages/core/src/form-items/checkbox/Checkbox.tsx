@@ -1,11 +1,10 @@
 import { CSSProperties, FC, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
-import { AppearanceAdaptable, BaseComponentProps } from '../../base/BaseComponent';
+import { BaseComponentProps, VariantAdaptable } from '../../base/BaseComponent';
 import { AppearanceType } from '../../domain/AppearanceType';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
-import { Checkmark } from '../../element/markable/Checkmark';
-import { IndeterminateMark } from '../../element/markable/IndeterminateMark';
-import { Markable } from '../../element/markable/Markable';
-import { useAppearanceHook } from '../../hook/AppearanceHook';
+import { Checkmark } from '../../element/markbox/Checkmark';
+import { IndeterminateMark } from '../../element/markbox/IndeterminateMark';
+import { Markbox } from '../../element/markbox/Markbox';
 import { CustomizedInputHTMLAttributes, useInputHook } from '../../hook/InputHook';
 
 interface CheckboxDetailedProps {
@@ -20,20 +19,30 @@ interface CheckboxDetailedProps {
 export type CheckboxProps = PropsWithChildren<
   CheckboxDetailedProps &
     BaseComponentProps &
-    AppearanceAdaptable &
+    VariantAdaptable &
     MouseEvents<HTMLLabelElement> &
     FormEvents<HTMLInputElement> &
     CustomizedInputHTMLAttributes
 >;
 
 const NAME = 'bm-c-checkbox';
-const INNER_CHECKBOX_NAME = 'bm-c-checkbox__inner-checkbox';
-const INNER_LABEL_NAME = 'bm-c-checkbox__inner-label';
 
-export const useCheckboxHook = (props: CheckboxProps) => {
-  const { inputProps, labelProps, innerProps } = useInputHook(props, NAME, 'checkbox', INNER_LABEL_NAME);
+export const Checkbox: FC<CheckboxProps> = (props) => {
+  const { labelProps, markboxProps, innerProps, inputProps } = useCheckboxComponent(props);
+
+  return (
+    <label {...labelProps}>
+      <input {...inputProps}></input>
+      <Markbox {...markboxProps} />
+      {props.children && <span {...innerProps}>{props.children}</span>}
+    </label>
+  );
+};
+
+export const useCheckboxComponent = (props: CheckboxProps) => {
+  const { inputProps, labelProps, innerProps } = useInputHook(props, NAME, 'checkbox', `${NAME}__inner-label`);
   const inputRef = useRef<HTMLInputElement>(null);
-  const appearance = useAppearanceHook(props.appearance ?? AppearanceType.NORMAL, props.autoTint && props.checked);
+  const variant = props.autoTint ? decideVaraint(props.checked ?? false) : props.variant ?? AppearanceType.NORMAL;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -44,26 +53,19 @@ export const useCheckboxHook = (props: CheckboxProps) => {
   return {
     labelProps,
     inputProps,
-    markableProps: {
-      appearance,
+    markboxProps: {
+      variant,
       style: props.checkboxStyle,
       marked: props.checked ?? props.indeterminate ?? false,
       disabled: props.disabled ?? false,
-      className: INNER_CHECKBOX_NAME,
-      symbol: props.indeterminate ? <IndeterminateMark /> : <Checkmark />
+      effect: props.disabled ? 'disabled' : undefined,
+      className: `${NAME}__inner-checkbox`,
+      mark: props.indeterminate ? <IndeterminateMark /> : <Checkmark />
     },
     innerProps
   };
 };
 
-export const Checkbox: FC<CheckboxProps> = (props) => {
-  const { labelProps, markableProps, innerProps, inputProps } = useCheckboxHook(props);
-
-  return (
-    <label {...labelProps}>
-      <input {...inputProps}></input>
-      <Markable {...markableProps} />
-      {props.children && <span {...innerProps}>{props.children}</span>}
-    </label>
-  );
-};
+function decideVaraint(checked: boolean) {
+  return checked ? AppearanceType.TINT : AppearanceType.NORMAL;
+}

@@ -37,19 +37,3 @@ export const useMarkableClassHook = (context: MarkableContext) => {
 
   return { markableClass };
 };
-
-export const Markable: FC<CheckboxElementProps & MarkableContext> = (props) => {
-  const { checkboxClass } = useCheckboxElementHook(props);
-  const { markableClass } = useMarkableClassHook(props);
-  const appearanceClassName = getAppearanceClassName(props.appearance);
-  const classNames = useMemo(
-    () => clsx(checkboxClass, markableClass, appearanceClassName),
-    [appearanceClassName, checkboxClass, markableClass]
-  );
-
-  return (
-    <div className={classNames}>
-      <div className={INNER_CHECK_SYMBOL}>{props.symbol}</div>
-    </div>
-  );
-};

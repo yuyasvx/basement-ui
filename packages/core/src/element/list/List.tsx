@@ -1,31 +1,41 @@
 import clsx from 'clsx';
 import { ForwardedRef, PropsWithChildren, forwardRef, useMemo } from 'react';
-import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
+import { BaseComponentProps, VariantAdaptable, getBaseComponentProps } from '../../base/BaseComponent';
 import { KeyEvents, MouseEvents } from '../../domain/EventProps';
+import { useStyleElement } from '../../style-element/StyleElementHook';
 import { getKeyEventHandler, getMouseEventHandler } from '../../util/Handler';
+import { ListVariantType } from './ListVariantType';
 
-export interface ListDetailedProps {
-  // TODO 未対応
-  appearance?: 'plain' | 'bordered' | 'table';
-}
+export type List2Props = PropsWithChildren<
+  VariantAdaptable<typeof ListVariantType> &
+    BaseComponentProps &
+    MouseEvents<HTMLUListElement> &
+    KeyEvents<HTMLUListElement> & { containerRef?: unknown }
+>;
 
-export type ListProps = ListDetailedProps &
-  BaseComponentProps &
-  MouseEvents<HTMLUListElement> &
-  KeyEvents<HTMLUListElement>;
-
-const NAME = 'bm-e-list';
-export const List = forwardRef((props: PropsWithChildren<ListProps>, ref: ForwardedRef<HTMLUListElement>) => {
-  const appearance = props.appearance ?? 'plain';
-  const decideAppearanceClassName = useMemo(() => `--${appearance}`, [appearance]);
-  const classNames = clsx(NAME, decideAppearanceClassName, props.className);
-  const me = getMouseEventHandler(props);
-  const ke = getKeyEventHandler(props);
-  const p = getBaseComponentProps(props);
-
+export const List = forwardRef((props: List2Props, ref: ForwardedRef<HTMLUListElement>) => {
+  const { newProps } = useListElement(props);
   return (
-    <ul className={classNames} {...me} {...ke} {...p} ref={ref}>
+    <ul {...newProps} ref={ref}>
       {props.children}
     </ul>
   );
 });
+
+export function useListElement(props: List2Props) {
+  const componentName = 'bm-e-list';
+  const elm = useStyleElement<typeof ListVariantType>(componentName, { variant: props.variant });
+  const me = getMouseEventHandler(props);
+  const ke = getKeyEventHandler(props);
+  const p = getBaseComponentProps(props);
+
+  return {
+    name: componentName,
+    newProps: {
+      className: useMemo(() => clsx(componentName, elm.variant, props.className), [elm.variant, props.className]),
+      ...me,
+      ...ke,
+      ...p
+    }
+  };
+}

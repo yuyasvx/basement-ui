@@ -1,153 +1,30 @@
 import clsx from 'clsx';
 import {
+  FC,
   MouseEvent,
   PropsWithChildren,
   ReactElement,
-  memo,
   useCallback,
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState
 } from 'react';
+import { createPortal } from 'react-dom';
 import { BaseComponentProps } from '../../base/BaseComponent';
-import { ListItemButton, ListItemDetailedProps } from '../../element/list/ListItem';
+import { ListItemDetailedProps } from '../../element/list/ListItem';
+import { ListItemButton } from '../../element/list/ListItemButton';
+import { ListItemEffect } from '../../element/list/ListItemEffect';
 import { ChevronRight } from './ChevronRight';
 import { MenuListProps } from './MenuList';
-import { menuItemContext, menuListContext } from './MenuListContext';
+import { MenuListState, menuListContext } from './MenuListContext';
+import { menuItemContext, useMenuItemContextInitializer } from './MenuListItemContext';
+import { MenuListItemId } from './value/MenuListItemId';
 
 const NAME = 'bm-c-menu-list-item';
-
-export const MenuListItem = memo((props: MenuListItemProps) => {
-  const [itemId] = useState(useId());
-  const { className: oldClassName, secondary, ...restProps } = props;
-  // TODO lockWaitはキー操作には効かない（ロック中なのにキー操作はできてしまう）
-  const { lockedRef, lockWait, onSelect } = useContext(menuListContext);
-  const { selectedId, setSelectedId } = useContext(menuItemContext);
-  const className = clsx(NAME, oldClassName);
-  const status = useMemo(() => (selectedId === itemId ? 'selected' : 'normal'), [itemId, selectedId]);
-  const ref = useRef<HTMLButtonElement>(null);
-  const timeoutRef = useRef(null as NodeJS.Timeout | null);
-  const [showSubmenu, setShowSubmenu] = useState(false);
-  const dataAttribute = useMemo(
-    () =>
-      ({
-        'data-bm-menu-item': itemId,
-        'data-bm-selected': selectedId === itemId,
-        'data-bm-has-submenu': props.submenu != null
-      }) as Record<string, unknown>,
-    [itemId, props.submenu, selectedId]
-  );
-  const newSecondary = props.submenu ? <ChevronRight style={{ display: 'block' }} /> : props.secondary;
-
-  const handleSubmenu = useCallback(() => {
-    setShowSubmenu(true);
-    timeoutRef.current = null;
-  }, []);
-
-  const mouseEnterHandler = useCallback(() => {
-    if (!lockedRef.current) {
-      setSelectedId(itemId);
-    }
-
-    if (props.submenu) {
-      timeoutRef.current = setTimeout(handleSubmenu, 300);
-    }
-  }, [handleSubmenu, itemId, lockedRef, props.submenu, setSelectedId]);
-
-  const mouseLeaveHandler = useCallback(() => {
-    if (showSubmenu) {
-      return;
-    }
-    if (!lockedRef.current) {
-      setSelectedId(null);
-    }
-  }, [lockedRef, setSelectedId, showSubmenu]);
-
-  const fire = useCallback(
-    (evt: CustomEvent | MouseEvent<HTMLButtonElement>) => {
-      if (lockedRef.current || props.submenu) {
-        return;
-      }
-      const elm = ref.current;
-      if (elm == null) {
-        return;
-      }
-      lockedRef.current = true;
-      elm.classList.remove('-selected');
-      elm.classList.add('-active');
-
-      const menuItemHandler = props.handler;
-      setTimeout(() => {
-        menuItemHandler && menuItemHandler(evt);
-        onSelect.current?.(props.name);
-        setTimeout(() => {
-          lockedRef.current = false;
-        }, lockWait);
-      }, 200);
-    },
-    [lockWait, lockedRef, onSelect, props.handler, props.name, props.submenu]
-  );
-
-  const handleExecution = useCallback(
-    (evt: CustomEvent | Event) => {
-      if (props.submenu) {
-        setShowSubmenu(true);
-        return;
-      }
-      fire(evt as CustomEvent);
-    },
-    [fire, props.submenu]
-  );
-
-  const hideSubmenu = useCallback(() => {
-    if (showSubmenu) {
-      setShowSubmenu(false);
-    }
-  }, [showSubmenu]);
-
-  if (showSubmenu && status === 'normal') {
-    setShowSubmenu(false);
-    if (timeoutRef.current != null) {
-      clearTimeout(timeoutRef.current);
-    }
-  }
-
-  useEffect(() => {
-    const itemRef = ref.current;
-    if (itemRef == null) {
-      return;
-    }
-    itemRef.addEventListener('bm-list-item-exec-inner', handleExecution);
-    itemRef.addEventListener('bm-list-item-hide-submenu-inner', hideSubmenu);
-
-    return () => {
-      itemRef.removeEventListener('bm-list-item-exec-inner', handleExecution);
-      itemRef.removeEventListener('bm-list-item-hide-submenu-inner', hideSubmenu);
-    };
-  }, [handleExecution, hideSubmenu]);
-
-  return (
-    <>
-      <ListItemButton
-        status={status}
-        className={className}
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseLeaveHandler}
-        {...restProps}
-        secondary={newSecondary}
-        nativeProps={dataAttribute}
-        ref={ref}
-        onClick={fire}
-      >
-        {props.children}
-      </ListItemButton>
-      {showSubmenu && props.submenu}
-    </>
-  );
-});
 
 export type MenuListItemProps = {
   name?: string;
@@ -155,3 +32,152 @@ export type MenuListItemProps = {
   handler?: (event: MouseEvent<HTMLButtonElement> | CustomEvent) => void;
 } & PropsWithChildren<ListItemDetailedProps> &
   Omit<BaseComponentProps, 'nativeProps'>;
+
+export const MenuItem: FC<MenuListItemProps> = (props) => {
+  const { newProps, showSubmenu, containerRef } = useMenuItemComponent(props);
+
+  return (
+    <>
+      <ListItemButton {...newProps}>{props.children}</ListItemButton>
+      {containerRef.current && showSubmenu && (
+        <SubmenuWrapper container={containerRef.current}>{props.submenu}</SubmenuWrapper>
+      )}
+    </>
+  );
+};
+
+export const useMenuItemComponent = (props: MenuListItemProps) => {
+  const [itemId] = useState(MenuListItemId(useId()));
+
+  const { secondary, submenu, handler } = props;
+  const { menuState, containerRef, autoLock, onSelect } = useContext(menuListContext);
+  const { selectedId, setSelectedId, ...itemContext } = useContext(menuItemContext);
+  const { menuDomMap, menuPath } = menuState.current;
+  const submenuEventHub = itemContext.submenuEventHub.current;
+
+  const effect = selectedId === itemId ? ListItemEffect.SELECTED : ListItemEffect.NORMAL;
+  const ref = useRef<HTMLLIElement>(null);
+  const submenuTimeout = useRef(null as NodeJS.Timeout | null);
+  const [showSubmenu, setShowSubmenu] = useState(false);
+
+  const newSecondary = submenu ? <ChevronRight style={{ display: 'block' }} /> : secondary;
+
+  const handleSubmenu = useCallback(() => {
+    setShowSubmenu(true);
+    submenuTimeout.current = null;
+  }, []);
+
+  const mouseEnterHandler = useCallback(() => {
+    if (menuState.current.locked) {
+      return;
+    }
+    setSelectedId(itemId);
+    submenuEventHub.notify(itemId);
+    if (submenu) {
+      submenuTimeout.current = setTimeout(handleSubmenu, 300);
+    }
+  }, [handleSubmenu, itemId, menuState, setSelectedId, submenu, submenuEventHub]);
+
+  const mouseLeaveHandler = useCallback(() => {
+    if (showSubmenu) {
+      return;
+    }
+    if (!menuState.current.locked) {
+      setSelectedId(null);
+    }
+  }, [menuState, setSelectedId, showSubmenu]);
+
+  const fire = useCallback(
+    (evt: CustomEvent | MouseEvent<HTMLButtonElement>) => {
+      if (menuState.current.locked || submenu != null) {
+        return;
+      }
+      const elm = ref.current;
+      if (elm == null) {
+        return;
+      }
+      if (autoLock) {
+        menuState.current.locked = true;
+      }
+      elm.classList.remove('---selected');
+      elm.classList.add('---active');
+
+      setTimeout(() => {
+        handler?.(evt);
+        onSelect?.(props.name);
+        // setTimeout(() => {
+        //   lockedRef.current = false;
+        // }, lockWait);
+      }, 200);
+    },
+    [autoLock, handler, menuState, onSelect, props.name, submenu]
+  );
+
+  const everyUpdate = useCallback(() => {
+    // 選択がなくなったら、サブメニュー表示トリガーを解除
+    if (effect === ListItemEffect.NORMAL) {
+      if (submenuTimeout.current != null) {
+        clearTimeout(submenuTimeout.current);
+      }
+    }
+    // 選択されたら、menuDomMapを更新
+    if (submenu && selectedId === itemId) {
+      const currentMenuListId = menuPath[menuPath.length - 1];
+      menuDomMap.set(currentMenuListId, ref);
+    }
+  }, [effect, itemId, menuDomMap, menuPath, selectedId, submenu]);
+
+  everyUpdate();
+
+  // MenuListコンポーネントのuseInsertionEffectが発動した直後にこれが呼ばれる想定で実装している
+  useLayoutEffect(() => {
+    addMenuItemId(itemId, menuState.current);
+  }, [itemId, menuState]);
+
+  useEffect(() => {
+    if (submenu) {
+      submenuEventHub.subscribe(itemId, (eventItemId) => {
+        if (itemId !== eventItemId) {
+          setShowSubmenu(false);
+        }
+      });
+    }
+
+    return () => {
+      submenuEventHub.unsubscribe(itemId);
+    };
+  }, [itemId, submenu, submenuEventHub]);
+
+  return {
+    itemId,
+    showSubmenu,
+    containerRef,
+    newProps: {
+      icon: props.icon,
+      effect,
+      className: useMemo(() => clsx(NAME, props.className), [props.className]),
+      secondary: newSecondary,
+      ref,
+      onMouseEnter: mouseEnterHandler,
+      onMouseLeave: mouseLeaveHandler,
+      onClick: fire,
+      tabIndex: -1
+    }
+  };
+};
+
+function addMenuItemId(itemId: MenuListItemId, menuState: MenuListState) {
+  const { menuMap, menuPath } = menuState;
+  const currentMenuListId = menuPath[menuPath.length - 1];
+  const menuItemIds = menuMap.get(currentMenuListId) ?? [];
+  menuItemIds.push(itemId);
+  menuMap.set(currentMenuListId, menuItemIds);
+}
+
+const SubmenuWrapper: FC<PropsWithChildren<{ container: HTMLDivElement }>> = (props) => {
+  return (
+    <menuItemContext.Provider value={useMenuItemContextInitializer()}>
+      {createPortal(props.children, props.container)}
+    </menuItemContext.Provider>
+  );
+};

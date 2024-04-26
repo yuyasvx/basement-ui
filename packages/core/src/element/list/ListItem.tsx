@@ -1,76 +1,36 @@
-import {
-  AnchorHTMLAttributes,
-  ButtonHTMLAttributes,
-  FC,
-  ForwardedRef,
-  PropsWithChildren,
-  ReactNode,
-  forwardRef,
-  useCallback
-} from 'react';
-import { BaseComponentProps } from '../../base/BaseComponent';
+import clsx from 'clsx';
+import { ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 'react';
+import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
-import { useListLogic } from '../../hook/ListHook';
+import { FOCUSABLE_STYLE, RootStyle } from '../../domain/StyleClass';
+import { useStyleElement } from '../../style-element/StyleElementHook';
+import { Case } from '../../util/Case';
+import { getMouseEventHandler } from '../../util/Handler';
 import { ListItemContent } from './ListItemContent';
+import { ListItemEffect } from './ListItemEffect';
+
+const NAME = 'bm-e-list-item';
 
 export interface ListItemDetailedProps {
   icon?: ReactNode;
-  status?: 'normal' | 'active' | 'selected';
+  effect?: Case<typeof ListItemEffect>;
   focusable?: boolean;
   hoverable?: boolean;
-  disabled?: boolean;
+  disableEvents?: boolean;
   showIndicator?: boolean;
   indicator?: ReactNode;
   secondary?: ReactNode;
 }
 
-export type ListItemProps<EL extends HTMLElement> = BaseComponentProps & ListItemDetailedProps & MouseEvents<EL>;
-
-const NAME = 'bm-e-list-item';
-export const ListItem: FC<PropsWithChildren<ListItemProps<HTMLLIElement>>> = (props) => {
-  const { newProps } = useListLogic(props);
-
-  return (
-    <li {...newProps}>
-      <ListItemContent
-        showIndicator={props.showIndicator}
-        indicator={props.indicator}
-        icon={props.icon}
-        secondary={props.secondary}
-      >
-        {props.children}
-      </ListItemContent>
-    </li>
-  );
-};
-
-export const ListItemOuter: FC<PropsWithChildren> = (props) => {
-  return <li className={`${NAME}__outer`}>{props.children}</li>;
-};
-
-export type ListItemLinkProps = BaseComponentProps &
+export type ListItemProps<EL extends HTMLElement = HTMLLIElement> = BaseComponentProps &
   ListItemDetailedProps &
-  MouseEvents<HTMLLIElement> &
-  AnchorHTMLAttributes<unknown>;
+  MouseEvents<EL>;
 
-export const ListItemLink: FC<PropsWithChildren<ListItemLinkProps>> = (props) => {
-  const { newProps } = useListLogic(props);
-  const getAnchorAttributes = useCallback((props: AnchorHTMLAttributes<unknown>): AnchorHTMLAttributes<unknown> => {
-    return {
-      download: props.download,
-      href: props.href,
-      hrefLang: props.hrefLang,
-      media: props.media,
-      ping: props.ping,
-      target: props.target,
-      type: props.type,
-      referrerPolicy: props.referrerPolicy
-    };
-  }, []);
-
+export const ListItem = forwardRef((props: PropsWithChildren<ListItemProps>, ref: ForwardedRef<HTMLLIElement>) => {
+  const { newProps, mouseEventProps, tabIndex } = useListItemElement(props);
   return (
-    <ListItemOuter {...props}>
-      <a {...getAnchorAttributes(props)} {...newProps}>
+    <li {...newProps} {...mouseEventProps} tabIndex={tabIndex} ref={ref}>
+      <div className={`${NAME}__inner`}>
         <ListItemContent
           showIndicator={props.showIndicator}
           indicator={props.indicator}
@@ -79,55 +39,42 @@ export const ListItemLink: FC<PropsWithChildren<ListItemLinkProps>> = (props) =>
         >
           {props.children}
         </ListItemContent>
-      </a>
-    </ListItemOuter>
+      </div>
+    </li>
   );
-};
+});
 
-export type ListItemButtonProps = BaseComponentProps &
-  ListItemDetailedProps &
-  MouseEvents<HTMLButtonElement> &
-  ButtonHTMLAttributes<HTMLButtonElement>;
-
-// TODO refがListItemButtonだけしか対応していない
-export const ListItemButton = forwardRef(
-  (props: PropsWithChildren<ListItemButtonProps>, ref: ForwardedRef<HTMLButtonElement>) => {
-    const { disabled, form, formAction, formEncType, formMethod, formNoValidate, formTarget, name, type, value } =
-      props;
-    const attribute = {
-      disabled,
-      form,
-      formAction,
-      formEncType,
-      formMethod,
-      formNoValidate,
-      formTarget,
-      name,
-      type,
-      value
-    };
-
-    const { newProps } = useListLogic<HTMLButtonElement>(props);
-
-    return (
-      <ListItemOuter>
-        {/* TODO ボタンのスタイリング優先度がなんか低くなるのでめんどいことになる */}
-        <button {...attribute} {...newProps} ref={ref}>
-          <ListItemContent
-            showIndicator={props.showIndicator}
-            indicator={props.indicator}
-            icon={props.icon}
-            secondary={props.secondary}
-          >
-            {props.children}
-          </ListItemContent>
-        </button>
-      </ListItemOuter>
-    );
+export const useListItemElement = <EL extends HTMLElement>(props: ListItemProps<EL>) => {
+  const mouseEvents = useMemo(() => (props.disableEvents ? {} : getMouseEventHandler(props)), [props]);
+  const baseProps = getBaseComponentProps(props);
+  const elm = useStyleElement(NAME, {
+    effect: props.effect
+  });
+  const classNames = useMemo(
+    () =>
+      clsx(
+        NAME,
+        RootStyle.TEXT_BASE,
+        RootStyle.BASE,
+        elm.manual,
+        elm.manualEffect,
+        { '-with-indicator': props.showIndicator },
+        { [FOCUSABLE_STYLE]: props.focusable }
+      ),
+    [elm.manual, elm.manualEffect, props.focusable, props.showIndicator]
+  );
+  if (!props.focusable) {
+    baseProps.tabIndex = -1;
   }
-);
 
-export const ListItemSeparator: FC<PropsWithChildren> = () => {
-  // TODO 命名の仕方、よくない
-  return <li className={`bm-e-list-separator`}></li>;
+  return {
+    name: NAME,
+    newProps: {
+      id: baseProps.id,
+      style: baseProps.style,
+      className: classNames
+    },
+    mouseEventProps: mouseEvents,
+    tabIndex: baseProps.tabIndex
+  };
 };

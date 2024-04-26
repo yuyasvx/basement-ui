@@ -1,157 +1,74 @@
-import { Dispatch, MutableRefObject, SetStateAction, createContext, useCallback, useRef, useState } from 'react';
+import { ForwardedRef, Ref, RefObject, createContext, useCallback, useRef } from 'react';
+import { AnimationTrigger } from '../../domain/AnimationTrigger';
+import { Case } from '../../util/Case';
+import { MenuListId } from './value/MenuListId';
+import { MenuListItemId } from './value/MenuListItemId';
 
-const execEvent = new CustomEvent('bm-list-item-exec-inner');
-const hideSubmenuEvent = new CustomEvent('bm-list-item-hide-submenu-inner');
-
-/**
- * メニューリスト全体のコンテキストを定義および作成します。
- *
- * 下記を制御します
- * - ロックされているかされていないか：ロック中の場合はマウスを動かしてもメニュー項目の選択状態が変化せず、クリックしても
- *   決定しません
- * - キー操作対象のメニューリストを制御：上下キーやスペースキーを押した時にどのメニューを操作するか制御します。基本的には
- *   表示している中で最も階層が深いメニューが操作対象になる
- * - 選択肢を決定した時、しばらくロックする：メニューの表示・非表示はこのコンポーネントのスコープ外だが、
- */
-export const menuListContext = createContext({
-  lockedRef: {} as MutableRefObject<boolean>,
-  currentMenuElement: {} as MutableRefObject<HTMLUListElement | null>,
-  lockWait: 0,
-  onSelect: {} as MutableRefObject<((name?: string) => void) | undefined>
+const defaultMenuState = () => ({
+  // 画面に表示されているメニューのIDを全て保持する。0番目はRootメニューとなり、インデックス番号が増えるとサブメニューの階層が深くなる
+  menuPath: [] as MenuListId[],
+  // menuListIDとMenuListItemIDの紐付け情報。キー操作でメニュー選択を変えた時とかに使う予定。
+  menuMap: new Map<MenuListId, MenuListItemId[]>(),
+  // menuListIDとMenuListItemのDOMのマッピング。サブメニューを描画するとき、メニューの表示位置は親メニューから決めるので、それに使う
+  menuDomMap: new Map<MenuListId, RefObject<HTMLLIElement>>(),
+  // 自動ロックが発動したかどうか。発動した場合は、メニューの操作が一切できなくなる想定。
+  locked: false
 });
 
-export function useMenuListContextInitializer(lockWaitDuration = 0) {
-  // 選択操作ができる状態か
-  const lockedRef = useRef(false);
-  // 現在選択対象のメニュー自体のRef
-  const currentMenuElement = useRef(null as HTMLUListElement | null);
-  // メニュー項目を決定してから、再び選択操作ができるようになるまでの期間。
-  const [lockWait] = useState(lockWaitDuration);
-  // propsで渡されたonSelect()関数をしまう入れ物
-  const onSelect = useRef(undefined as undefined | ((name?: string) => void));
+export const menuListContext = createContext({} as MenuListContextInitializer);
 
-  return { lockedRef, currentMenuElement, lockWait, onSelect };
-}
+export function useMenuListContextInitializer(
+  containerRef: RefObject<HTMLDivElement>,
+  autoLock = false,
+  onSelect?: (name?: string) => void
+) {
+  // メニューリストの管理に用いる状態。これらの状態の変化でReactコンポーネントの動作に影響を及ぼしたく無いので、useRefで退避させる。
+  const menuState = useRef(defaultMenuState());
+  const getParentMenu = useCallback((menuListId: MenuListId) => {
+    const { menuPath, menuDomMap } = menuState.current;
+    const idx = menuPath.indexOf(menuListId);
 
-/**
- * メニュー項目のコンテキストを定義・作成します。
- *
- * このコンテキストでは、メニュー項目に対して下記を制御します：
- * - 次のアイテムを選択する：1つ下のメニュー項目を選択します。次が非活性の場合はスキップ。最後の項目だった場合は何もしない
- * - 前のアイテムを選択する：1つ上のメニュー項目を選択します。次が非活性の場合はスキップ。最初の項目だった場合は何もしない
- * - 選択したアイテムの決定：クリックかスペースキーかEnterキーで発動。非活性ではなくロックされてない時だけ選択イベントが発動する
- * - 選択中のアイテムIDの保持
- * - メニュー項目が属しているメニューリストのRef
- */
-export const menuItemContext = createContext({
-  next: (): void => undefined,
-  prev: (): void => undefined,
-  exec: (): void => undefined,
-  hideSubmenu: (): void => undefined,
-  selectedId: null as string | null,
-  setSelectedId: {} as Dispatch<SetStateAction<string | null>>,
-  // TODO これ要らないかも
-  // submenuHovering: {} as MutableRefObject<boolean>,
-  menuElement: {} as MutableRefObject<HTMLUListElement | null>
-});
-
-export function useMenuItemContextInitializer(initialSelectedItem: string | null = null) {
-  const extractListItems = useCallback(() => {
-    const menu = menuElement.current;
-    if (menu == null) {
-      return null;
+    if (idx === 0) {
+      return undefined;
     }
-    return menu.querySelectorAll<HTMLButtonElement>('[data-bm-menu-item]');
+    const parentId = menuPath[idx - 1];
+
+    return menuDomMap.get(parentId);
   }, []);
 
-  const getSelectedItemIdx = useCallback((items: NodeListOf<HTMLButtonElement>) => {
-    let selectedItemIdx = -1;
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
-      if (item.dataset.bmSelected === 'true') {
-        selectedItemIdx = i;
-        break;
+  return {
+    containerRef,
+    menuState,
+    // メニューを閉じた時にmenuPathからメニューIDを削除するとき使う
+    removeMenuPath: useCallback((menuListId: MenuListId) => {
+      const state = menuState.current;
+      const idx = state.menuPath.indexOf(menuListId);
+      if (idx !== -1) {
+        state.menuPath = state.menuPath.slice(0, idx);
       }
-    }
-
-    return selectedItemIdx;
-  }, []);
-
-  const next = useCallback(() => {
-    const items = extractListItems();
-    if (items == null) {
-      return;
-    }
-    const selectedItemIdx = getSelectedItemIdx(items);
-    let targetDataName;
-    // 次の非活性でない項目を探す
-    for (let i = selectedItemIdx + 1; i < items.length; i++) {
-      const item = items[i];
-      if (!item.disabled) {
-        targetDataName = item.dataset.bmMenuItem;
-        break;
+    }, []),
+    getParentMenu,
+    hasParent: useCallback(
+      (menuListId: MenuListId) => {
+        const parent = getParentMenu(menuListId);
+        return parent != null;
+      },
+      [getParentMenu]
+    ),
+    getCointainerPosition: useCallback(() => {
+      if (containerRef.current == null) {
+        return {
+          height: 0,
+          width: 0,
+          x: 0,
+          y: 0
+        } as DOMRect;
       }
-    }
-
-    if (targetDataName != null) {
-      setSelectedId(targetDataName);
-    }
-  }, [extractListItems, getSelectedItemIdx]);
-
-  const prev = useCallback(() => {
-    const items = extractListItems();
-    if (items == null) {
-      return;
-    }
-
-    const selectedItemIdx = getSelectedItemIdx(items);
-    let targetDataName;
-    // 前の非活性でない項目を探す
-    for (let i = (selectedItemIdx === -1 ? items.length : selectedItemIdx) - 1; i >= 0; i--) {
-      const item = items[i];
-      if (!item.disabled) {
-        targetDataName = item.dataset.bmMenuItem;
-        break;
-      }
-    }
-
-    if (targetDataName != null) {
-      setSelectedId(targetDataName);
-    }
-  }, [extractListItems, getSelectedItemIdx]);
-
-  const exec = useCallback(() => {
-    const items = extractListItems();
-    if (items == null) {
-      return;
-    }
-
-    const selectedItemIdx = getSelectedItemIdx(items);
-    if (selectedItemIdx === -1) {
-      return;
-    }
-    const item = items[selectedItemIdx];
-    item.dispatchEvent(execEvent);
-  }, [extractListItems, getSelectedItemIdx]);
-
-  const hideSubmenu = useCallback(() => {
-    const items = extractListItems();
-    if (items == null) {
-      return;
-    }
-
-    const selectedItemIdx = getSelectedItemIdx(items);
-    if (selectedItemIdx === -1) {
-      return;
-    }
-    const item = items[selectedItemIdx];
-    item.dispatchEvent(hideSubmenuEvent);
-  }, [extractListItems, getSelectedItemIdx]);
-
-  const [selectedId, setSelectedId] = useState(null as string | null);
-  // const submenuHovering = useRef(false);
-  const menuElement = useRef(null as HTMLUListElement | null);
-
-  return { next, prev, exec, selectedId, setSelectedId, menuElement, hideSubmenu }; // submenuHovering,
+      return containerRef.current.getBoundingClientRect();
+    }, [containerRef]),
+    autoLock,
+    onSelect
+  };
 }
-export type MenuItemContext = ReturnType<typeof useMenuItemContextInitializer>;
+export type MenuListContextInitializer = ReturnType<typeof useMenuListContextInitializer>;
+export type MenuListState = ReturnType<typeof defaultMenuState>;

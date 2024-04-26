@@ -1,3 +1,33 @@
 @function toRgb($hexColor) {
   @return red($hexColor), green($hexColor), blue($hexColor);
 }
+
+@mixin define($component-name, $variant, $effect, $enablePseudoClass: true) {
+  $pseudClassName: if($enablePseudoClass, ":" + $effect, ".---" + $effect);
+
+  @if $variant == null and $effect == null {
+    .#{$component-name} {
+      @content
+    }
+  }
+
+  @if $variant == null and $effect != null {
+    .#{$component-name}:not(.---manual)#{$pseudClassName},
+    .#{$component-name}.---#{$effect} {
+      @content
+    }
+  }
+
+  @if $variant != null and $effect == null {
+    .#{$component-name}.--#{$variant} {
+      @content
+    }
+  }
+
+  @if $variant != null and $effect != null {
+    .#{$component-name}.--#{$variant}:not(.---manual)#{$pseudClassName},
+    .#{$component-name}.--#{$variant}.---#{$effect} {
+      @content
+    }
+  }
+}

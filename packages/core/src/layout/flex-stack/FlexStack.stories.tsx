@@ -3,7 +3,8 @@ import { CSSProperties } from 'react';
 import { Window } from '../../component/window/Window';
 import { List } from '../../element/list/List';
 import { ListContainer } from '../../element/list/ListContainer';
-import { ListItem, ListItemSeparator } from '../../element/list/ListItem';
+import { ListItem } from '../../element/list/ListItem';
+import { ListItemSeparator } from '../../element/list/ListItemSeparator';
 import { Button } from '../../form-items/button/Button';
 import { FlexStackJustify, FlexStackProps, useFlexStackLayout } from './FlexStack';
 
@@ -75,13 +76,13 @@ export const ListStory: StoryObj<FlexStackProps> = {
                 <img className={flexItem} src="/home-icon.svg" alt="home" style={{ width: '24px', height: 'auto' }} />
               </div>
             </ListItem>
-            <ListItem status="active">
+            <ListItem effect="active">
               <div className={flexClassName}>
                 <span className={flexItem}>カット</span>
                 <img className={flexItem} src="/home-icon.svg" alt="home" style={{ width: '24px', height: 'auto' }} />
               </div>
             </ListItem>
-            <ListItem disabled>
+            <ListItem effect="disabled" disableEvents>
               <div className={flexClassName}>
                 <span className={flexItem}>ペースト</span>
                 <img className={flexItem} src="/home-icon.svg" alt="home" style={{ width: '24px', height: 'auto' }} />

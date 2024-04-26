@@ -1,33 +1,62 @@
+@use "../../util/scss-util" as util;
+
 $name: 'bm-e-list-item';
 
-.#{$name} {
+@include util.define($name, null, null) {
   list-style: none;
   background: transparent;
   color: rgb(var(--bm-foreground-rgb));
-  text-decoration: none;
   text-align: start;
   border-width: 0;
-  border-radius: var(--bm-list-item-radius);
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: var(--bm-list-item-gap);
-  padding: var(--bm-list-item-padding-tb, 0) var(--bm-list-item-padding-lr, 0);
   margin: 0;
+  border-radius: var(--bm-list-item-radius);
 
-  > .#{$name}__indicator {
+  a {
+    color: rgb(var(--bm-foreground-rgb));
+  }
+
+  button {
+    font-family: unset;
+    font-size: unset;
+    flex-grow: 1;
+    border: unset;
+    margin: unset;
+    padding: unset;
+    line-height: unset;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: unset;
+    background: transparent;
+    color: unset;
+  }
+
+  &.-with-indicator {
+    padding: var(--bm-list-item-padding-tb) var(--bm-list-item-padding-lr) var(--bm-list-item-padding-tb) 0;
+  }
+
+  .#{$name}__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--bm-list-item-gap);
+    text-decoration: none;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: var(--bm-list-item-padding-tb, 0) var(--bm-list-item-padding-lr, 0);
+  }
+
+  .#{$name}__indicator {
     width: var(--bm-list-item-indicator-width);
     height: var(--bm-list-item-indicator-height);
     flex-grow: 0;
     flex-shrink: 0;
   }
 
-  > .#{$name}__icon {
+  .#{$name}__icon {
     flex-grow: 0;
     flex-shrink: 0;
   }
 
-  > .#{$name}__content {
+  .#{$name}__content {
     flex-grow: 1;
   }
 
@@ -40,9 +69,18 @@ $name: 'bm-e-list-item';
   }
 }
 
-.#{$name}.-active {
+@include util.define($name, null, "active") {
   background-color: rgba(var(--bm-tint-rgb), 0.85);
   color: rgb(var(--bm-foreground-rgb-2));
+
+  &::before {
+    display: none;
+    background: transparent;
+  }
+
+  a {
+    color: rgb(var(--bm-foreground-rgb-2));
+  }
 
   .#{$name}__secondary {
     color: rgba(var(--bm-foreground-rgb-2), 0.6);
@@ -53,38 +91,23 @@ $name: 'bm-e-list-item';
   }
 }
 
-.#{$name}.-active.-disabled {
-  color: rgba(var(--bm-foreground-rgb-2), 0.5);
-}
-
-.#{$name}.-selected {
+@include util.define($name, null, "selected", false) {
   background-color: rgba(var(--bm-overlay-rgb), 0.2);
-}
 
-.#{$name}.-disabled {
-  color: rgba(var(--bm-foreground-rgb), 0.5);
-}
-
-.#{$name}.-with-indicator {
-  padding: var(--bm-list-item-padding-tb) var(--bm-list-item-padding-lr) var(--bm-list-item-padding-tb) 0;
-}
-
-// TODO ↓なんとかして__outerにひとまとめに定義できないか
-button.#{$name} {
-  box-sizing: border-box;
-  width: 100%;
-}
-
-button.#{$name}:not(.bm-a-focusable):focus {
-  outline: none;
-}
-
-li.#{$name} {
-  cursor: default;
-}
-
-.bm-e-list.--bordered {
-  .#{$name} {
-    border-radius: 0;
+  &::before {
+    display: none;
   }
 }
+
+@include util.define($name, null, "disabled", false) {
+  color: rgba(var(--bm-foreground-rgb), 0.5);
+
+  a {
+    color: rgba(var(--bm-foreground-rgb), 0.5);
+  }
+}
+
+//@include util.define($name, "bordered", null) {
+//  display: flex;
+//  flex-direction: column;
+//}

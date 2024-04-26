@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Markbox Element Snapshot Base Props 1`] = `
+<DocumentFragment>
+  <div
+    class="bm-e-markbox bm-s-push --normal -marked"
+    data-test="true"
+    id="example"
+    style="width: 100px;"
+    tabindex="2"
+  >
+    <div
+      class="bm-e-markbox__symbol"
+    >
+      -
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Markbox Element Snapshot Props 1`] = `
+<DocumentFragment>
+  <div
+    class="bm-e-markbox bm-s-push --tint ---manual ---disabled -marked"
+  >
+    <div
+      class="bm-e-markbox__symbol"
+    >
+      X
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Markbox Element Snapshot 必須Propsのみ 1`] = `
+<DocumentFragment>
+  <div
+    class="bm-e-markbox bm-s-push --normal"
+  >
+    <div
+      class="bm-e-markbox__symbol"
+    >
+      X
+    </div>
+  </div>
+</DocumentFragment>
+`;

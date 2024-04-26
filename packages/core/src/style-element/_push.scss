@@ -1,0 +1,97 @@
+@use '../util/scss-util' as util;
+
+$name: 'bm-s-push';
+
+@include util.define($name, null, null) {
+  box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3), 0 1px 2px rgba(var(--bm-pushable-shadow-rgb), 0.2),
+  inset 0 -1px 1px var(--bm-pushable-inner-shadow-color);
+  border-radius: var(--bm-pushable-radius);
+  background: rgba(var(--bm-primary-rgb), 0.85);
+  color: rgb(var(--bm-foreground-rgb));
+
+  .bm-e-symbol {
+    fill: rgb(var(--bm-foreground-rgb));
+  }
+}
+
+@include util.define($name, null, 'active') {
+  box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3);
+  background: rgba(var(--bm-primary-dim-rgb), 0.85);
+}
+
+@include util.define($name, null, 'disabled') {
+  box-shadow: none;
+  background: rgba(var(--bm-disabled-rgb), 0.6);
+  color: rgba(var(--bm-foreground-rgb), 0.5);
+
+  .bm-e-symbol {
+    fill: rgba(var(--bm-foreground-rgb), 0.5);
+  }
+}
+
+@include util.define($name, "tint", null) {
+  box-shadow: 0 0 2px rgba(var(--bm-tint-rgb), 0.2), 0 1px 3px rgba(var(--bm-tint-rgb), 0.4),
+  inset 0 -1px 1px var(--bm-pushable-tint-inner-shadow-color);
+  background: rgb(var(--bm-tint-rgb));
+  color: rgb(var(--bm-foreground-rgb-2));
+
+  .bm-e-symbol {
+    fill: rgb(var(--bm-foreground-rgb-2));
+  }
+}
+
+@include util.define($name, "tint", 'active') {
+  background: rgb(var(--bm-tint-dim-rgb));
+  box-shadow: 0 0 1px rgba(var(--bm-tint-rgb), 0.3);
+}
+
+@include util.define($name, "tint", 'disabled') {
+  box-shadow: none;
+  background: rgba(var(--bm-disabled-rgb), 0.6);
+  color: rgba(var(--bm-foreground-rgb), 0.5);
+
+  .bm-e-symbol {
+    fill: rgba(var(--bm-foreground-rgb), 0.5);
+  }
+}
+
+@include util.define($name, "flat", null) {
+  background: rgba(var(--bm-overlay-rgb), 0.15);
+  box-shadow: none;
+}
+
+@include util.define($name, "flat", "hover") {
+  background: rgba(var(--bm-overlay-rgb), 0.2);
+  box-shadow: none;
+}
+
+@include util.define($name, "flat", "active") {
+  background: rgba(var(--bm-overlay-rgb), 0.3);
+  box-shadow: none;
+}
+
+@include util.define($name, "flat", "disabled") {
+  background: rgba(var(--bm-secondary-rgb), 0);
+  box-shadow: none;
+  outline: 1px solid rgba(var(--bm-disabled-rgb), 0.6);
+  outline-offset: -1px;
+}
+
+@include util.define($name, "minimal", null) {
+  background: rgba(var(--bm-overlay-rgb), 0);
+  box-shadow: none;
+}
+
+@include util.define($name, "minimal", "hover") {
+  background: rgba(var(--bm-overlay-rgb), 0.15);
+  box-shadow: none;
+}
+
+@include util.define($name, "minimal", "active") {
+  background: rgba(var(--bm-overlay-rgb), 0.2);
+  box-shadow: none;
+}
+
+@include util.define($name, "minimal", "disabled") {
+  box-shadow: none;
+}

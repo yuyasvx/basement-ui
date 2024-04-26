@@ -1,16 +1,22 @@
 import { FC, PropsWithChildren, ReactNode } from 'react';
 
-interface ListItemContentDetailedProps {
+interface ListItemContent2Props {
   icon?: ReactNode;
   showIndicator?: boolean;
   indicator?: ReactNode;
   secondary?: ReactNode;
 }
 
-export type ListItemContentProps = ListItemContentDetailedProps;
-
 const NAME = 'bm-e-list-item';
-export const ListItemContent: FC<PropsWithChildren<ListItemContentProps>> = (props) => {
+
+/**
+ * ListItemContent.
+ *
+ * @internal
+ * @param props Props
+ * @constructor
+ */
+export const ListItemContent: FC<PropsWithChildren<ListItemContent2Props>> = (props) => {
   return (
     <>
       {props.showIndicator && <div className={`${NAME}__indicator`}>{props.indicator}</div>}

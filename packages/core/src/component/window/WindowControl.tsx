@@ -10,8 +10,8 @@ export const CloseButton: FC<Omit<ButtonProps, 'icon'>> = (props) => {
 
 export const WindowControlButton: FC<ButtonProps> = (props) => {
   const newProps = { ...props };
-  if (newProps.appearance == null) {
-    newProps.appearance = AppearanceType.SUPER_FLAT;
+  if (newProps.variant == null) {
+    newProps.variant = AppearanceType.MINIMAL;
   }
   if (newProps.tabIndex == null) {
     newProps.tabIndex = -1;

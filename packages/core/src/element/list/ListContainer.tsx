@@ -1,22 +1,35 @@
 import clsx from 'clsx';
-import { FC, PropsWithChildren, ReactNode, useMemo } from 'react';
+import { ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { RootStyle } from '../../domain/StyleClass';
 import { getMouseEventHandler } from '../../util/Handler';
 
-interface ListContainerDetailedProps {
+const NAME = 'bm-e-list-container';
+
+export interface ListContainerDetailedProps {
   header?: ReactNode;
   footer?: ReactNode;
   stickyHeader?: boolean;
 }
 
-const NAME = 'bm-e-list-container';
-const HEADER_NAME = `${NAME}__header`;
-const FOOTER_NAME = `${NAME}__footer`;
+export type ListContainerProps = PropsWithChildren<
+  ListContainerDetailedProps & BaseComponentProps & MouseEvents<HTMLDivElement>
+>;
 
-export type ListContainerProps = BaseComponentProps & ListContainerDetailedProps & MouseEvents<HTMLDivElement>;
-export const ListContainer: FC<PropsWithChildren<ListContainerProps>> = (props) => {
+export const ListContainer = forwardRef((props: ListContainerProps, ref: ForwardedRef<HTMLDivElement>) => {
+  const { newProps } = useListContainerElement(props);
+
+  return (
+    <div {...newProps} ref={ref}>
+      {props.header && <div className={`${NAME}__header`}>{props.header}</div>}
+      {props.children}
+      {props.footer && <div className={`${NAME}__footer`}>{props.footer}</div>}
+    </div>
+  );
+});
+
+export function useListContainerElement(props: ListContainerProps) {
   const p = getBaseComponentProps(props);
   const me = getMouseEventHandler(props);
   const classNames = useMemo(
@@ -24,11 +37,12 @@ export const ListContainer: FC<PropsWithChildren<ListContainerProps>> = (props) 
     [props.className, props.stickyHeader]
   );
 
-  return (
-    <div className={classNames} {...p} {...me}>
-      {props.header && <div className={HEADER_NAME}>{props.header}</div>}
-      {props.children}
-      {props.footer && <div className={FOOTER_NAME}>{props.footer}</div>}
-    </div>
-  );
-};
+  return {
+    name: NAME,
+    newProps: {
+      className: classNames,
+      ...p,
+      ...me
+    }
+  };
+}

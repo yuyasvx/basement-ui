@@ -1,0 +1,44 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks';
+
+import * as Stories from './List.stories';
+
+<Meta title="Element/List/List" />
+
+# List Element
+
+## 基本情報
+
+- **クラス名**：`bm-e-list`
+- **種類**: Element
+- **バリアント**: `normal`, `bordered`, `table`
+- **適用済みのStyle Element**：`bm-e-list`,
+- **派生コンポーネント**： [MenuListTsx](?path=/story/component-menu-list--story)
+
+## 説明
+
+List Elementは、リストを構成する要素の1つで、List Itemのまとまりを定義します。
+
+> ℹ️
+>
+> List Itemは、それ単体では定義せず、必ずListで括って使うことを想定しています。
+> バリアントを変更した時、List Elementの中身は何も変化せず、外枠の外観が変化します。
+
+想定される用途としては、サイドバーのナビゲーション、メニューの一覧などです。
+
+
+### ここでいう「リスト」とは？
+
+Basement UIでは、リストを下記のように要素を分けて定義しています。
+
+ここに図
+
+- List Container
+  - List (※このElement)
+    - List Item
+    - List Separator
+
+<Canvas of={Stories.Props} />
+
+## Props
+
+<Controls of={Stories.Props} />

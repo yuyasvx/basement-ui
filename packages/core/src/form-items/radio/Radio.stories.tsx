@@ -7,7 +7,7 @@ import { Radio } from './Radio';
 export default {
   title: 'Form Item/Radio',
   argTypes: {
-    appearance: {
+    variant: {
       options: Object.values(AppearanceType),
       control: { type: 'select' }
     }
@@ -25,7 +25,7 @@ export const Story: StoryObj<typeof Radio> = {
             <Radio
               readOnly
               checked={true}
-              appearance={args.appearance}
+              variant={args.variant}
               disabled={args.disabled}
               autoTint={args.autoTint}
               id={'i-id'}
@@ -35,13 +35,28 @@ export const Story: StoryObj<typeof Radio> = {
             </Radio>
           </div>
           <div>
-            <Radio checked={select === '1'} onChange={() => setSelect('1')} autoTint={args.autoTint}>
+            <Radio
+              variant={args.variant}
+              checked={select === '1'}
+              onChange={() => setSelect('1')}
+              autoTint={args.autoTint}
+            >
               選択肢1
             </Radio>
-            <Radio checked={select === '2'} onChange={() => setSelect('2')} autoTint={args.autoTint}>
+            <Radio
+              variant={args.variant}
+              checked={select === '2'}
+              onChange={() => setSelect('2')}
+              autoTint={args.autoTint}
+            >
               選択肢2
             </Radio>
-            <Radio checked={select === '3'} onChange={() => setSelect('3')} autoTint={args.autoTint}>
+            <Radio
+              variant={args.variant}
+              checked={select === '3'}
+              onChange={() => setSelect('3')}
+              autoTint={args.autoTint}
+            >
               選択肢3
             </Radio>
           </div>
@@ -51,7 +66,7 @@ export const Story: StoryObj<typeof Radio> = {
   },
   args: {
     children: 'OK',
-    appearance: AppearanceType.NORMAL,
+    variant: AppearanceType.NORMAL,
     disabled: false,
     autoTint: false
   }

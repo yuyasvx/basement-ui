@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { CSSProperties, FC, PropsWithChildren, useMemo } from 'react';
-import { MarkableContext, useMarkableClassHook } from '../markable/Markable';
+import { MarkableContext, useMarkableClassHook } from '../markbox/Markable';
 
 export interface SwitcherElementProps {
   indeterminate?: boolean;

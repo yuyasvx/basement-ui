@@ -7,10 +7,12 @@ import React, {
   ReactNode,
   RefObject,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef
 } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
+import { AnimationTrigger } from '../../domain/AnimationTrigger';
 import { CardStyle, useCardStyle } from '../../style-element/card/Card';
 import { Case } from '../../util/Case';
 import { useForceRefresh } from '../../util/ForceRefreshHook';
@@ -30,19 +32,12 @@ export interface WindowDetailProps {
   absolutePosition?: boolean;
   onClose?: () => void;
   onOpen?: (event: Event) => void;
-  animated?: Case<typeof WindowAnimation>;
+  animated?: Case<typeof AnimationTrigger>;
 }
 
 export const WindowControlPosition = {
   TOP_LEFT: 'top-left',
   TOP_RIGHT: 'top-right'
-} as const;
-
-export const WindowAnimation = {
-  SHOW: 'show',
-  HIDE: 'hide',
-  BOTH: 'both',
-  NONE: 'none'
 } as const;
 
 export type WindowProps = WindowDetailProps & BaseComponentProps & Partial<CardStyle>;
@@ -67,9 +62,9 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   const baseProps = getBaseComponentProps(props);
   const show = props.show ?? true;
   const absolutePosition = props.absolutePosition ?? false;
-  const animation = props.animated ?? WindowAnimation.HIDE;
-  const showAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.SHOW;
-  const hideAnimation = animation === WindowAnimation.BOTH || animation === WindowAnimation.HIDE;
+  const animation = props.animated ?? AnimationTrigger.HIDE;
+  const showAnimation = animation === AnimationTrigger.BOTH || animation === AnimationTrigger.SHOW;
+  const hideAnimation = animation === AnimationTrigger.BOTH || animation === AnimationTrigger.HIDE;
   const { getShadowStyleClass, getBackgroundStyleClass, getBlurStyleClass, name: cardStyleName } = useCardStyle();
   const showControl = props.showControl ?? true;
   const controlPosition = props.controlPosition ?? 'top-right';
@@ -101,13 +96,18 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
       props.shadow
     ]
   );
-  // FIXME あまりにもワークアラウンド
-  const openingFlag = showAnimation && pending.current ? ' -opening' : '';
 
   if (!show && !pending.current && !hideAnimation) {
     pending.current = true;
     props.onClose && setTimeout(props.onClose, 0);
   }
+
+  useLayoutEffect(() => {
+    const currentRef = r.current;
+    if (showAnimation && currentRef) {
+      currentRef.classList.add('-opening');
+    }
+  });
 
   useEffect(() => {
     const currentRef = r.current;
@@ -156,7 +156,7 @@ export const Window = forwardRef<HTMLDivElement, PropsWithChildren<WindowProps>>
   }, [forceRefresh, hideAnimation, props, r, show, showAnimation]);
 
   return show || !pending.current ? (
-    <div className={className + openingFlag} {...baseProps} ref={r} role={'dialog'}>
+    <div className={className} {...baseProps} ref={r} role={'dialog'}>
       {props.control && showControl && (
         <WindowControlContainer controlPosition={controlPosition} style={props.controlStyle}>
           {props.control}
