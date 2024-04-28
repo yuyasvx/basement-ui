@@ -27,7 +27,7 @@ export const useInputHook = (
     labelProps: {
       className: classNames,
       style: props.style,
-      htmlFor: props.name,
+      // htmlFor: props.name,
       ...mouseEvents
     },
     inputProps: {
