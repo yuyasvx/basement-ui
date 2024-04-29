@@ -1,34 +1,56 @@
-import { CSSProperties, FC, PropsWithChildren } from 'react';
+import clsx from 'clsx';
+import { CSSProperties, FC, PropsWithChildren, useMemo } from 'react';
 import { BaseComponentProps } from '../../base/BaseComponent';
+import { AppearanceType } from '../../domain/AppearanceType';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
-import { Switchable } from '../../element/switchable/Switchable';
+import { SwitcherElement } from '../../element/switchable/Switchable';
+import { SwitcherKnobPosition } from '../../element/switchable/SwitcherKnobPosition';
 import { CustomizedInputHTMLAttributes, useInputHook } from '../../hook/InputHook';
+import { FlexStackProps, useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
 
 interface SwitcherDetailedProps {
   switcherStyle?: CSSProperties;
   labelStyle?: CSSProperties;
   autoTint?: boolean;
+  layoutOption?: FlexStackProps;
 }
 
-export type SwitcherProps = PropsWithChildren<
-  SwitcherDetailedProps &
-    BaseComponentProps &
-    MouseEvents<HTMLLabelElement> &
-    FormEvents<HTMLInputElement> &
-    CustomizedInputHTMLAttributes
->;
+export type SwitcherProps = PropsWithChildren<SwitcherDetailedProps> &
+  BaseComponentProps &
+  MouseEvents<HTMLLabelElement> &
+  FormEvents<HTMLInputElement> &
+  CustomizedInputHTMLAttributes;
 
 const NAME = 'bm-c-switcher';
 const INNER_LABEL_NAME = `${NAME}__inner-label`;
 
 export const Switcher: FC<SwitcherProps> = (props) => {
+  const { className: flexClass, itemName: flexItemClass } = useFlexStackLayout(props.layoutOption ?? {});
   const { inputProps, labelProps, innerProps } = useInputHook(props, NAME, 'checkbox', INNER_LABEL_NAME);
 
+  const labelClassName = useMemo(() => clsx(labelProps.className, flexClass), [flexClass, labelProps.className]);
+  const innerClassName = useMemo(
+    () => clsx(innerProps.className, flexItemClass),
+    [flexItemClass, innerProps.className]
+  );
+  const disabled = props.disabled ?? false;
+  const effect = disabled ? 'disabled' : undefined;
+  const knobPosition = props.checked ? SwitcherKnobPosition.ON : SwitcherKnobPosition.OFF;
+  const variant = props.checked ? AppearanceType.TINT : AppearanceType.NORMAL;
+
   return (
-    <label {...labelProps}>
-      <input {...inputProps}></input>
-      <Switchable disabled={props.disabled ?? false} marked={props.checked || false} baseStyle={props.switcherStyle} />
-      <span {...innerProps}>{props.children}</span>
+    <label {...labelProps} className={labelClassName}>
+      <input {...inputProps} />
+      <SwitcherElement
+        effect={effect}
+        knob={knobPosition}
+        baseStyle={props.switcherStyle}
+        variant={variant}
+        className={flexItemClass}
+      />
+      <span {...innerProps} className={innerClassName}>
+        {props.children}
+      </span>
     </label>
   );
 };

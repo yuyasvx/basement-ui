@@ -1,7 +1,6 @@
 .bm-c-switcher {
   position: relative;
-  display: flex;
-  gap: var(--bm-checkbox-gap);
+  --bm-flex-stack-gap: var(--bm-checkbox-gap);
 
   > input[type='checkbox'] {
     width: 5px;

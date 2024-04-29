@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties, useCallback, useState } from 'react';
+import { List } from '../../element/list/List';
+import { ListItem } from '../../element/list/ListItem';
 import { Switcher } from './Switcher';
 
 export default {
@@ -15,75 +17,66 @@ export default {
 
 export const Story: StoryObj<typeof Switcher> = {
   render: (args) => {
-    const [markedFlag, setMarkedFlag] = useState(true);
-    const clickHandler = useCallback(() => {
-      setMarkedFlag(!markedFlag);
-    }, [markedFlag]);
+    const [state, setState] = useState({ a: true } as Record<string, boolean>);
+
+    const evtHandler = useCallback(
+      (evt: React.ChangeEvent<HTMLInputElement>) => {
+        state[evt.target.name] = !state[evt.target.name];
+        setState({ ...state });
+      },
+      [state]
+    );
+
     return (
-      <>
-        <div>
-          <Switcher onChange={clickHandler} checked={markedFlag} disabled={args.disabled}>
-            {args.children}
-          </Switcher>
-          <div style={{ width: '20px', height: '20px' }}></div>
-          <Switcher
-            onChange={clickHandler}
-            checked={markedFlag}
-            disabled={args.disabled}
-            style={
-              {
-                '--bm-switcher-padding': '4px',
-                '--bm-switcher-radius': '8px',
-                '--bm-switcher-width': '24px'
-              } as CSSProperties
-            }
-          >
-            {args.children}
-          </Switcher>
-          <div style={{ width: '20px', height: '20px' }}></div>
-          <Switcher
-            onChange={clickHandler}
-            checked={markedFlag}
-            disabled={args.disabled}
-            style={
-              {
-                '--bm-switcher-padding': '0px',
-                '--bm-switcher-radius': '16px',
-                '--bm-switcher-width': '36px',
-                '--bm-switcher-height': '20px',
-                '--bm-switcher-border-width': '4px'
-              } as CSSProperties
-            }
-          >
-            {args.children}
-          </Switcher>
-          <div style={{ width: '20px', height: '20px' }}></div>
-          <Switcher
-            onChange={clickHandler}
-            checked={markedFlag}
-            disabled={args.disabled}
-            style={
-              {
-                '--bm-switcher-padding': '4px',
-                '--bm-switcher-radius': '16px',
-                '--bm-switcher-width': '40px',
-                '--bm-switcher-height': '20px',
-                '--bm-switcher-border-width': '1px',
-                '--bm-tint-rgb': '232,167,0'
-              } as CSSProperties
-            }
-          >
-            {args.children}
-          </Switcher>
-        </div>
-      </>
+      <div>
+        <List
+          variant={'bordered'}
+          style={
+            {
+              '--bm-list-item-padding-tb': '5px',
+              '--bm-list-item-padding-lr': '10px',
+              '--bm-list-border-width': '0',
+              ...args.style
+            } as CSSProperties
+          }
+        >
+          <ListItem effect={'normal'}>
+            <Switcher name="a" onChange={evtHandler} checked={state.a ?? false} disabled={args.disabled}>
+              視差効果を減らす
+            </Switcher>
+          </ListItem>
+          <ListItem effect={'normal'}>
+            <Switcher name="b" onChange={evtHandler} checked={state.b ?? false} disabled={args.disabled}>
+              コントラストを上げる
+            </Switcher>
+          </ListItem>
+          <ListItem effect={'normal'}>
+            <Switcher name="c" onChange={evtHandler} checked={state.c ?? false} disabled={args.disabled}>
+              透明度を下げる
+            </Switcher>
+          </ListItem>
+          <ListItem effect={'normal'}>
+            <Switcher name="d" onChange={evtHandler} checked={state.d ?? false} disabled={args.disabled}>
+              {args.children}
+            </Switcher>
+          </ListItem>
+        </List>
+      </div>
     );
   },
   args: {
     children: 'スイッチャーのラベル',
     // appearance: AppearanceType.NORMAL,
-    disabled: false
-    // autoTint: false
+    disabled: false,
+    // autoTint: false,
+    style: {
+      '--bm-switcher-width': '20px',
+      '--bm-switcher-height': '12px',
+      '--bm-switcher-radius': '6px',
+      '--bm-switcher-border-width': '1px',
+      '--bm-switcher-padding': '2px',
+      '--bm-tint-rgb': [0, 102, 255]
+    } as CSSProperties
   },
-  name: 'CSS変数による装飾テスト'
+  name: 'Props'
 };
