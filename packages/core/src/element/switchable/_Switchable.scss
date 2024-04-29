@@ -1,7 +1,8 @@
-@use '../../style-element/pushable';
+@use '../../util/scss-util' as util;
+
 $name: 'bm-e-switchable';
 
-.#{$name} {
+@include util.define($name, null, null) {
   width: var(--bm-switcher-width);
   height: var(--bm-switcher-height);
   border-radius: var(--bm-switcher-radius);
@@ -17,45 +18,46 @@ $name: 'bm-e-switchable';
     transition: background 0.1s;
     border-radius: calc(var(--bm-switcher-radius) - var(--bm-switcher-border-width) - var(--bm-switcher-padding));
   }
+
+  .#{$name}__knob {
+    border-radius: calc(var(--bm-switcher-radius) - var(--bm-switcher-border-width) - var(--bm-switcher-padding));
+  }
 }
 
-.#{$name}:not(.-disabled):active .#{$name}__knob {
-  box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3);
-  background: rgba(var(--bm-primary-dim-rgb), 0.85);
+.#{$name}__knob {
+  transition: left 0.1s;
+  width: var(--bm-switcher-height);
+  height: var(--bm-switcher-height);
+  background: rgba(var(--bm-primary-rgb), 1);
+
+  &.-off {
+    position: absolute;
+    left: 0;
+  }
+
+  &.-on {
+    position: absolute;
+    left: calc(var(--bm-switcher-width) - var(--bm-switcher-height));
+  }
 }
 
-.#{$name}.-marked,
-.#{$name}.--tint {
+@include util.define($name, null, 'active') {
+  & .#{$name}__knob {
+    box-shadow: 0 0 1px rgba(var(--bm-pushable-shadow-rgb), 0.3);
+    background: rgba(var(--bm-primary-dim-rgb), 0.85);
+  }
+}
+
+@include util.define($name, 'tint', null) {
   background-color: rgba(var(--bm-tint-rgb), 0.8);
   border-color: transparent;
 
   & > .#{$name}__inner {
     background-color: rgba(var(--bm-tint-rgb), 1);
   }
-
-  & .#{$name}__knob {
-    left: calc(var(--bm-switcher-width) - var(--bm-switcher-height));
-  }
 }
 
-.#{$name}.--flat,
-.#{$name}.-disabled.--flat {
-  border-color: transparent;
-  background: rgba(var(--bm-overlay-rgb), 0.1);
-}
-
-.#{$name}.-disabled {
-  background: rgba(var(--bm-disabled-rgb), 0.6);
-  border-color: transparent;
-
-  & .#{$name}__knob {
-    box-shadow: none;
-    background: rgba(var(--bm-primary-rgb), 0.85);
-  }
-}
-
-.#{$name}.-disabled.-marked,
-.#{$name}.--tint.-disabled {
+@include util.define($name, 'tint', 'disabled') {
   background: rgba(var(--bm-tint-rgb), 0.6);
   border-color: transparent;
 
@@ -64,15 +66,22 @@ $name: 'bm-e-switchable';
   }
 }
 
-.#{$name}__knob {
-  position: absolute;
-  left: 0;
-  width: var(--bm-switcher-height);
-  height: var(--bm-switcher-height);
+@include util.define($name, 'flat', null) {
+  border-color: transparent;
+  background: rgba(var(--bm-overlay-rgb), 0.1);
+}
 
-  @extend %pushable--normal-normal;
-  border-radius: calc(var(--bm-switcher-radius) - var(--bm-switcher-border-width) - var(--bm-switcher-padding));
-  background: rgba(var(--bm-primary-rgb), 1);
+@include util.define($name, 'flat', 'disabled') {
+  border-color: transparent;
+  background: rgba(var(--bm-overlay-rgb), 0.1);
+}
 
-  transition: left 0.1s;
+@include util.define($name, null, 'disabled', false) {
+  background: rgba(var(--bm-disabled-rgb), 0.6);
+  border-color: transparent;
+
+  & .#{$name}__knob {
+    box-shadow: none;
+    background: rgba(var(--bm-primary-rgb), 0.85);
+  }
 }

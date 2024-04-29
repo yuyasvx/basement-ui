@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import { FC, ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { StyleElementProps, StyleElements, useStyleElement } from '../../style-element/StyleElementHook';
+import { StyleSetProps, StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 
 const NAME = 'bm-e-markbox';
 
 export type MarkboxProps = {
   marked: boolean;
   mark?: ReactNode;
-} & StyleElementProps &
+} & StyleSetProps &
   BaseComponentProps;
 
 export const Markbox = forwardRef((props: MarkboxProps, ref: ForwardedRef<HTMLDivElement>) => {
@@ -25,7 +25,7 @@ export const MarkboxSymbolContainer: FC<PropsWithChildren<BaseComponentProps>> =
 };
 
 export const useMarkboxElement = (props: MarkboxProps) => {
-  const styleElement = useStyleElement(StyleElements.PUSH, {
+  const styleElement = useStyleSet(StyleSets.PUSH, {
     variant: props.variant,
     effect: props.effect
   });

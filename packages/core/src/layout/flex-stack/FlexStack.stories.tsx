@@ -6,7 +6,8 @@ import { ListContainer } from '../../element/list/ListContainer';
 import { ListItem } from '../../element/list/ListItem';
 import { ListItemSeparator } from '../../element/list/ListItemSeparator';
 import { Button } from '../../form-items/button/Button';
-import { FlexStackJustify, FlexStackProps, useFlexStackLayout } from './FlexStack';
+import { FlexStackProps, useFlexStackLayout } from './FlexStack';
+import { FlexStackJustify } from './FlexStackJustify';
 
 export default {
   title: 'Layout Hook/Flex Stack',
