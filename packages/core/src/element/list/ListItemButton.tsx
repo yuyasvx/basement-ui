@@ -1,6 +1,7 @@
 import { ButtonHTMLAttributes, ForwardedRef, PropsWithChildren, forwardRef, memo } from 'react';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
+import { StyleSets } from '../../style-element/StyleSetHook';
 import { ListItemDetailedProps, useListItemElement } from './ListItem';
 import { ListItemContent } from './ListItemContent';
 
@@ -11,7 +12,7 @@ export type ListItemButtonProps = BaseComponentProps &
 
 export const ListItemButton = memo(
   forwardRef((props: PropsWithChildren<ListItemButtonProps>, ref: ForwardedRef<HTMLLIElement>) => {
-    const { newProps, name: componentName, mouseEventProps, tabIndex } = useListItemElement(props);
+    const { newProps, mouseEventProps, tabIndex } = useListItemElement(props);
     const { disabled, form, formAction, formEncType, formMethod, formNoValidate, formTarget, name, type, value } =
       props;
     const attribute = {
@@ -29,7 +30,7 @@ export const ListItemButton = memo(
 
     return (
       <li {...newProps} ref={ref}>
-        <button className={`${componentName}__inner`} {...attribute} {...mouseEventProps} tabIndex={tabIndex}>
+        <button className={`${StyleSets.LIST_ITEM}__inner`} {...attribute} {...mouseEventProps} tabIndex={tabIndex}>
           <ListItemContent
             showIndicator={props.showIndicator}
             indicator={props.indicator}

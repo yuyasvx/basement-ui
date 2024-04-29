@@ -3,13 +3,11 @@ import { ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, RootStyle } from '../../domain/StyleClass';
-import { useStyleElement } from '../../style-element/StyleElementHook';
+import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 import { Case } from '../../util/Case';
 import { getMouseEventHandler } from '../../util/Handler';
 import { ListItemContent } from './ListItemContent';
 import { ListItemEffect } from './ListItemEffect';
-
-const NAME = 'bm-e-list-item';
 
 export interface ListItemDetailedProps {
   icon?: ReactNode;
@@ -27,10 +25,10 @@ export type ListItemProps<EL extends HTMLElement = HTMLLIElement> = BaseComponen
   MouseEvents<EL>;
 
 export const ListItem = forwardRef((props: PropsWithChildren<ListItemProps>, ref: ForwardedRef<HTMLLIElement>) => {
-  const { newProps, mouseEventProps, tabIndex } = useListItemElement(props);
+  const { newProps, mouseEventProps, tabIndex, innerProps } = useListItemElement(props);
   return (
     <li {...newProps} {...mouseEventProps} tabIndex={tabIndex} ref={ref}>
-      <div className={`${NAME}__inner`}>
+      <div {...innerProps}>
         <ListItemContent
           showIndicator={props.showIndicator}
           indicator={props.indicator}
@@ -47,13 +45,13 @@ export const ListItem = forwardRef((props: PropsWithChildren<ListItemProps>, ref
 export const useListItemElement = <EL extends HTMLElement>(props: ListItemProps<EL>) => {
   const mouseEvents = useMemo(() => (props.disableEvents ? {} : getMouseEventHandler(props)), [props]);
   const baseProps = getBaseComponentProps(props);
-  const elm = useStyleElement(NAME, {
+  const elm = useStyleSet(StyleSets.LIST_ITEM, {
     effect: props.effect
   });
   const classNames = useMemo(
     () =>
       clsx(
-        NAME,
+        StyleSets.LIST_ITEM,
         RootStyle.TEXT_BASE,
         RootStyle.BASE,
         elm.manual,
@@ -68,11 +66,13 @@ export const useListItemElement = <EL extends HTMLElement>(props: ListItemProps<
   }
 
   return {
-    name: NAME,
     newProps: {
       id: baseProps.id,
       style: baseProps.style,
       className: classNames
+    },
+    innerProps: {
+      className: `${StyleSets.LIST_ITEM}__inner`
     },
     mouseEventProps: mouseEvents,
     tabIndex: baseProps.tabIndex

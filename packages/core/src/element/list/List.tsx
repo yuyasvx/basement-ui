@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ForwardedRef, PropsWithChildren, forwardRef, useMemo } from 'react';
 import { BaseComponentProps, VariantAdaptable, getBaseComponentProps } from '../../base/BaseComponent';
 import { KeyEvents, MouseEvents } from '../../domain/EventProps';
-import { useStyleElement } from '../../style-element/StyleElementHook';
+import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 import { getKeyEventHandler, getMouseEventHandler } from '../../util/Handler';
 import { ListVariantType } from './ListVariantType';
 
@@ -23,16 +23,15 @@ export const List = forwardRef((props: List2Props, ref: ForwardedRef<HTMLUListEl
 });
 
 export function useListElement(props: List2Props) {
-  const componentName = 'bm-e-list';
-  const elm = useStyleElement<typeof ListVariantType>(componentName, { variant: props.variant });
+  const elm = useStyleSet<typeof ListVariantType>(StyleSets.LIST, { variant: props.variant });
   const me = getMouseEventHandler(props);
   const ke = getKeyEventHandler(props);
   const p = getBaseComponentProps(props);
 
   return {
-    name: componentName,
+    name: StyleSets.LIST,
     newProps: {
-      className: useMemo(() => clsx(componentName, elm.variant, props.className), [elm.variant, props.className]),
+      className: useMemo(() => clsx(StyleSets.LIST, elm.variant, props.className), [elm.variant, props.className]),
       ...me,
       ...ke,
       ...p

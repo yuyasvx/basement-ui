@@ -4,7 +4,7 @@ import { BaseComponentProps, VariantAdaptable } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, RootStyle } from '../../domain/StyleClass';
 import { useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
-import { StyleElements, useStyleElement } from '../../style-element/StyleElementHook';
+import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 
 export type ButtonProps = PropsWithChildren<
   {
@@ -16,20 +16,16 @@ export type ButtonProps = PropsWithChildren<
     VariantAdaptable
 >;
 
-const NAME = 'bm-c-button';
-const INNER_ICON_NAME = `${NAME}__icon`;
-const CONTENT_NAME = `${NAME}__content`;
-
 export const useButtonComponent = (props: ButtonProps) => {
   const { className: flexStackClass, itemName } = useFlexStackLayout({ inline: true }); // OK
-  const { icon: _, disabled, variant, nativeProps, ...restProps } = props;
+  const { icon, disabled, variant, nativeProps, ...restProps } = props;
 
   const focusable = props.focusable ?? true;
-  const elm = useStyleElement(StyleElements.PUSH, { variant, effect: disabled ? 'disabled' : undefined });
+  const elm = useStyleSet(StyleSets.PUSH, { variant, effect: disabled ? 'disabled' : undefined });
   const classNames = useMemo(
     () =>
       clsx(
-        NAME,
+        StyleSets.BUTTON,
         elm.name,
         elm.variant,
         elm.manual,
@@ -44,7 +40,6 @@ export const useButtonComponent = (props: ButtonProps) => {
   );
 
   return {
-    name: NAME,
     newProps: {
       disabled,
       ...restProps,
@@ -52,21 +47,22 @@ export const useButtonComponent = (props: ButtonProps) => {
       ...nativeProps
     },
     iconProps: {
-      className: useMemo(() => clsx(INNER_ICON_NAME, itemName), [itemName])
+      children: icon,
+      className: useMemo(() => clsx(`${StyleSets.BUTTON}__icon`, itemName), [itemName])
     },
     contentProps: {
-      className: useMemo(() => clsx(CONTENT_NAME), [])
+      className: useMemo(() => clsx(`${StyleSets.BUTTON}__content`), [])
     }
   };
 };
 
 export const Button = forwardRef((props: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
   const { newProps, iconProps, contentProps } = useButtonComponent(props);
-  const { icon, children } = props;
+  const { children } = props;
 
   return (
     <button {...newProps} ref={ref}>
-      {icon != null && <span {...iconProps}>{icon}</span>}
+      {iconProps.children != null && <span {...iconProps} />}
       {children != null && <span {...contentProps}>{children}</span>}
     </button>
   );

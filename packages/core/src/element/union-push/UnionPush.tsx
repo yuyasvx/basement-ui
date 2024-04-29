@@ -2,10 +2,8 @@ import clsx from 'clsx';
 import { FC, ForwardedRef, PropsWithChildren, forwardRef, useMemo } from 'react';
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
-import { StyleElementProps, useStyleElement } from '../../style-element/StyleElementHook';
+import { StyleSetProps, StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 import { getMouseEventHandler } from '../../util/Handler';
-
-const NAME = 'bm-e-union-push';
 
 export const UnionPush = forwardRef((props: PropsWithChildren<UnionPushProps>, ref: ForwardedRef<HTMLDivElement>) => {
   const newProps = useUnionPushElement(props);
@@ -18,7 +16,7 @@ export const UnionPush = forwardRef((props: PropsWithChildren<UnionPushProps>, r
 
 export const UnionPushPrimary = forwardRef((props: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
   return (
-    <div ref={ref} className={`${NAME}__primary`}>
+    <div ref={ref} className={`${StyleSets.UNION_PUSH}__primary`}>
       {props.children}
     </div>
   );
@@ -27,17 +25,17 @@ export const UnionPushPrimary = forwardRef((props: PropsWithChildren, ref: Forwa
 export const UnionPushSecondary: FC<PropsWithChildren> = forwardRef(
   (props: PropsWithChildren, ref: ForwardedRef<HTMLDivElement>) => {
     return (
-      <div ref={ref} className={`${NAME}__secondary`}>
+      <div ref={ref} className={`${StyleSets.UNION_PUSH}__secondary`}>
         {props.children}
       </div>
     );
   }
 );
 
-export type UnionPushProps = BaseComponentProps & StyleElementProps & MouseEvents<HTMLDivElement>;
+export type UnionPushProps = BaseComponentProps & StyleSetProps & MouseEvents<HTMLDivElement>;
 
 export const useUnionPushElement = (props: UnionPushProps) => {
-  const styleElement = useStyleElement(NAME, {
+  const styleSet = useStyleSet(StyleSets.UNION_PUSH, {
     variant: props.variant,
     effect: props.effect
   });
@@ -45,10 +43,7 @@ export const useUnionPushElement = (props: UnionPushProps) => {
   const mouseEventProps = getMouseEventHandler(props);
 
   return {
-    className: useMemo(
-      () => clsx(styleElement.name, styleElement.variant, styleElement.manualEffect, props.className),
-      [props.className, styleElement.manualEffect, styleElement.name, styleElement.variant]
-    ),
+    className: useMemo(() => clsx(styleSet.classNames, props.className), [props.className, styleSet.classNames]),
     ...baseProps,
     ...mouseEventProps
   };

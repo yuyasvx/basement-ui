@@ -1,6 +1,7 @@
 import { AnchorHTMLAttributes, ForwardedRef, PropsWithChildren, forwardRef } from 'react';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
+import { StyleSets } from '../../style-element/StyleSetHook';
 import { ListItemDetailedProps, useListItemElement } from './ListItem';
 import { ListItemContent } from './ListItemContent';
 
@@ -9,10 +10,10 @@ export type ListItemLinkProps = PropsWithChildren<
 >;
 
 export const ListItemLink = forwardRef((props: ListItemLinkProps, ref: ForwardedRef<HTMLLIElement>) => {
-  const { name, newProps, anchorAttributes } = useListItemLinkElement(props);
+  const { newProps, anchorAttributes } = useListItemLinkElement(props);
   return (
     <li {...newProps} ref={ref}>
-      <a {...anchorAttributes} className={`${name}__inner`}>
+      <a {...anchorAttributes} className={`${StyleSets.LIST_ITEM}__inner`}>
         <ListItemContent
           showIndicator={props.showIndicator}
           indicator={props.indicator}
@@ -27,10 +28,9 @@ export const ListItemLink = forwardRef((props: ListItemLinkProps, ref: Forwarded
 });
 
 export function useListItemLinkElement(props: ListItemLinkProps) {
-  const { newProps, name } = useListItemElement(props);
+  const { newProps } = useListItemElement(props);
 
   return {
-    name,
     newProps: {
       ...newProps
     },
