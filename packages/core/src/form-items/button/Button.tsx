@@ -21,7 +21,7 @@ export const useButtonComponent = (props: ButtonProps) => {
   const { icon, disabled, variant, nativeProps, ...restProps } = props;
 
   const focusable = props.focusable ?? true;
-  const elm = useStyleSet(StyleSets.PUSH, { variant, effect: disabled ? 'disabled' : undefined });
+  const elm = useStyleSet(StyleSets.PUSH, { variant, status: disabled ? 'disabled' : undefined });
   const classNames = useMemo(
     () =>
       clsx(

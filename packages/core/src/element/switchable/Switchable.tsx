@@ -34,7 +34,7 @@ export const SwitcherBase = forwardRef<HTMLDivElement, SwitcherElementProps>((pr
 export function useSwitcherElement(props: SwitcherElementProps) {
   const { variant, manual, manualEffect } = useStyleSet(StyleSets.SWITCH_ELEMENT, {
     variant: props.variant,
-    effect: props.effect
+    status: props.status
   });
   const baseProps = getBaseComponentProps(props);
 
@@ -64,7 +64,7 @@ export const SwitcherKnob = forwardRef<HTMLDivElement, SwitcherElementProps>((pr
 
 export function useSwitcherKnobElement(props: SwitcherElementProps) {
   const knobPosition = props.knob ?? SwitcherKnobPosition.NONE;
-  const { name: styleName, variant, manual, manualEffect } = useStyleSet(StyleSets.PUSH, { effect: props.effect });
+  const { name: styleName, variant, manual, manualEffect } = useStyleSet(StyleSets.PUSH, { status: props.status });
 
   return {
     newProps: {

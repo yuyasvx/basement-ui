@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { CSSProperties, PropsWithChildren } from 'react';
+import { CSSProperties } from 'react';
 import { VariantAdaptable } from '../../base/BaseComponent';
 import { List } from './List';
 import { ListItem } from './ListItem';
@@ -26,13 +26,13 @@ export default {
 } as Meta;
 
 export const Props: StoryObj<
-  PropsWithChildren<ListItemButtonProps> & { listStyle: CSSProperties } & VariantAdaptable<typeof ListVariantType>
+  ListItemButtonProps & { listStyle: CSSProperties } & VariantAdaptable<typeof ListVariantType>
 > = {
   render: (args) => {
     const { listStyle, ...rest } = args;
     return (
       <List variant={rest.variant} style={listStyle}>
-        <ListItem icon={args.icon} style={args.style} effect={args.effect}>
+        <ListItem icon={args.icon} style={args.style} status={args.status}>
           これはListItemです。
         </ListItem>
         <ListItemButton {...rest} />
@@ -44,7 +44,7 @@ export const Props: StoryObj<
   args: {
     variant: ListVariantType.NORMAL,
     icon: 'icon',
-    effect: ListItemEffect.NORMAL,
+    status: ListItemEffect.NORMAL,
     focusable: false,
     hoverable: false,
     disableEvents: false,

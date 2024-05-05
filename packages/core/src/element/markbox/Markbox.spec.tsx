@@ -13,7 +13,7 @@ describe('Markbox Element Snapshot', () => {
   });
 
   test('Props', () => {
-    const { asFragment } = render(<Markbox mark={'X'} marked variant={AppearanceType.TINT} effect={'disabled'} />);
+    const { asFragment } = render(<Markbox mark={'X'} marked variant={AppearanceType.TINT} status={'disabled'} />);
     expect(asFragment()).toMatchSnapshot();
   });
 

@@ -41,7 +41,7 @@ export const Props: StoryObj<
   args: {
     variant: ListVariantType.NORMAL,
     icon: 'icon',
-    effect: ListItemEffect.NORMAL,
+    status: ListItemEffect.NORMAL,
     focusable: false,
     hoverable: false,
     disableEvents: false,

@@ -31,7 +31,7 @@ export const Story: StoryObj<SwitcherElementProps> = {
   args: {
     knob: SwitcherKnobPosition.NONE,
     variant: AppearanceType.NORMAL,
-    effect: undefined,
+    status: undefined,
     style: {
       '--bm-switcher-width': '20px',
       '--bm-switcher-height': '12px',

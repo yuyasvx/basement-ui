@@ -10,7 +10,7 @@ export default {
       options: Object.values(AppearanceType),
       control: { type: 'select' }
     },
-    effect: {
+    status: {
       options: [undefined, 'hover', 'active', 'disabled'],
       control: { type: 'select' }
     }
@@ -25,7 +25,7 @@ export const PropsStory: StoryObj<typeof Markbox> = {
     variant: AppearanceType.NORMAL,
     mark: '●',
     marked: true,
-    effect: undefined
+    status: undefined
   }
 };
 

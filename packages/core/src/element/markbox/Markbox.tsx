@@ -27,7 +27,7 @@ export const MarkboxSymbolContainer: FC<PropsWithChildren<BaseComponentProps>> =
 export const useMarkboxElement = (props: MarkboxProps) => {
   const styleElement = useStyleSet(StyleSets.PUSH, {
     variant: props.variant,
-    effect: props.effect
+    status: props.status
   });
   const baseProps = getBaseComponentProps(props);
   return {

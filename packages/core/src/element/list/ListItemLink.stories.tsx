@@ -32,7 +32,7 @@ export const Props: StoryObj<
     const { listStyle, ...rest } = args;
     return (
       <List variant={rest.variant} style={listStyle}>
-        <ListItem icon={args.icon} style={args.style} effect={args.effect}>
+        <ListItem icon={args.icon} style={args.style} status={args.status}>
           これはListItemです。
         </ListItem>
         <ListItemLink {...rest} />
@@ -44,7 +44,7 @@ export const Props: StoryObj<
   args: {
     variant: ListVariantType.NORMAL,
     icon: 'icon',
-    effect: ListItemEffect.NORMAL,
+    status: ListItemEffect.NORMAL,
     focusable: false,
     hoverable: false,
     disableEvents: false,

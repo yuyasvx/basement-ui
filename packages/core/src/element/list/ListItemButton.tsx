@@ -1,14 +1,9 @@
 import { ButtonHTMLAttributes, ForwardedRef, PropsWithChildren, forwardRef, memo } from 'react';
-import { BaseComponentProps } from '../../base/BaseComponent';
-import { MouseEvents } from '../../domain/EventProps';
 import { StyleSets } from '../../style-element/StyleSetHook';
-import { ListItemDetailedProps, useListItemElement } from './ListItem';
+import { ListItemProps, useListItemElement } from './ListItem';
 import { ListItemContent } from './ListItemContent';
 
-export type ListItemButtonProps = BaseComponentProps &
-  ListItemDetailedProps &
-  MouseEvents<HTMLButtonElement> &
-  ButtonHTMLAttributes<HTMLButtonElement>;
+export type ListItemButtonProps = ListItemProps<HTMLButtonElement> & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const ListItemButton = memo(
   forwardRef((props: PropsWithChildren<ListItemButtonProps>, ref: ForwardedRef<HTMLLIElement>) => {
