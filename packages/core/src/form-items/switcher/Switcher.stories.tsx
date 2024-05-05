@@ -40,22 +40,22 @@ export const Story: StoryObj<typeof Switcher> = {
             } as CSSProperties
           }
         >
-          <ListItem effect={'normal'}>
+          <ListItem status={'normal'}>
             <Switcher name="a" onChange={evtHandler} checked={state.a ?? false} disabled={args.disabled}>
               視差効果を減らす
             </Switcher>
           </ListItem>
-          <ListItem effect={'normal'}>
+          <ListItem status={'normal'}>
             <Switcher name="b" onChange={evtHandler} checked={state.b ?? false} disabled={args.disabled}>
               コントラストを上げる
             </Switcher>
           </ListItem>
-          <ListItem effect={'normal'}>
+          <ListItem status={'normal'}>
             <Switcher name="c" onChange={evtHandler} checked={state.c ?? false} disabled={args.disabled}>
               透明度を下げる
             </Switcher>
           </ListItem>
-          <ListItem effect={'normal'}>
+          <ListItem status={'normal'}>
             <Switcher name="d" onChange={evtHandler} checked={state.d ?? false} disabled={args.disabled}>
               {args.children}
             </Switcher>

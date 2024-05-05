@@ -19,9 +19,9 @@ export const Props: StoryObj<List2Props> = {
   render: (args) => (
     <List {...args}>
       <ListItem>リストアイテム</ListItem>
-      <ListItem effect={ListItemEffect.SELECTED}>リストアイテム</ListItem>
-      <ListItem effect={ListItemEffect.ACTIVE}>リストアイテム</ListItem>
-      <ListItem effect={ListItemEffect.DISABLED}>リストアイテム</ListItem>
+      <ListItem status={ListItemEffect.SELECTED}>リストアイテム</ListItem>
+      <ListItem status={ListItemEffect.ACTIVE}>リストアイテム</ListItem>
+      <ListItem status={ListItemEffect.DISABLED}>リストアイテム</ListItem>
       <ListItem>リストアイテム</ListItem>
       <ListItem>リストアイテム</ListItem>
       <ListItem>リストアイテム</ListItem>

@@ -14,19 +14,19 @@ export const StyleSets = {
 
 export interface StyleSetProps<VT = typeof AppearanceType> {
   variant?: Case<VT>;
-  effect?: string;
+  status?: string;
 }
 
 export const useStyleSet = <VT = typeof AppearanceType>(name: StyleKey, props: StyleSetProps<VT>) => {
-  const manualEffect = props.effect != null ? `---${props.effect}` : undefined;
+  const manualStatus = props.status != null ? `---${props.status}` : undefined;
   const variant = props.variant ?? AppearanceType.NORMAL;
-  const manualFlag = props.effect != null ? '---manual' : undefined;
+  const manualFlag = props.status != null ? '---manual' : undefined;
 
   return {
     name,
-    manualEffect,
+    manualStatus,
     manual: manualFlag,
     variant: `--${variant}`,
-    classNames: [`--${variant}`, manualFlag, manualEffect]
+    classNames: [`--${variant}`, manualFlag, manualStatus]
   };
 };

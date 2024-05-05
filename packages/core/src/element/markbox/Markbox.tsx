@@ -27,7 +27,7 @@ export const MarkboxSymbolContainer: FC<PropsWithChildren<BaseComponentProps>> =
 export const useMarkboxElement = (props: MarkboxProps) => {
   const styleElement = useStyleSet(StyleSets.PUSH, {
     variant: props.variant,
-    effect: props.effect
+    status: props.status
   });
   const baseProps = getBaseComponentProps(props);
   return {
@@ -35,10 +35,10 @@ export const useMarkboxElement = (props: MarkboxProps) => {
     newProps: {
       className: useMemo(
         () =>
-          clsx(NAME, styleElement.name, styleElement.variant, styleElement.manual, styleElement.manualEffect, {
+          clsx(NAME, styleElement.name, styleElement.variant, styleElement.manual, styleElement.manualStatus, {
             '-marked': props.marked
           }),
-        [props.marked, styleElement.manual, styleElement.manualEffect, styleElement.name, styleElement.variant]
+        [props.marked, styleElement.manual, styleElement.manualStatus, styleElement.name, styleElement.variant]
       ),
       ...baseProps
     },

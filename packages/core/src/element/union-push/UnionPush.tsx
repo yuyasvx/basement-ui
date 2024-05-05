@@ -37,7 +37,7 @@ export type UnionPushProps = BaseComponentProps & StyleSetProps & MouseEvents<HT
 export const useUnionPushElement = (props: UnionPushProps) => {
   const styleSet = useStyleSet(StyleSets.UNION_PUSH, {
     variant: props.variant,
-    effect: props.effect
+    status: props.status
   });
   const baseProps = getBaseComponentProps(props);
   const mouseEventProps = getMouseEventHandler(props);

@@ -77,13 +77,13 @@ export const ListStory: StoryObj<FlexStackProps> = {
                 <img className={flexItem} src="/home-icon.svg" alt="home" style={{ width: '24px', height: 'auto' }} />
               </div>
             </ListItem>
-            <ListItem effect="active">
+            <ListItem status="active">
               <div className={flexClassName}>
                 <span className={flexItem}>カット</span>
                 <img className={flexItem} src="/home-icon.svg" alt="home" style={{ width: '24px', height: 'auto' }} />
               </div>
             </ListItem>
-            <ListItem effect="disabled" disableEvents>
+            <ListItem status="disabled" disableEvents>
               <div className={flexClassName}>
                 <span className={flexItem}>ペースト</span>
                 <img className={flexItem} src="/home-icon.svg" alt="home" style={{ width: '24px', height: 'auto' }} />

@@ -42,7 +42,7 @@ export const Switcher: FC<SwitcherProps> = (props) => {
     <label {...labelProps} className={labelClassName}>
       <input {...inputProps} />
       <SwitcherElement
-        effect={effect}
+        status={effect}
         knob={knobPosition}
         baseStyle={props.switcherStyle}
         variant={variant}

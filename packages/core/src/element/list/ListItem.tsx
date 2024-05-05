@@ -3,15 +3,13 @@ import { ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 
 import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, RootStyle } from '../../domain/StyleClass';
-import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
-import { Case } from '../../util/Case';
+import { StyleSetProps, StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 import { getMouseEventHandler } from '../../util/Handler';
 import { ListItemContent } from './ListItemContent';
 import { ListItemEffect } from './ListItemEffect';
 
 export interface ListItemDetailedProps {
   icon?: ReactNode;
-  effect?: Case<typeof ListItemEffect>;
   focusable?: boolean;
   hoverable?: boolean;
   disableEvents?: boolean;
@@ -22,7 +20,8 @@ export interface ListItemDetailedProps {
 
 export type ListItemProps<EL extends HTMLElement = HTMLLIElement> = BaseComponentProps &
   ListItemDetailedProps &
-  MouseEvents<EL>;
+  MouseEvents<EL> &
+  Omit<StyleSetProps<typeof ListItemEffect>, 'variant'>;
 
 export const ListItem = forwardRef((props: PropsWithChildren<ListItemProps>, ref: ForwardedRef<HTMLLIElement>) => {
   const { newProps, mouseEventProps, tabIndex, innerProps } = useListItemElement(props);
@@ -46,7 +45,7 @@ export const useListItemElement = <EL extends HTMLElement>(props: ListItemProps<
   const mouseEvents = useMemo(() => (props.disableEvents ? {} : getMouseEventHandler(props)), [props]);
   const baseProps = getBaseComponentProps(props);
   const elm = useStyleSet(StyleSets.LIST_ITEM, {
-    effect: props.effect
+    status: props.status
   });
   const classNames = useMemo(
     () =>
@@ -55,11 +54,11 @@ export const useListItemElement = <EL extends HTMLElement>(props: ListItemProps<
         RootStyle.TEXT_BASE,
         RootStyle.BASE,
         elm.manual,
-        elm.manualEffect,
+        elm.manualStatus,
         { '-with-indicator': props.showIndicator },
         { [FOCUSABLE_STYLE]: props.focusable }
       ),
-    [elm.manual, elm.manualEffect, props.focusable, props.showIndicator]
+    [elm.manual, elm.manualStatus, props.focusable, props.showIndicator]
   );
   if (!props.focusable) {
     baseProps.tabIndex = -1;

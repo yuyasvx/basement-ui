@@ -21,7 +21,7 @@ export const useButtonComponent = (props: ButtonProps) => {
   const { icon, disabled, variant, nativeProps, ...restProps } = props;
 
   const focusable = props.focusable ?? true;
-  const elm = useStyleSet(StyleSets.PUSH, { variant, effect: disabled ? 'disabled' : undefined });
+  const elm = useStyleSet(StyleSets.PUSH, { variant, status: disabled ? 'disabled' : undefined });
   const classNames = useMemo(
     () =>
       clsx(
@@ -29,14 +29,14 @@ export const useButtonComponent = (props: ButtonProps) => {
         elm.name,
         elm.variant,
         elm.manual,
-        elm.manualEffect,
+        elm.manualStatus,
         flexStackClass,
         RootStyle.BASE,
         RootStyle.TEXT_BASE,
         { [FOCUSABLE_STYLE]: focusable },
         props.className
       ),
-    [elm.manual, elm.manualEffect, elm.name, elm.variant, flexStackClass, focusable, props.className]
+    [elm.manual, elm.manualStatus, elm.name, elm.variant, flexStackClass, focusable, props.className]
   );
 
   return {

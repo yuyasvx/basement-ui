@@ -1,13 +1,9 @@
-import { AnchorHTMLAttributes, ForwardedRef, PropsWithChildren, forwardRef } from 'react';
-import { BaseComponentProps } from '../../base/BaseComponent';
-import { MouseEvents } from '../../domain/EventProps';
+import { AnchorHTMLAttributes, ForwardedRef, forwardRef } from 'react';
 import { StyleSets } from '../../style-element/StyleSetHook';
-import { ListItemDetailedProps, useListItemElement } from './ListItem';
+import { ListItemProps, useListItemElement } from './ListItem';
 import { ListItemContent } from './ListItemContent';
 
-export type ListItemLinkProps = PropsWithChildren<
-  BaseComponentProps & ListItemDetailedProps & MouseEvents<HTMLLIElement> & AnchorHTMLAttributes<unknown>
->;
+export type ListItemLinkProps = ListItemProps<HTMLAnchorElement> & AnchorHTMLAttributes<unknown>;
 
 export const ListItemLink = forwardRef((props: ListItemLinkProps, ref: ForwardedRef<HTMLLIElement>) => {
   const { newProps, anchorAttributes } = useListItemLinkElement(props);
