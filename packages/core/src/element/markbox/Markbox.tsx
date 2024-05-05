@@ -35,10 +35,10 @@ export const useMarkboxElement = (props: MarkboxProps) => {
     newProps: {
       className: useMemo(
         () =>
-          clsx(NAME, styleElement.name, styleElement.variant, styleElement.manual, styleElement.manualEffect, {
+          clsx(NAME, styleElement.name, styleElement.variant, styleElement.manual, styleElement.manualStatus, {
             '-marked': props.marked
           }),
-        [props.marked, styleElement.manual, styleElement.manualEffect, styleElement.name, styleElement.variant]
+        [props.marked, styleElement.manual, styleElement.manualStatus, styleElement.name, styleElement.variant]
       ),
       ...baseProps
     },

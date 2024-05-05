@@ -54,11 +54,11 @@ export const useListItemElement = <EL extends HTMLElement>(props: ListItemProps<
         RootStyle.TEXT_BASE,
         RootStyle.BASE,
         elm.manual,
-        elm.manualEffect,
+        elm.manualStatus,
         { '-with-indicator': props.showIndicator },
         { [FOCUSABLE_STYLE]: props.focusable }
       ),
-    [elm.manual, elm.manualEffect, props.focusable, props.showIndicator]
+    [elm.manual, elm.manualStatus, props.focusable, props.showIndicator]
   );
   if (!props.focusable) {
     baseProps.tabIndex = -1;

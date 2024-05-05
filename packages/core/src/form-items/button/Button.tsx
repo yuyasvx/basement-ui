@@ -29,14 +29,14 @@ export const useButtonComponent = (props: ButtonProps) => {
         elm.name,
         elm.variant,
         elm.manual,
-        elm.manualEffect,
+        elm.manualStatus,
         flexStackClass,
         RootStyle.BASE,
         RootStyle.TEXT_BASE,
         { [FOCUSABLE_STYLE]: focusable },
         props.className
       ),
-    [elm.manual, elm.manualEffect, elm.name, elm.variant, flexStackClass, focusable, props.className]
+    [elm.manual, elm.manualStatus, elm.name, elm.variant, flexStackClass, focusable, props.className]
   );
 
   return {

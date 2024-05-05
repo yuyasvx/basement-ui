@@ -18,15 +18,15 @@ export interface StyleSetProps<VT = typeof AppearanceType> {
 }
 
 export const useStyleSet = <VT = typeof AppearanceType>(name: StyleKey, props: StyleSetProps<VT>) => {
-  const manualEffect = props.status != null ? `---${props.status}` : undefined;
+  const manualStatus = props.status != null ? `---${props.status}` : undefined;
   const variant = props.variant ?? AppearanceType.NORMAL;
   const manualFlag = props.status != null ? '---manual' : undefined;
 
   return {
     name,
-    manualEffect,
+    manualStatus,
     manual: manualFlag,
     variant: `--${variant}`,
-    classNames: [`--${variant}`, manualFlag, manualEffect]
+    classNames: [`--${variant}`, manualFlag, manualStatus]
   };
 };
