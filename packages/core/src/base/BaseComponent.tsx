@@ -1,6 +1,4 @@
 import { CSSProperties } from 'react';
-import { AppearanceType } from '../domain/AppearanceType';
-import { Case } from '../util/Case';
 
 export function getBaseComponentProps<P extends BaseComponentProps>(props: P) {
   const { id, style, tabIndex } = props;
@@ -13,17 +11,6 @@ export function getBaseComponentProps<P extends BaseComponentProps>(props: P) {
     tabIndex,
     ...data
   };
-}
-
-/**
- * @deprecated
- */
-export interface AppearanceAdaptable {
-  appearance?: Case<typeof AppearanceType>;
-}
-
-export interface VariantAdaptable<VT = typeof AppearanceType> {
-  variant?: Case<VT>;
 }
 
 export interface BaseComponentProps {

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { FC } from 'react';
-import { AppearanceType } from '../../domain/AppearanceType';
 import { Button, ButtonProps } from '../../form-items/button/Button';
+import { VariantType } from '../../style-element/VariantType';
 import { CloseIcon } from './WindowControlIcon';
 
 export const CloseButton: FC<Omit<ButtonProps, 'icon'>> = (props) => {
@@ -11,7 +11,7 @@ export const CloseButton: FC<Omit<ButtonProps, 'icon'>> = (props) => {
 export const WindowControlButton: FC<ButtonProps> = (props) => {
   const newProps = { ...props };
   if (newProps.variant == null) {
-    newProps.variant = AppearanceType.MINIMAL;
+    newProps.variant = VariantType.MINIMAL;
   }
   if (newProps.tabIndex == null) {
     newProps.tabIndex = -1;

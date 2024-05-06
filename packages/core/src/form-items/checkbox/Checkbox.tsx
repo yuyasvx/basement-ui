@@ -1,14 +1,14 @@
 import { CSSProperties, FC, PropsWithChildren, ReactNode, useEffect, useRef } from 'react';
-import { BaseComponentProps, VariantAdaptable } from '../../base/BaseComponent';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { BaseComponentProps } from '../../base/BaseComponent';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
 import { Checkmark } from '../../element/markbox/Checkmark';
 import { IndeterminateMark } from '../../element/markbox/IndeterminateMark';
 import { Markbox } from '../../element/markbox/Markbox';
 import { CustomizedInputHTMLAttributes, useInputHook } from '../../hook/InputHook';
+import { VariantAdaptable } from '../../style-element/VariantAdaptable';
+import { VariantType } from '../../style-element/VariantType';
 
 interface CheckboxDetailedProps {
-  // appearance?: Case<typeof AppearanceType>;
   checkmark?: ReactNode;
   checkboxStyle?: CSSProperties;
   labelStyle?: CSSProperties;
@@ -42,7 +42,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
 export const useCheckboxComponent = (props: CheckboxProps) => {
   const { inputProps, labelProps, innerProps } = useInputHook(props, NAME, 'checkbox', `${NAME}__inner-label`);
   const inputRef = useRef<HTMLInputElement>(null);
-  const variant = props.autoTint ? decideVaraint(props.checked ?? false) : props.variant ?? AppearanceType.NORMAL;
+  const variant = props.autoTint ? decideVaraint(props.checked ?? false) : props.variant ?? VariantType.NORMAL;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -67,5 +67,5 @@ export const useCheckboxComponent = (props: CheckboxProps) => {
 };
 
 function decideVaraint(checked: boolean) {
-  return checked ? AppearanceType.TINT : AppearanceType.NORMAL;
+  return checked ? VariantType.TINT : VariantType.NORMAL;
 }

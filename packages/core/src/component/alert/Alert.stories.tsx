@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
-import { AppearanceType } from '../../domain/AppearanceType';
 import { Button } from '../../form-items/button/Button';
 import { useCardStyle } from '../../style-element/card/Card';
 import { Alert, AlertContentLayout } from './Alert';
+
+import { VariantType } from '../../style-element/VariantType';
 // import { Checkbox } from './Checkbox';
 
 export default {
@@ -65,7 +66,7 @@ export const Story: StoryObj<typeof Alert> = {
             icon={<div style={{ width: '48px', height: '48px', backgroundColor: '#c0c0c0' }}>icon</div>}
             footer={
               <>
-                <Button variant={AppearanceType.TINT} style={{ width: '100px' }}>
+                <Button variant={VariantType.TINT} style={{ width: '100px' }}>
                   了解
                 </Button>
               </>

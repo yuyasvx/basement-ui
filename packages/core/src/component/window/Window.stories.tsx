@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
 import { AnimationTrigger } from '../../domain/AnimationTrigger';
-import { AppearanceType } from '../../domain/AppearanceType';
 import { Button } from '../../form-items/button/Button';
+import { VariantType } from '../../style-element/VariantType';
 import { Alert } from '../alert/Alert';
 import { Window, WindowControlPosition } from './Window';
 import { WindowShowAndHide } from './stories/WindowShowAndHideStory';
@@ -65,7 +65,7 @@ export const Story: StoryObj<typeof Window> = {
         >
           <Alert
             title={'ウィンドウ表示サンプル'}
-            footer={<Button variant={AppearanceType.FLAT}>フッターに表示するボタン</Button>}
+            footer={<Button variant={VariantType.FLAT}>フッターに表示するボタン</Button>}
           >
             <div>サンプルです</div>
           </Alert>

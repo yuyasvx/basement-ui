@@ -1,10 +1,11 @@
 import { CSSProperties, FC, InputHTMLAttributes, PropsWithChildren, ReactNode } from 'react';
-import { BaseComponentProps, VariantAdaptable } from '../../base/BaseComponent';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { BaseComponentProps } from '../../base/BaseComponent';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
 import { BulletMark } from '../../element/markbox/BulletMark';
 import { Markbox } from '../../element/markbox/Markbox';
 import { useInputHook } from '../../hook/InputHook';
+import { VariantAdaptable } from '../../style-element/VariantAdaptable';
+import { VariantType } from '../../style-element/VariantType';
 
 interface RadioDetailedProps {
   checkmark?: ReactNode;
@@ -41,7 +42,7 @@ export const Radio: FC<RadioProps> = (props) => {
 
 export const useRadioComponent = (props: RadioProps) => {
   const { inputProps, labelProps, innerProps } = useInputHook(props, NAME, 'radio', `${NAME}__inner-label`);
-  const variant = props.autoTint ? decideVaraint(props.checked ?? false) : props.variant ?? AppearanceType.NORMAL;
+  const variant = props.autoTint ? decideVaraint(props.checked ?? false) : props.variant ?? VariantType.NORMAL;
 
   return {
     labelProps,
@@ -60,5 +61,5 @@ export const useRadioComponent = (props: RadioProps) => {
 
 // TODO DRY
 function decideVaraint(checked: boolean) {
-  return checked ? AppearanceType.TINT : AppearanceType.NORMAL;
+  return checked ? VariantType.TINT : VariantType.NORMAL;
 }

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { SwitcherBase, SwitcherElement, SwitcherElementProps, SwitcherKnob } from './Switchable';
 import { SwitcherKnobPosition } from './SwitcherKnobPosition';
 
@@ -8,7 +8,7 @@ export default {
   title: 'Element/Switcher Element',
   argTypes: {
     variant: {
-      options: Object.values(AppearanceType),
+      options: Object.values(VariantType),
       control: { type: 'select' }
     },
     knob: {
@@ -30,7 +30,7 @@ export const Story: StoryObj<SwitcherElementProps> = {
   },
   args: {
     knob: SwitcherKnobPosition.NONE,
-    variant: AppearanceType.NORMAL,
+    variant: VariantType.NORMAL,
     status: undefined,
     style: {
       '--bm-switcher-width': '20px',

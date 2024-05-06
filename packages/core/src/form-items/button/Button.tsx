@@ -1,10 +1,11 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes, ForwardedRef, PropsWithChildren, ReactNode, forwardRef, useMemo } from 'react';
-import { BaseComponentProps, VariantAdaptable } from '../../base/BaseComponent';
+import { BaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, RootStyle } from '../../domain/StyleClass';
 import { useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
 import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
+import { VariantAdaptable } from '../../style-element/VariantAdaptable';
 
 export type ButtonProps = PropsWithChildren<
   {

@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { Radio } from './Radio';
 
 export default {
   title: 'Form Item/Radio',
   argTypes: {
     variant: {
-      options: Object.values(AppearanceType),
+      options: Object.values(VariantType),
       control: { type: 'select' }
     }
   }
@@ -66,7 +66,7 @@ export const Story: StoryObj<typeof Radio> = {
   },
   args: {
     children: 'OK',
-    variant: AppearanceType.NORMAL,
+    variant: VariantType.NORMAL,
     disabled: false,
     autoTint: false
   }

@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
-import { VariantAdaptable } from '../../base/BaseComponent';
+import { VariantAdaptable } from '../../style-element/VariantAdaptable';
 import { List } from './List';
 import { ListItem } from './ListItem';
 import { ListItemButton, ListItemButtonProps } from './ListItemButton';

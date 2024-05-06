@@ -7,12 +7,7 @@ import { Switcher } from './Switcher';
 
 export default {
   title: 'Form Item/Switcher',
-  argTypes: {
-    // appearance: {
-    //   options: Object.values(AppearanceType),
-    //   control: { type: 'select' }
-    // }
-  }
+  argTypes: {}
 } as Meta;
 
 export const Story: StoryObj<typeof Switcher> = {
@@ -66,7 +61,7 @@ export const Story: StoryObj<typeof Switcher> = {
   },
   args: {
     children: 'スイッチャーのラベル',
-    // appearance: AppearanceType.NORMAL,
+    // variant: VariantType.NORMAL,
     disabled: false,
     // autoTint: false,
     style: {
