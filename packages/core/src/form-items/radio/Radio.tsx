@@ -52,7 +52,7 @@ export const useRadioComponent = (props: RadioProps) => {
       style: props.radioStyle,
       marked: props.checked,
       disabled: props.disabled ?? false,
-      effect: props.disabled ? 'disabled' : undefined,
+      status: props.disabled ? 'disabled' : undefined,
       className: `${NAME}__inner-radio`
     },
     innerProps

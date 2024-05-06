@@ -6,7 +6,7 @@ import { FOCUSABLE_STYLE, RootStyle } from '../../domain/StyleClass';
 import { StyleSetProps, StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
 import { getMouseEventHandler } from '../../util/Handler';
 import { ListItemContent } from './ListItemContent';
-import { ListItemEffect } from './ListItemEffect';
+import { ListItemStatus } from './ListItemStatus';
 
 export interface ListItemDetailedProps {
   icon?: ReactNode;
@@ -21,7 +21,7 @@ export interface ListItemDetailedProps {
 export type ListItemProps<EL extends HTMLElement = HTMLLIElement> = BaseComponentProps &
   ListItemDetailedProps &
   MouseEvents<EL> &
-  Omit<StyleSetProps<typeof ListItemEffect>, 'variant'>;
+  Omit<StyleSetProps<typeof ListItemStatus>, 'variant'>;
 
 export const ListItem = forwardRef((props: PropsWithChildren<ListItemProps>, ref: ForwardedRef<HTMLLIElement>) => {
   const { newProps, mouseEventProps, tabIndex, innerProps } = useListItemElement(props);

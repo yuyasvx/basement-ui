@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../../form-items/button/Button';
+import { VariantType } from '../../style-element/VariantType';
 import { useCardStyle } from '../../style-element/card/Card';
 import { Alert, AlertContentLayout } from './Alert';
-
-import { VariantType } from '../../style-element/VariantType';
 // import { Checkbox } from './Checkbox';
 
 export default {

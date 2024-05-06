@@ -2,31 +2,31 @@
   @return red($hexColor), green($hexColor), blue($hexColor);
 }
 
-@mixin define($component-name, $variant, $effect, $enablePseudoClass: true) {
-  $pseudClassName: if($enablePseudoClass, ":" + $effect, ".---" + $effect);
+@mixin define($component-name, $variant, $status, $enablePseudoClass: true) {
+  $pseudoClassName: if($enablePseudoClass, ":" + $status, ".---" + $status);
 
-  @if $variant == null and $effect == null {
+  @if $variant == null and $status == null {
     .#{$component-name} {
       @content
     }
   }
 
-  @if $variant == null and $effect != null {
-    .#{$component-name}:not(.---manual)#{$pseudClassName},
-    .#{$component-name}.---#{$effect} {
+  @if $variant == null and $status != null {
+    .#{$component-name}:not(.---manual)#{$pseudoClassName},
+    .#{$component-name}.---#{$status} {
       @content
     }
   }
 
-  @if $variant != null and $effect == null {
+  @if $variant != null and $status == null {
     .#{$component-name}.--#{$variant} {
       @content
     }
   }
 
-  @if $variant != null and $effect != null {
-    .#{$component-name}.--#{$variant}:not(.---manual)#{$pseudClassName},
-    .#{$component-name}.--#{$variant}.---#{$effect} {
+  @if $variant != null and $status != null {
+    .#{$component-name}.--#{$variant}:not(.---manual)#{$pseudoClassName},
+    .#{$component-name}.--#{$variant}.---#{$status} {
       @content
     }
   }

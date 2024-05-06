@@ -3,15 +3,15 @@ import { CSSProperties, PropsWithChildren } from 'react';
 import { VariantAdaptable } from '../../style-element/VariantAdaptable';
 import { List } from './List';
 import { ListItem } from './ListItem';
-import { ListItemEffect } from './ListItemEffect';
 import { ListItemLink, ListItemLinkProps } from './ListItemLink';
+import { ListItemStatus } from './ListItemStatus';
 import { ListVariantType } from './ListVariantType';
 
 export default {
   title: 'Element/List/ListItemLink',
   argTypes: {
     effect: {
-      options: [undefined, ...Object.values(ListItemEffect)],
+      options: [undefined, ...Object.values(ListItemStatus)],
       control: { type: 'select' }
     },
     variant: {
@@ -44,7 +44,7 @@ export const Props: StoryObj<
   args: {
     variant: ListVariantType.NORMAL,
     icon: 'icon',
-    status: ListItemEffect.NORMAL,
+    status: ListItemStatus.NORMAL,
     focusable: false,
     hoverable: false,
     disableEvents: false,

@@ -17,7 +17,7 @@ import { createPortal } from 'react-dom';
 import { BaseComponentProps } from '../../base/BaseComponent';
 import { ListItemDetailedProps } from '../../element/list/ListItem';
 import { ListItemButton } from '../../element/list/ListItemButton';
-import { ListItemEffect } from '../../element/list/ListItemEffect';
+import { ListItemStatus } from '../../element/list/ListItemStatus';
 import { ChevronRight } from './ChevronRight';
 import { MenuListProps } from './MenuList';
 import { MenuListState, menuListContext } from './MenuListContext';
@@ -55,7 +55,7 @@ export const useMenuItemComponent = (props: MenuListItemProps) => {
   const { menuDomMap, menuPath } = menuState.current;
   const submenuEventHub = itemContext.submenuEventHub.current;
 
-  const effect = selectedId === itemId ? ListItemEffect.SELECTED : ListItemEffect.NORMAL;
+  const status = selectedId === itemId ? ListItemStatus.SELECTED : ListItemStatus.NORMAL;
   const ref = useRef<HTMLLIElement>(null);
   const submenuTimeout = useRef(null as NodeJS.Timeout | null);
   const [showSubmenu, setShowSubmenu] = useState(false);
@@ -115,7 +115,7 @@ export const useMenuItemComponent = (props: MenuListItemProps) => {
 
   const everyUpdate = useCallback(() => {
     // 選択がなくなったら、サブメニュー表示トリガーを解除
-    if (effect === ListItemEffect.NORMAL) {
+    if (status === ListItemStatus.NORMAL) {
       if (submenuTimeout.current != null) {
         clearTimeout(submenuTimeout.current);
       }
@@ -125,7 +125,7 @@ export const useMenuItemComponent = (props: MenuListItemProps) => {
       const currentMenuListId = menuPath[menuPath.length - 1];
       menuDomMap.set(currentMenuListId, ref);
     }
-  }, [effect, itemId, menuDomMap, menuPath, selectedId, submenu]);
+  }, [status, itemId, menuDomMap, menuPath, selectedId, submenu]);
 
   everyUpdate();
 
@@ -154,7 +154,7 @@ export const useMenuItemComponent = (props: MenuListItemProps) => {
     containerRef,
     newProps: {
       icon: props.icon,
-      effect,
+      status,
       className: useMemo(() => clsx(NAME, props.className), [props.className]),
       secondary: newSecondary,
       ref,

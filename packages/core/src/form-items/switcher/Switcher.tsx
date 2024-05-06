@@ -34,7 +34,7 @@ export const Switcher: FC<SwitcherProps> = (props) => {
     [flexItemClass, innerProps.className]
   );
   const disabled = props.disabled ?? false;
-  const effect = disabled ? 'disabled' : undefined;
+  const status = disabled ? 'disabled' : undefined;
   const knobPosition = props.checked ? SwitcherKnobPosition.ON : SwitcherKnobPosition.OFF;
   const variant = props.checked ? VariantType.TINT : VariantType.NORMAL;
 
@@ -42,7 +42,7 @@ export const Switcher: FC<SwitcherProps> = (props) => {
     <label {...labelProps} className={labelClassName}>
       <input {...inputProps} />
       <SwitcherElement
-        status={effect}
+        status={status}
         knob={knobPosition}
         baseStyle={props.switcherStyle}
         variant={variant}

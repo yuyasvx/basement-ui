@@ -9,12 +9,13 @@ export const StyleSets = {
   LIST_CONTAINER: 'bm-e-list-container' as StyleKey,
   LIST_ITEM: 'bm-e-list-item' as StyleKey,
   BUTTON: 'bm-c-button' as StyleKey,
-  SWITCH_ELEMENT: 'bm-e-switchable' as StyleKey
+  SWITCH_ELEMENT: 'bm-e-switchable' as StyleKey,
+  CHECKBOX: 'bm-c-checkbox' as StyleKey
 } as const;
 
-export interface StyleSetProps<VT = typeof VariantType> {
+export interface StyleSetProps<VT = typeof VariantType, S = string> {
   variant?: Case<VT>;
-  status?: string;
+  status?: S;
 }
 
 export const useStyleSet = <VT = typeof VariantType>(name: StyleKey, props: StyleSetProps<VT>) => {

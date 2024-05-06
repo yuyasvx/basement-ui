@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
 import { List, ListProps } from './List';
 import { ListItem } from './ListItem';
-import { ListItemEffect } from './ListItemEffect';
+import { ListItemStatus } from './ListItemStatus';
 import { ListVariantType } from './ListVariantType';
 
 export default {
@@ -19,9 +19,9 @@ export const Props: StoryObj<ListProps> = {
   render: (args) => (
     <List {...args}>
       <ListItem>リストアイテム</ListItem>
-      <ListItem status={ListItemEffect.SELECTED}>リストアイテム</ListItem>
-      <ListItem status={ListItemEffect.ACTIVE}>リストアイテム</ListItem>
-      <ListItem status={ListItemEffect.DISABLED}>リストアイテム</ListItem>
+      <ListItem status={ListItemStatus.SELECTED}>リストアイテム</ListItem>
+      <ListItem status={ListItemStatus.ACTIVE}>リストアイテム</ListItem>
+      <ListItem status={ListItemStatus.DISABLED}>リストアイテム</ListItem>
       <ListItem>リストアイテム</ListItem>
       <ListItem>リストアイテム</ListItem>
       <ListItem>リストアイテム</ListItem>

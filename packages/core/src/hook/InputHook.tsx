@@ -7,12 +7,12 @@ import { getInputAttributes } from '../util/InputAttributes';
 
 export type CustomizedInputHTMLAttributes = Omit<InputHTMLAttributes<HTMLInputElement>, 'type'>;
 
-export type InputHookContext = MouseEvents<HTMLLabelElement> &
+type InputHookProps = MouseEvents<HTMLLabelElement> &
   FormEvents<HTMLInputElement> &
   CustomizedInputHTMLAttributes & { labelStyle?: CSSProperties } & { dataProps?: { [key: string]: unknown } };
 
 export const useInputHook = (
-  props: InputHookContext,
+  props: InputHookProps,
   componentName: string,
   inputType: string,
   innerLabelName: string
@@ -23,14 +23,18 @@ export const useInputHook = (
   const inputRef = useRef<HTMLInputElement>(null);
   const classNames = useMemo(() => clsx(componentName, RootStyle.BASE, RootStyle.TEXT_BASE), [componentName]);
 
-  return {
-    labelProps: {
+  const labelProps = useMemo(
+    () => ({
       className: classNames,
       style: props.style,
       // htmlFor: props.name,
       ...mouseEvents
-    },
-    inputProps: {
+    }),
+    [classNames, mouseEvents, props.style]
+  );
+
+  const inputProps = useMemo(
+    () => ({
       ...attributes,
       type: inputType,
       id: props.id,
@@ -38,10 +42,21 @@ export const useInputHook = (
       tabIndex: props.tabIndex,
       ...formEvents,
       ...props.dataProps
-    },
-    innerProps: {
+    }),
+    [attributes, formEvents, inputType, props.dataProps, props.id, props.tabIndex]
+  );
+
+  const innerProps = useMemo(
+    () => ({
       className: innerLabelName,
       style: props.labelStyle
-    }
+    }),
+    [innerLabelName, props.labelStyle]
+  );
+
+  return {
+    labelProps,
+    inputProps,
+    innerProps
   };
 };
