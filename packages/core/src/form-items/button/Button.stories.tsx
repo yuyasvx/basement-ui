@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { Button } from './Button';
 
 export default {
   title: 'Form Item/Button',
   argTypes: {
     variant: {
-      options: Object.values(AppearanceType),
+      options: Object.values(VariantType),
       control: { type: 'select' }
     }
   }
@@ -66,7 +66,7 @@ export const Story: StoryObj<typeof Button> = {
   args: {
     children: 'OK',
     disabled: false,
-    variant: AppearanceType.NORMAL
+    variant: VariantType.NORMAL
   }
 };
 

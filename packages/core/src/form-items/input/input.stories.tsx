@@ -4,8 +4,8 @@ import { Meta, StoryObj } from '@storybook/react';
 export default {
   title: 'Form Item/Input',
   argTypes: {
-    // appearance: {
-    //   options: Object.values(AppearanceType),
+    // variant: {
+    //   options: Object.values(VariantType),
     //   control: { type: 'select' }
     // }
   }
@@ -21,7 +21,7 @@ export const Story: StoryObj /* <typeof Checkbox> */ = {
   },
   args: {
     // children: 'OK',
-    // appearance: AppearanceType.NORMAL,
+    // variant: VariantType.NORMAL,
     // disabled: false,
     // autoTint: false
   }

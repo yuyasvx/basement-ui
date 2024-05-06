@@ -21,7 +21,6 @@ export type SegmentedSwitcherItemProps = SegmentedSwitcherItemDetailedProps &
 export const SegmentedSwitcherItem: FC<PropsWithChildren<SegmentedSwitcherItemProps>> = (props) => {
   const ctx = useContext(useSegmentedSwitcherContext());
   const disabled = useMemo(() => ctx.disabled || (props.disabled ?? false), [ctx.disabled, props.disabled]);
-  // const appearanceClassName = useMemo(() => (props.selected ? '-selected' : ''), [props.selected]);
   const selectedClassName = useMemo(() => (props.selected ? '-selected' : ''), [props.selected]);
   const className = clsx(NAME, selectedClassName, { '-disabled': disabled }, props.className);
   const mouse = getMouseEventHandler(props);

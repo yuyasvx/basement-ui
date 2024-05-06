@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Meta, StoryObj } from '@storybook/react';
 import { useCallback, useState } from 'react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { Checkbox } from './Checkbox';
 
 export default {
   title: 'Form Item/Checkbox',
   argTypes: {
     variant: {
-      options: Object.values(AppearanceType),
+      options: Object.values(VariantType),
       control: { type: 'select' }
     }
   }
@@ -78,7 +78,7 @@ export const Story: StoryObj<typeof Checkbox> = {
   },
   args: {
     children: 'OK',
-    variant: AppearanceType.NORMAL,
+    variant: VariantType.NORMAL,
     disabled: false,
     autoTint: false
   }

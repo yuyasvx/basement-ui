@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties } from 'react';
-import { List, List2Props } from './List';
+import { List, ListProps } from './List';
 import { ListItem } from './ListItem';
 import { ListItemEffect } from './ListItemEffect';
 import { ListVariantType } from './ListVariantType';
@@ -15,7 +15,7 @@ export default {
   }
 } as Meta;
 
-export const Props: StoryObj<List2Props> = {
+export const Props: StoryObj<ListProps> = {
   render: (args) => (
     <List {...args}>
       <ListItem>リストアイテム</ListItem>

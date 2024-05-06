@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { BulletMark } from '../markbox/BulletMark';
 import { UnionPush, UnionPushPrimary, UnionPushProps, UnionPushSecondary } from './UnionPush';
 
@@ -7,7 +7,7 @@ export default {
   title: 'Element/Union Push',
   argTypes: {
     variant: {
-      options: Object.values(AppearanceType),
+      options: Object.values(VariantType),
       control: { type: 'select' }
     }
   }
@@ -27,6 +27,6 @@ export const Story: StoryObj = {
     );
   },
   args: {
-    variant: AppearanceType.NORMAL
+    variant: VariantType.NORMAL
   }
 };

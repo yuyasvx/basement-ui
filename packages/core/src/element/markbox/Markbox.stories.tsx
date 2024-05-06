@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { Checkmark } from './Checkmark';
 import { Markbox } from './Markbox';
 
@@ -7,7 +7,7 @@ export default {
   title: 'Element/Markbox',
   argTypes: {
     variant: {
-      options: Object.values(AppearanceType),
+      options: Object.values(VariantType),
       control: { type: 'select' }
     },
     status: {
@@ -22,7 +22,7 @@ export const PropsStory: StoryObj<typeof Markbox> = {
     return <Markbox {...args} style={{ width: '24px', height: '24px' }} />;
   },
   args: {
-    variant: AppearanceType.NORMAL,
+    variant: VariantType.NORMAL,
     mark: '●',
     marked: true,
     status: undefined

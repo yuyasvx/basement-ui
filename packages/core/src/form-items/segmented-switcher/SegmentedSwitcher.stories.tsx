@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { CSSProperties, ChangeEvent, FC, useCallback, useState } from 'react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { SegmentedSwitcher } from './SegmentedSwitcher';
 import { SegmentedSwitcherItem } from './SegmentedSwitcherItem';
 
 export default {
   title: 'Form Item/Segmented Switcher',
   argTypes: {
-    appearance: {
-      options: Object.values(AppearanceType),
+    variant: {
+      options: Object.values(VariantType),
       control: { type: 'select' }
     }
   }
@@ -56,7 +56,7 @@ export const Story: StoryObj<typeof SegmentedSwitcher> = {
     const [val, setVal] = useState('1');
     return (
       <>
-        <SegmentedSwitcher tabIndex={1} disabled={args.disabled} animated={args.animated} appearance={args.appearance}>
+        <SegmentedSwitcher tabIndex={1} disabled={args.disabled} animated={args.animated} variant={args.variant}>
           <SegmentedSwitcherItem selected={val === '1'} onChange={() => setVal('1')}>
             ABC
           </SegmentedSwitcherItem>
@@ -72,7 +72,7 @@ export const Story: StoryObj<typeof SegmentedSwitcher> = {
         <SegmentedSwitcher
           disabled={args.disabled}
           animated={args.animated}
-          appearance={args.appearance}
+          variant={args.variant}
           style={
             {
               '--bm-segmented-switcher-radius': '16px'
@@ -93,7 +93,7 @@ export const Story: StoryObj<typeof SegmentedSwitcher> = {
         <br />
         <SegmentedSwitcher
           animated={args.animated}
-          appearance={args.appearance}
+          variant={args.variant}
           style={
             {
               '--bm-segmented-switcher-radius': '8px',
@@ -113,7 +113,7 @@ export const Story: StoryObj<typeof SegmentedSwitcher> = {
         </SegmentedSwitcher>
         <br />
         <br />
-        <SegmentedSwitcher animated={args.animated} appearance={args.appearance}>
+        <SegmentedSwitcher animated={args.animated} variant={args.variant}>
           <SegmentedSwitcherItem selected={val === '1'} onChange={() => setVal('1')} disabled>
             部分的に
           </SegmentedSwitcherItem>
@@ -133,6 +133,6 @@ export const Story: StoryObj<typeof SegmentedSwitcher> = {
   args: {
     disabled: false,
     animated: true,
-    appearance: AppearanceType.NORMAL
+    variant: VariantType.NORMAL
   }
 };

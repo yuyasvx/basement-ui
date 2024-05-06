@@ -3,12 +3,7 @@ import { ProgressBar } from './ProgressBar';
 
 export default {
   title: 'Form Item/Progress Bar',
-  argTypes: {
-    // appearance: {
-    //   options: Object.values(AppearanceType),
-    //   control: { type: 'select' }
-    // }
-  }
+  argTypes: {}
 } as Meta;
 
 export const Story: StoryObj<typeof ProgressBar> = {

@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { CSSProperties, FC, PropsWithChildren, useMemo } from 'react';
 import { BaseComponentProps } from '../../base/BaseComponent';
-import { AppearanceType } from '../../domain/AppearanceType';
 import { FormEvents, MouseEvents } from '../../domain/EventProps';
 import { SwitcherElement } from '../../element/switchable/Switchable';
 import { SwitcherKnobPosition } from '../../element/switchable/SwitcherKnobPosition';
 import { CustomizedInputHTMLAttributes, useInputHook } from '../../hook/InputHook';
 import { FlexStackProps, useFlexStackLayout } from '../../layout/flex-stack/FlexStack';
+import { VariantType } from '../../style-element/VariantType';
 
 interface SwitcherDetailedProps {
   switcherStyle?: CSSProperties;
@@ -36,7 +36,7 @@ export const Switcher: FC<SwitcherProps> = (props) => {
   const disabled = props.disabled ?? false;
   const effect = disabled ? 'disabled' : undefined;
   const knobPosition = props.checked ? SwitcherKnobPosition.ON : SwitcherKnobPosition.OFF;
-  const variant = props.checked ? AppearanceType.TINT : AppearanceType.NORMAL;
+  const variant = props.checked ? VariantType.TINT : VariantType.NORMAL;
 
   return (
     <label {...labelProps} className={labelClassName}>

@@ -1,6 +1,6 @@
-import { AppearanceType } from '../domain/AppearanceType';
 import { Case } from '../util/Case';
 import { StyleKey } from './StyleKey';
+import { VariantType } from './VariantType';
 
 export const StyleSets = {
   PUSH: 'bm-s-push' as StyleKey,
@@ -12,14 +12,14 @@ export const StyleSets = {
   SWITCH_ELEMENT: 'bm-e-switchable' as StyleKey
 } as const;
 
-export interface StyleSetProps<VT = typeof AppearanceType> {
+export interface StyleSetProps<VT = typeof VariantType> {
   variant?: Case<VT>;
   status?: string;
 }
 
-export const useStyleSet = <VT = typeof AppearanceType>(name: StyleKey, props: StyleSetProps<VT>) => {
+export const useStyleSet = <VT = typeof VariantType>(name: StyleKey, props: StyleSetProps<VT>) => {
   const manualStatus = props.status != null ? `---${props.status}` : undefined;
-  const variant = props.variant ?? AppearanceType.NORMAL;
+  const variant = props.variant ?? VariantType.NORMAL;
   const manualFlag = props.status != null ? '---manual' : undefined;
 
   return {

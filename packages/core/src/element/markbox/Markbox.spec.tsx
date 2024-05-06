@@ -1,5 +1,5 @@
 import { cleanup, render, renderHook } from '@testing-library/react';
-import { AppearanceType } from '../../domain/AppearanceType';
+import { VariantType } from '../../style-element/VariantType';
 import { Markbox, useMarkboxElement } from './Markbox';
 
 describe('Markbox Element Snapshot', () => {
@@ -13,7 +13,7 @@ describe('Markbox Element Snapshot', () => {
   });
 
   test('Props', () => {
-    const { asFragment } = render(<Markbox mark={'X'} marked variant={AppearanceType.TINT} status={'disabled'} />);
+    const { asFragment } = render(<Markbox mark={'X'} marked variant={VariantType.TINT} status={'disabled'} />);
     expect(asFragment()).toMatchSnapshot();
   });
 
@@ -35,12 +35,12 @@ describe('Markbox Element Snapshot', () => {
 
 describe('useMarkboxElement', () => {
   test('Style Elementが適用されている', () => {
-    const rendered = renderHook(() => useMarkboxElement({ variant: AppearanceType.NORMAL, mark: 'X', marked: true }));
+    const rendered = renderHook(() => useMarkboxElement({ variant: VariantType.NORMAL, mark: 'X', marked: true }));
     expect(rendered.result.current.newProps.className).toBe('bm-e-markbox bm-s-push --normal -marked');
   });
 
   test('Markを解除するとclassNameに反映される', () => {
-    const rendered = renderHook(() => useMarkboxElement({ variant: AppearanceType.NORMAL, mark: 'X', marked: false }));
+    const rendered = renderHook(() => useMarkboxElement({ variant: VariantType.NORMAL, mark: 'X', marked: false }));
     expect(rendered.result.current.newProps.className).toBe('bm-e-markbox bm-s-push --normal');
   });
 });

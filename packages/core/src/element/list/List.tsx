@@ -1,19 +1,20 @@
 import clsx from 'clsx';
 import { ForwardedRef, PropsWithChildren, forwardRef, useMemo } from 'react';
-import { BaseComponentProps, VariantAdaptable, getBaseComponentProps } from '../../base/BaseComponent';
+import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { KeyEvents, MouseEvents } from '../../domain/EventProps';
 import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
+import { VariantAdaptable } from '../../style-element/VariantAdaptable';
 import { getKeyEventHandler, getMouseEventHandler } from '../../util/Handler';
 import { ListVariantType } from './ListVariantType';
 
-export type List2Props = PropsWithChildren<
+export type ListProps = PropsWithChildren<
   VariantAdaptable<typeof ListVariantType> &
     BaseComponentProps &
     MouseEvents<HTMLUListElement> &
     KeyEvents<HTMLUListElement> & { containerRef?: unknown }
 >;
 
-export const List = forwardRef((props: List2Props, ref: ForwardedRef<HTMLUListElement>) => {
+export const List = forwardRef((props: ListProps, ref: ForwardedRef<HTMLUListElement>) => {
   const { newProps } = useListElement(props);
   return (
     <ul {...newProps} ref={ref}>
@@ -22,7 +23,7 @@ export const List = forwardRef((props: List2Props, ref: ForwardedRef<HTMLUListEl
   );
 });
 
-export function useListElement(props: List2Props) {
+export function useListElement(props: ListProps) {
   const elm = useStyleSet<typeof ListVariantType>(StyleSets.LIST, { variant: props.variant });
   const me = getMouseEventHandler(props);
   const ke = getKeyEventHandler(props);

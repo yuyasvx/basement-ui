@@ -1,9 +1,11 @@
 import clsx from 'clsx';
 import { FC, KeyboardEvent, PropsWithChildren, createContext, useCallback, useEffect, useMemo, useRef } from 'react';
-import { AppearanceAdaptable, BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
-import { AppearanceType, getAppearanceClassName } from '../../domain/AppearanceType';
+import { BaseComponentProps, getBaseComponentProps } from '../../base/BaseComponent';
 import { MouseEvents } from '../../domain/EventProps';
 import { FOCUSABLE_STYLE, PUSHABLE_STYLE, RootStyle } from '../../domain/StyleClass';
+import { StyleSets, useStyleSet } from '../../style-element/StyleSetHook';
+import { VariantAdaptable } from '../../style-element/VariantAdaptable';
+import { VariantType } from '../../style-element/VariantType';
 import { getMouseEventHandler } from '../../util/Handler';
 
 const NAME = 'bm-c-segmented-switcher';
@@ -15,7 +17,7 @@ interface SegmentedSwitcherDetailedProps {
   animated?: boolean;
 }
 export type SegmentedSwitcherProps = SegmentedSwitcherDetailedProps &
-  AppearanceAdaptable &
+  VariantAdaptable &
   BaseComponentProps &
   MouseEvents<HTMLDivElement> & { disabled?: boolean };
 
@@ -28,13 +30,16 @@ export const useSegmentedSwitcherContext = () => {
 };
 
 export const useSegmentedSwitcherHook = (props: PropsWithChildren<SegmentedSwitcherProps>) => {
+  const { name: styleName, classNames: styleClassName } = useStyleSet(StyleSets.SWITCH_ELEMENT, {
+    variant: props.variant,
+    status: props.disabled ? 'disabled' : undefined
+  });
   const className = useMemo(
     () =>
-      clsx('bm-e-switchable', getAppearanceClassName(props.appearance), NAME, RootStyle.TEXT_BASE, props.className, {
-        '-disabled': props.disabled,
+      clsx(styleName, ...styleClassName, NAME, RootStyle.TEXT_BASE, props.className, {
         [FOCUSABLE_STYLE]: props.tabIndex != null && props.tabIndex !== -1
       }),
-    [props.appearance, props.className, props.disabled, props.tabIndex]
+    [props.className, props.tabIndex, styleClassName, styleName]
   );
   const barRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef<HTMLDivElement>(null);
@@ -101,7 +106,7 @@ export const useSegmentedSwitcherHook = (props: PropsWithChildren<SegmentedSwitc
   }, [animated, initialize, playMotion, props.children]);
 
   // NormalとFlatのみをサポート
-  const barAppearance = useMemo(() => (props.appearance === AppearanceType.FLAT ? '--flat' : ''), [props.appearance]);
+  const barVariant = useMemo(() => (props.variant === VariantType.FLAT ? '--flat' : ''), [props.variant]);
 
   const keyNavigation = useCallback((evt: KeyboardEvent<HTMLDivElement>) => {
     const refCurrent = componentRef.current;
@@ -147,7 +152,7 @@ export const useSegmentedSwitcherHook = (props: PropsWithChildren<SegmentedSwitc
       className: useMemo(() => clsx(BUTTON_NAME), [])
     },
     barProps: {
-      className: useMemo(() => clsx(BAR_NAME, PUSHABLE_STYLE, barAppearance), [barAppearance]),
+      className: useMemo(() => clsx(BAR_NAME, PUSHABLE_STYLE, barVariant), [barVariant]),
       ref: barRef
     },
     context
