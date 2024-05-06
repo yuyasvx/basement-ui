@@ -4,14 +4,14 @@ import { VariantAdaptable } from '../../style-element/VariantAdaptable';
 import { List } from './List';
 import { ListItem } from './ListItem';
 import { ListItemButton, ListItemButtonProps } from './ListItemButton';
-import { ListItemEffect } from './ListItemEffect';
+import { ListItemStatus } from './ListItemStatus';
 import { ListVariantType } from './ListVariantType';
 
 export default {
   title: 'Element/List/ListItemButton',
   argTypes: {
     effect: {
-      options: [undefined, ...Object.values(ListItemEffect)],
+      options: [undefined, ...Object.values(ListItemStatus)],
       control: { type: 'select' }
     },
     variant: {
@@ -44,7 +44,7 @@ export const Props: StoryObj<
   args: {
     variant: ListVariantType.NORMAL,
     icon: 'icon',
-    status: ListItemEffect.NORMAL,
+    status: ListItemStatus.NORMAL,
     focusable: false,
     hoverable: false,
     disableEvents: false,
