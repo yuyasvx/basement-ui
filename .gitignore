@@ -10,12 +10,13 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-/module
 *.local
+coverage
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+*.code-workspace
 .idea
 .DS_Store
 *.suo
@@ -24,6 +25,6 @@ dist-ssr
 *.sln
 *.sw?
 
-storybook-static
-coverage
+/storybook-static
+/coverage
 *storybook.log

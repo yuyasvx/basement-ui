@@ -1,12 +1,9 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": [
-    "node_modules",
-    "**/*.stories.tsx",
-    "**/stories/*.tsx",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx"
-  ]
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "declarationMap": false,
+    "outDir": "dist"
+  },
+  "exclude": ["node_modules", "**/*.stories.tsx", "**/stories/*.tsx", "**/*.spec.ts", "**/*.test.ts", "**/*.spec.tsx", "**/*.test.tsx"]
 }

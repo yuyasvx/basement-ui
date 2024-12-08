@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Test > renders h1 text 1`] = `
+NodeList [
+  <div
+    style="background: rgb(192, 192, 192);"
+  />,
+]
+`;
