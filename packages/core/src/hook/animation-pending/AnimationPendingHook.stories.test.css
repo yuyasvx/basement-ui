@@ -1,0 +1,7 @@
+.bmui-animation-pending-hook-test[data-bmui-open-state="pending"] {
+    color: red;
+}
+
+.bmui-animation-pending-hook-test[data-bmui-open-state="hiding"] {
+    color: green;
+}
