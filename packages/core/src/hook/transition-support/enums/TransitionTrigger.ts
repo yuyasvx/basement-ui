@@ -1,4 +1,4 @@
-export const AnimationTrigger = {
+export const TransitionTrigger = {
   SHOW: 'show',
   HIDE: 'hide',
   BOTH: 'both',
