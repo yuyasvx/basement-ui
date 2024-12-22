@@ -1,9 +1,26 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Snapshot Test > renders h1 text 1`] = `
-NodeList [
+<div
+  id="bmui-overlay"
+>
   <div
-    style="background: rgb(192, 192, 192);"
-  />,
-]
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe-backdrop"
+    >
+      <div>
+        backdrop
+      </div>
+    </div>
+    <div
+      class="bmui-modalframe-container"
+    >
+      <div>
+        modal content
+      </div>
+    </div>
+  </div>
+</div>
 `;
