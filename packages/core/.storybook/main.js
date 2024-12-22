@@ -1,4 +1,6 @@
 import { dirname, join } from 'path';
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import { mergeConfig } from 'vite';
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -20,6 +22,11 @@ const config = {
   framework: {
     name: getAbsolutePath('@storybook/react-vite'),
     options: {},
+  },
+  viteFinal: async (config) => {
+    return mergeConfig(config, {
+      plugins: [vanillaExtractPlugin()],
+    });
   },
 };
 export default config;

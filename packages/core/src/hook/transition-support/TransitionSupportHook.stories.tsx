@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useCallback, useRef } from 'react';
+import { type FC, useCallback, useRef } from 'react';
 import { TransitionTrigger } from './enums/TransitionTrigger';
 import { type TransitionSupportProps, useTransitionSupport } from './TransitionSupportHook';
 import './TransitionSupportHook.stories.test.css';
@@ -14,6 +14,8 @@ export default {
   },
 } satisfies Meta;
 
+const ChildElement: FC = () => <span>Child Element</span>;
+
 export const Story: StoryObj<TransitionSupportProps<HTMLDivElement>> = {
   render(args) {
     const ref = useRef(null);
@@ -25,7 +27,8 @@ export const Story: StoryObj<TransitionSupportProps<HTMLDivElement>> = {
     });
     return show ? (
       <div ref={ref} className={'bmui-animation-pending-hook-test'}>
-        Hello World<span>child element</span>
+        Hello World
+        <ChildElement />
       </div>
     ) : (
       <></>
@@ -58,7 +61,8 @@ export const StoryEvent: StoryObj<TransitionSupportProps<HTMLDivElement>> = {
     });
     return show ? (
       <div ref={ref} className={'bmui-animation-pending-hook-test'}>
-        Hello World<span>child element</span>
+        Hello World
+        <ChildElement />
       </div>
     ) : (
       <></>
@@ -89,7 +93,8 @@ export const StoryAutoDuration: StoryObj<TransitionSupportProps<HTMLDivElement>>
 
     return show ? (
       <div ref={ref} className={'bmui-animation-pending-hook-test2'}>
-        Hello World<span>child element</span>
+        Hello World
+        <ChildElement />
       </div>
     ) : (
       <></>
