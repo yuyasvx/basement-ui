@@ -5,4 +5,5 @@ export const ComponentToken = {
     CONTAINER: 'bmui-modalframe--container',
   },
   OVERLAY: 'bmui-overlay',
+  CARD: 'bmui-card',
 } as const;
