@@ -4,16 +4,6 @@ import { ModalFrame, type ModalFrameProps } from './ModalFrame';
 
 export default {
   title: 'Component/Modal Frame',
-  argTypes: {
-    // animated: {
-    //   options: Object.values(AnimationTrigger),
-    //   control: { type: 'select' },
-    // },
-    // iconPosition: {
-    //   options: ['left', 'right'],
-    //   control: { type: 'select' }
-    // }
-  },
 } satisfies Meta;
 
 const ChildElement: FC = () => <span>Child Element</span>;
@@ -37,7 +27,7 @@ export const Story: StoryObj<ModalFrameProps> = {
       </ModalFrame>
     );
   },
-  name: 'Modal Frame Story',
+  name: 'Props',
   args: {
     backdropLock: false,
   },

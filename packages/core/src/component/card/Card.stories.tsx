@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useCardStyle } from './Card';
+import { Card, CardVariant } from './Card';
 
 export default {
   title: 'Component/Card',
@@ -34,21 +34,32 @@ export default {
         type: 'color',
       },
     },
+    radius: {
+      control: {
+        type: 'number',
+      },
+    },
   },
 } satisfies Meta;
 
-export const Story: StoryObj<{ shadowWidth?: number; baseColor?: string; alpha?: number; blur?: number }> = {
+export const Story: StoryObj<{
+  shadowWidth?: number;
+  baseColor?: string;
+  alpha?: number;
+  blur?: number;
+  radius?: number;
+}> = {
   render(args) {
-    const { newProps } = useCardStyle({
-      variantOption: { shadow: args.shadowWidth },
-      baseColor: args.baseColor,
-      backgroundAlpha: args.alpha,
-      backdropBlur: args.blur,
-    });
     return (
-      <div {...newProps}>
+      <Card
+        variantOption={{ shadow: args.shadowWidth }}
+        baseColor={args.baseColor}
+        backgroundAlpha={args.alpha}
+        backdropBlur={args.blur}
+        radius={args.radius}
+      >
         <div style={{ padding: '20px', width: '100px', height: '100px' }}>こんにちは</div>
-      </div>
+      </Card>
     );
   },
   name: 'Props (Variant: shadow)',
@@ -57,6 +68,7 @@ export const Story: StoryObj<{ shadowWidth?: number; baseColor?: string; alpha?:
     baseColor: undefined,
     alpha: undefined,
     blur: undefined,
+    radius: undefined,
   },
 };
 
@@ -66,19 +78,20 @@ export const StoryBordered: StoryObj<{
   alpha?: number;
   blur?: number;
   borderColor?: string;
+  radius?: number;
 }> = {
   render(args) {
-    const { newProps } = useCardStyle({
-      variant: 'border',
-      variantOption: { borderWidth: args.borderWidth, borderColor: args.borderColor },
-      baseColor: args.baseColor,
-      backgroundAlpha: args.alpha,
-      backdropBlur: args.blur,
-    });
     return (
-      <div {...newProps}>
+      <Card
+        variantOption={{ borderWidth: args.borderWidth, borderColor: args.borderColor }}
+        baseColor={args.baseColor}
+        backgroundAlpha={args.alpha}
+        backdropBlur={args.blur}
+        variant={CardVariant.BORDER}
+        radius={args.radius}
+      >
         <div style={{ padding: '20px', width: '100px', height: '100px' }}>こんにちは</div>
-      </div>
+      </Card>
     );
   },
   name: 'Props (Variant: border)',
@@ -88,5 +101,6 @@ export const StoryBordered: StoryObj<{
     baseColor: undefined,
     alpha: undefined,
     blur: undefined,
+    radius: undefined,
   },
 };
