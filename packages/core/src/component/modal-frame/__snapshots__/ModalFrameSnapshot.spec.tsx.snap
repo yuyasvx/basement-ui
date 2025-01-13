@@ -1,0 +1,155 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Modal Frame Snapshot > Backdrop Lockが有効な時だけBackdropのカスタムができる 1`] = `
+<div
+  id="bmui-overlay"
+>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--backdrop"
+    >
+      <div>
+        backdrop
+      </div>
+    </div>
+    <div
+      class="bmui-modalframe--container"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--container"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Modal Frame Snapshot > Backdrop Lockが有効な時だけ中身の位置調整が有効になる 1`] = `
+<div
+  id="bmui-overlay"
+>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--backdrop"
+    >
+      <div>
+        backdrop
+      </div>
+    </div>
+    <div
+      class="bmui-modalframe--container"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--container"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--backdrop"
+    />
+    <div
+      class="bmui-modalframe--container -full bmui-alignment"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--container"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--container"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="bmui-modalframe"
+  >
+    <div
+      class="bmui-modalframe--backdrop"
+    />
+    <div
+      class="bmui-modalframe--container -full bmui-alignment -h-start"
+    >
+      <div
+        class="bmui-modalframe--content"
+      >
+        <div>
+          modal content
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

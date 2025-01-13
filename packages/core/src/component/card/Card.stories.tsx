@@ -104,3 +104,15 @@ export const StoryBordered: StoryObj<{
     radius: undefined,
   },
 };
+
+export const StoryMouseEvent: StoryObj = {
+  render() {
+    return (
+      <Card onClick={() => alert('クリックされました')}>
+        <div style={{ padding: '20px', width: '100px', height: '100px' }}>こんにちは</div>
+      </Card>
+    );
+  },
+  name: 'Card Propsは何も指定しないが、標準の属性を渡したとき、反映される',
+  args: {},
+};

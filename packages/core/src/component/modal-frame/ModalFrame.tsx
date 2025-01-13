@@ -3,17 +3,36 @@ import React, { forwardRef, type PropsWithChildren, type ReactNode, useCallback,
 import { createPortal } from 'react-dom';
 import { type ClassNameCustomizable } from '../../hook/custom-class/CustomClassHook';
 import { useOverlayInitializer } from '../../hook/overlay/OverlayInitializerHook';
+import { type AlignmentProps, useAlignment } from '../alignment/Alignment';
 import { ComponentToken } from '../ComponentToken';
 
 export type ModalFrameProps = PropsWithChildren<{
   backdropLock?: boolean;
   backdrop?: ReactNode;
   onBackdropClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  enableAlignment?: boolean;
 }> &
-  ClassNameCustomizable;
+  ClassNameCustomizable &
+  AlignmentProps;
+
+function preventPropagation(evt: React.MouseEvent<HTMLElement, MouseEvent>) {
+  evt.stopPropagation();
+}
 
 export const ModalFrame = forwardRef<HTMLDivElement, ModalFrameProps>((props, ref) => {
-  const cls = useMemo(() => clsx(ComponentToken.MODAL_FRAME, props.className), [props.className]);
+  const modalFrameClass = useMemo(() => clsx(ComponentToken.MODAL_FRAME, props.className), [props.className]);
+
+  const { alignmentClassName } = useAlignment(props);
+  const modalFrameContainerClass = useMemo(
+    () =>
+      clsx(
+        ComponentToken.modalFrame.CONTAINER,
+        { ['-full']: props.backdropLock && props.enableAlignment },
+        { [alignmentClassName]: props.backdropLock && props.enableAlignment },
+      ),
+    [alignmentClassName, props.backdropLock, props.enableAlignment],
+  );
+
   const { overlayElementId } = useOverlayInitializer();
   const target = document.getElementById(overlayElementId);
   const { children, backdropLock, backdrop } = props;
@@ -32,13 +51,13 @@ export const ModalFrame = forwardRef<HTMLDivElement, ModalFrameProps>((props, re
   }
 
   return createPortal(
-    <div className={cls} ref={r}>
-      {backdropLock && (
-        <div className={ComponentToken.modalFrame.BACKDROP} onClick={cb}>
-          {backdrop}
+    <div className={modalFrameClass} ref={r}>
+      {backdropLock && <div className={ComponentToken.modalFrame.BACKDROP}>{backdrop}</div>}
+      <div className={modalFrameContainerClass} onClick={cb}>
+        <div className={ComponentToken.modalFrame.CONTENT} onClick={preventPropagation}>
+          {children}
         </div>
-      )}
-      <div className={ComponentToken.modalFrame.CONTAINER}>{children}</div>
+      </div>
     </div>,
     target,
   );
