@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { type FC, memo, useCallback } from 'react';
+import { Card } from '../card/Card';
 import { ModalFrame, type ModalFrameProps } from './ModalFrame';
 
 export default {
@@ -21,15 +22,21 @@ export const Story: StoryObj<ModalFrameProps> = {
     }, []);
 
     return (
-      <ModalFrame {...args} onBackdropClick={cb}>
-        {/* ModalFrameの中身はメモ化させたほうがいい */}
-        <MemorizedTestComponent />
-      </ModalFrame>
+      <>
+        <ModalFrame {...args} onBackdropClick={cb}>
+          {/* ModalFrameの中身はメモ化させたほうがいい */}
+          <Card style={{ width: '500px', height: '250px' }}>表示内容</Card>
+        </ModalFrame>
+        <button style={{ marginTop: '280px' }}>ボタン</button>
+      </>
     );
   },
   name: 'Props',
   args: {
     backdropLock: false,
+    enableAlignment: false,
+    verticalAlign: 'center',
+    horizontalAlign: 'center',
   },
 };
 

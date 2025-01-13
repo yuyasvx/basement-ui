@@ -16,3 +16,13 @@ globalStyle(`.${ComponentToken.modalFrame.CONTAINER}`, {
   left: 0,
   zIndex: 2,
 });
+
+globalStyle(`.${ComponentToken.modalFrame.CONTAINER}.-full`, {
+  width: '100%',
+  height: '100%',
+});
+
+globalStyle(`.${ComponentToken.modalFrame.CONTENT}`, {
+  width: 'max-content',
+  height: 'max-content',
+});
