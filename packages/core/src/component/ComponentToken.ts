@@ -8,4 +8,8 @@ export const ComponentToken = {
   OVERLAY: 'bmui-overlay',
   CARD: 'bmui-card',
   ALIGNMENT: 'bmui-alignment',
+  POPUP: 'bmui-popup',
+  popup: {
+    CONTENT: 'bmui-popup--content',
+  },
 } as const;

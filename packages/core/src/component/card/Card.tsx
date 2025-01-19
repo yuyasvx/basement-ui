@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { type FC, type HTMLAttributes, type PropsWithChildren, useMemo } from 'react';
+import { forwardRef, type HTMLAttributes, type PropsWithChildren, useMemo } from 'react';
 import { useVariant, type VariantAcceptable } from '../../hook/variant/VariantHook';
 import type { Case } from '../../lib/Case';
 import { ComponentToken } from '../ComponentToken';
@@ -25,13 +25,13 @@ export type CardStyleProps = {
 
 export type CardProps = PropsWithChildren<CardStyleProps & HTMLAttributes<HTMLDivElement>>;
 
-export const Card: FC<CardProps> = (props) => {
+export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
   const { newProps, restProps } = useCardStyle(props);
   newProps.className = useMemo(() => clsx(newProps.className, props.className), [newProps.className, props.className]);
   newProps.style = { ...newProps.style, ...props.style };
 
-  return <div {...restProps} {...newProps} />;
-};
+  return <div {...restProps} {...newProps} ref={ref} />;
+});
 
 export function useCardStyle<P extends CardStyleProps>(props: P) {
   const { variantOption, baseColor, radius, backgroundAlpha, backdropBlur, ...restProps1 } = props;

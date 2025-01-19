@@ -13,7 +13,7 @@ export const Alignment: FC<PropsWithChildren<AlignmentProps & HTMLAttributes<HTM
   const { newProps, restProps } = useAlignment(props);
   newProps.className = useMemo(() => clsx(newProps.className, restProps.className), [newProps.className, restProps.className]);
 
-  return <div {...newProps} {...restProps} />;
+  return <div {...restProps} {...newProps} />;
 };
 
 export function useAlignment<P extends AlignmentProps>(props: P) {
