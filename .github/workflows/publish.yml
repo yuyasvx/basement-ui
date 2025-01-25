@@ -17,6 +17,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,9 +40,10 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-npm-
-      - name: Install node modules for production
-        run: npm ci --omit=dev
+      - name: Install Node modules
+        run: npm ci
       - name: Build modules
+        working-directory: packages/core
         run: npm run build
       - name: Modify package.json
         working-directory: packages/core
