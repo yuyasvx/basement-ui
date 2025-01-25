@@ -7,25 +7,22 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./packages/core
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node.js
+        uses: actions/checkout@v3
+      - name: Use Node.js
         uses: actions/setup-node@v3
+      - name: Cache npm directory
+        uses: actions/cache@v3
         with:
-          node-version: 20
-          cache: "npm"
-          cache-dependency-path: "**/package-lock.json"
-#      - name: Install dependencies
-#        run: npm ci
-#      - name: Type check
-#        run: npm run type-check
-#      - name: Lint code
-#        run: npm run lint
-#      - name: Check code format
-#        run: npm run format:check
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+      - name: Install Node modules
+        run: npm ci
+      - name: Lint code (and check type)
+        run: npm run lint
+      - name: Check code format
+        run: npm run check-format
 #      - name: Run unit test
 #        run: npm run test:coverage
