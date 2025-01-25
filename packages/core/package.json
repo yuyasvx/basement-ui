@@ -6,16 +6,20 @@
     "./*": "./dist/*.js"
   },
   "scripts": {
-    "lint": "eslint --fix",
+    "lint": "eslint --fix --ignore-pattern 'dist/*' && tsc",
+    "check-format": "prettier ./src --check",
     "test": "vitest",
     "build": "rm -rf ./dist && npm run build:script && npm run build:css && npm run build:typedef",
     "build:script": "node ./builder/build.js",
     "build:css": "node ./builder/build-css.js",
     "build:typedef": "tsc --p ./tsconfig.build.json",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "package:version": "node ./builder/package-editor.js version",
+    "package:github": "node ./builder/package-editor.js github-package"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "private": false,
   "dependencies": {
     "clsx": "^1.2.1"
   },
