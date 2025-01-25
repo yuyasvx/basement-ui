@@ -1,40 +1,39 @@
-.bmui-animation-pending-hook-test[data-bmui-open-state="opening"] {
-    color: red;
+.bmui-animation-pending-hook-test[data-bmui-open-state='opening'] {
+  color: red;
 }
 
-.bmui-animation-pending-hook-test[data-bmui-open-state="closing"] {
-    color: green;
+.bmui-animation-pending-hook-test[data-bmui-open-state='closing'] {
+  color: green;
 }
 
-
-.bmui-animation-pending-hook-test2[data-bmui-open-state="opening"] {
-    animation-duration: 1s;
-    animation-name: bmui-animation-pending-hook-test-fade-in;
-    animation-fill-mode: forwards;
+.bmui-animation-pending-hook-test2[data-bmui-open-state='opening'] {
+  animation-duration: 1s;
+  animation-name: bmui-animation-pending-hook-test-fade-in;
+  animation-fill-mode: forwards;
 }
 
-.bmui-animation-pending-hook-test2[data-bmui-open-state="closing"] {
-    animation-duration: 1s;
-    animation-name: bmui-animation-pending-hook-test-fade-out;
-    animation-fill-mode: forwards;
+.bmui-animation-pending-hook-test2[data-bmui-open-state='closing'] {
+  animation-duration: 1s;
+  animation-name: bmui-animation-pending-hook-test-fade-out;
+  animation-fill-mode: forwards;
 }
 
-@keyframes bmui-animation-pending-hook-test-fade-in{
-    from {
-        opacity: 0;
-    }
+@keyframes bmui-animation-pending-hook-test-fade-in {
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
-@keyframes bmui-animation-pending-hook-test-fade-out{
-    from {
-        opacity: 1;
-    }
+@keyframes bmui-animation-pending-hook-test-fade-out {
+  from {
+    opacity: 1;
+  }
 
-    to {
-        opacity: 0;
-    }
+  to {
+    opacity: 0;
+  }
 }
