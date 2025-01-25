@@ -1,0 +1,54 @@
+name: Publish
+
+on:
+  workflow_call:
+    inputs:
+      targetRef:
+        description: "branch or tag"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      targetRef:
+        description: "branch or tag"
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.targetRef }}
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.11.1
+          registry-url: https://npm.pkg.github.com
+          scope: '@yuyasvx'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache npm directory
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
+      - name: Install node modules for production
+        run: npm ci --omit=dev
+      - name: Build modules
+        run: npm run build
+      - name: Modify package.json
+        working-directory: packages/core
+        run: npm run package:github
+      - name: Remove unnecessary files
+        working-directory: packages/core
+        run: rm -rf ./src && rm -rf ./.storybook && rm -rf ./.turbo && rm -rf ./builder
+      - name: Publish package
+        working-directory: packages/core
+        run: npm publish --provenance --access public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
