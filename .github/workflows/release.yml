@@ -25,6 +25,21 @@ on:
         description: Releaseを自動作成する
 
 jobs:
+  input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: output
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await core.summary
+              .addList([
+                "Version: <strong>${{ inputs.version }}</strong>",
+                `Create Release Note: <strong>${${{inputs.create-release-note}} ? 'Yes' : 'No'}</strong>`,
+              ])
+            .write()
+
   finalize-version:
     runs-on: ubuntu-latest
     permissions:
