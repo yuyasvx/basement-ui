@@ -12,7 +12,6 @@ on:
         required: false
         default: false
         description: Releaseを自動作成するか
-    secrets: inherit
   workflow_dispatch:
     inputs:
       version:
