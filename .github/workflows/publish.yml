@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       target-ref:
-        description: "branch or tag"
+        description: "branch or tag (ex: version/1.0.0, v1.0.0)"
         required: true
         type: string
       overwrite-version-no:
@@ -15,11 +15,11 @@ on:
   workflow_dispatch:
     inputs:
       target-ref:
-        description: "branch or tag"
+        description: "branch or tag (ex: version/1.0.0, v1.0.0)"
         required: true
         type: string
       overwrite-version-no:
-        description: "package.jsonのversionを書き換えるか"
+        description: "package.jsonのversionを書き換える"
         type: boolean
         required: false
         default: false

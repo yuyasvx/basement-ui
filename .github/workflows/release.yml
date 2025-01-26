@@ -4,37 +4,39 @@ on:
   workflow_call:
     inputs:
       version:
-        description: "ex: 0.2.0"
+        description: "Version (ex: 0.2.0, 1.0.0-rc.0 ...)"
         required: true
         type: string
       create-release-note:
         type: boolean
         required: false
         default: false
-        description: Releaseを自動作成するか
+        description: Releaseを自動作成する
   workflow_dispatch:
     inputs:
       version:
-        description: "ex: 0.2.0"
+        description: "Version (ex: 0.2.0, 1.0.0-rc.0 ...)"
         required: true
         type: string
       create-release-note:
         type: boolean
         required: false
         default: false
-        description: Releaseを自動作成するか
+        description: Releaseを自動作成する
 
 jobs:
   finalize-version:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      checks: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          ref: version/${{ inputs.version }}
       - name: Check existing tags
         run: |
-          count=$(git tag -l "${{ inputs.version }}")
+          count=$(git tag -l "v${{ inputs.version }}")
           if [ count -gt 0 ]; then
             echo "version ${{ inputs.version }} already exists"
             exit 1
@@ -48,7 +50,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add .
           git commit -m "finalize version ${{ inputs.version }}"
-          git push origin version/${{ inputs.version }}
+          git push origin ${{ github.ref_name }}
       - name: Create tag
         run: |
           git tag v${{ inputs.version }}
@@ -56,6 +58,10 @@ jobs:
 
   publish:
     needs: [ finalize-version ]
+    permissions:
+      packages: write
+      contents: read
+      id-token: write
     uses: ./.github/workflows/publish.yml
     with:
       target-ref: v${{ inputs.version }}
