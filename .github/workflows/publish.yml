@@ -3,16 +3,27 @@ name: Publish
 on:
   workflow_call:
     inputs:
-      targetRef:
+      target-ref:
         description: "branch or tag"
         required: true
         type: string
+      overwrite-version-no:
+        description: "package.jsonのversionを書き換えるか"
+        type: boolean
+        required: false
+        default: false
+    secrets: inherit
   workflow_dispatch:
     inputs:
-      targetRef:
+      target-ref:
         description: "branch or tag"
         required: true
         type: string
+      overwrite-version-no:
+        description: "package.jsonのversionを書き換えるか"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   publish:
@@ -25,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.targetRef }}
+          ref: ${{ inputs.target-ref }}
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -48,6 +59,13 @@ jobs:
       - name: Modify package.json
         working-directory: packages/core
         run: npm run package:github
+      - name: Modify version no. if needed
+        working-directory: packages/core
+        if: ${{ inputs.overwrite-version-no }}
+        run: |
+          source=${{ inputs.target-ref }}
+          version=${source//(version\/|v)/""}
+          npm run package:version ${version}
       - name: Remove unnecessary files
         working-directory: packages/core
         run: rm -rf ./src && rm -rf ./.storybook && rm -rf ./.turbo && rm -rf ./builder

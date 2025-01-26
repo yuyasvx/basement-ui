@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "ex: 0.2.0"
+        required: true
+        type: string
+      create-release-note:
+        type: boolean
+        required: false
+        default: false
+        description: Releaseを自動作成するか
+    secrets: inherit
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "ex: 0.2.0"
+        required: true
+        type: string
+      create-release-note:
+        type: boolean
+        required: false
+        default: false
+        description: Releaseを自動作成するか
+
+jobs:
+  finalize-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: version/${{ inputs.version }}
+      - name: Check existing tags
+        run: |
+          count=$(git tag -l "${{ inputs.version }}")
+          if [ count -gt 0 ]; then
+            echo "version ${{ inputs.version }} already exists"
+            exit 1
+          fi
+      - name: Update version no. in package.json
+        working-directory: packages/core
+        run: npm run package:version ${{ inputs.version }}
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "finalize version ${{ inputs.version }}"
+          git push origin version/${{ inputs.version }}
+      - name: Create tag
+        run: |
+          git tag v${{ inputs.version }}
+          git push origin v${{ inputs.version }}
+
+  publish:
+    needs: [ finalize-version ]
+    uses: ./.github/workflows/publish.yml
+    with:
+      target-ref: v${{ inputs.version }}
+
+  release-note:
+    if: inputs.create-release-note
+    needs: [ publish ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_name: v${{ inputs.version }}
+          tag_name: v${{ inputs.version }}
+          draft: true
