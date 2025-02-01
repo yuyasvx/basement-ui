@@ -22,7 +22,7 @@ describe('Card Snapshot', () => {
       <>
         <Card
           variantOption={{
-            shadow: 10,
+            shadowWidth: 10,
             borderColor: '#000',
           }}
         >
@@ -70,7 +70,7 @@ describe('Card Snapshot', () => {
 
   test('Card Props指定あり＆styleありの場合、統合される', () => {
     const { container } = render(
-      <Card radius={6} variantOption={{ shadow: 5 }} style={{ width: '100px', borderRadius: '1px' }}>
+      <Card radius={6} variantOption={{ shadowWidth: 5 }} style={{ width: '100px', borderRadius: '1px' }}>
         <div>content</div>
       </Card>,
     );

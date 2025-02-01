@@ -13,7 +13,8 @@ export const CardVariant = {
 
 export type CardStyleProps = {
   variantOption?: {
-    shadow?: number;
+    shadowWidth?: number;
+    shadowStrength?: number;
     borderWidth?: number;
     borderColor?: string;
   };
@@ -26,9 +27,10 @@ export type CardStyleProps = {
 export type CardProps = PropsWithChildren<CardStyleProps & HTMLAttributes<HTMLDivElement>>;
 
 export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
+  const { className, style } = props;
   const { newProps, restProps } = useCardStyle(props);
-  newProps.className = useMemo(() => clsx(newProps.className, props.className), [newProps.className, props.className]);
-  newProps.style = { ...newProps.style, ...props.style };
+  newProps.className = useMemo(() => clsx(newProps.className, className), [className, newProps.className]);
+  newProps.style = { ...newProps.style, ...style };
 
   return <div {...restProps} {...newProps} ref={ref} />;
 });
@@ -38,7 +40,10 @@ export function useCardStyle<P extends CardStyleProps>(props: P) {
 
   const { variantClassName, restProps: restProps2 } = useVariant(restProps1, CardVariant.SHADOW as Case<typeof CardVariant>);
 
-  const shadowValue = useMemo(() => (variantOption?.shadow != null ? calcCardShadow(variantOption.shadow) : undefined), [variantOption?.shadow]);
+  const shadowValue = useMemo(
+    () => (variantOption?.shadowWidth != null ? calcCardShadow(variantOption.shadowWidth, variantOption.shadowStrength) : undefined),
+    [variantOption?.shadowStrength, variantOption?.shadowWidth],
+  );
   const alphaPercent = backgroundAlpha != null ? percent(backgroundAlpha) : undefined;
   const cls = useMemo(
     () => clsx(ComponentToken.CARD, variantClassName, { '-alpha-override': backgroundAlpha != null }, { '-blur': backdropBlur != null }),
@@ -64,6 +69,8 @@ export function useCardStyle<P extends CardStyleProps>(props: P) {
     restProps: restProps2,
   };
 }
+
+Card.displayName = 'Card';
 
 function percent(value: number) {
   const val = value > 1 ? 1 : value < 0 ? 0 : value;

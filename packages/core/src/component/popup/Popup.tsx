@@ -34,6 +34,7 @@ export const Popup = forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
     </div>
   );
 });
+Popup.displayName = 'Popup';
 
 function usePopup<P extends Omit<PopupDetailedProps, 'content'>>(props: P) {
   const { show, autoAlign, horizontalAlign, verticalAlign, zIndex, ...restProps } = props;

@@ -19,6 +19,11 @@ export default {
         type: 'number',
       },
     },
+    shadowStrength: {
+      control: {
+        type: 'number',
+      },
+    },
     borderWidth: {
       control: {
         type: 'number',
@@ -44,20 +49,15 @@ export default {
 
 export const Story: StoryObj<{
   shadowWidth?: number;
+  shadowStrength?: number;
   baseColor?: string;
   alpha?: number;
   blur?: number;
   radius?: number;
 }> = {
-  render(args) {
+  render({ shadowWidth, shadowStrength, baseColor, radius, blur, alpha }) {
     return (
-      <Card
-        variantOption={{ shadow: args.shadowWidth }}
-        baseColor={args.baseColor}
-        backgroundAlpha={args.alpha}
-        backdropBlur={args.blur}
-        radius={args.radius}
-      >
+      <Card variantOption={{ shadowWidth, shadowStrength }} baseColor={baseColor} backgroundAlpha={alpha} backdropBlur={blur} radius={radius}>
         <div style={{ padding: '20px', width: '100px', height: '100px' }}>こんにちは</div>
       </Card>
     );
@@ -65,6 +65,7 @@ export const Story: StoryObj<{
   name: 'Props (Variant: shadow)',
   args: {
     shadowWidth: undefined,
+    shadowStrength: undefined,
     baseColor: undefined,
     alpha: undefined,
     blur: undefined,
