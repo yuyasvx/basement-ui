@@ -25,4 +25,4 @@ jobs:
       - name: Check code format
         run: npm run check-format
       - name: Run unit test
-        run: npm run coverage
+        run: npm run test

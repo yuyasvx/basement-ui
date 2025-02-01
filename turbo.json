@@ -11,7 +11,7 @@
     "check-format": {
       "dependsOn": ["^check-format"]
     },
-    "coverage": {
+    "test": {
       "dependsOn": ["^coverage"],
       "outputs": ["coverage/*"]
     }
