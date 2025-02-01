@@ -5,6 +5,7 @@ export default defineConfig({
     include: ['src/**/*.spec.ts', 'src/**/*.spec.tsx', '*/src/**/*.spec.ts', '*/src/**/*.spec.tsx'],
     coverage: {
       enabled: false,
+      reporter: ['cobertura'],
     },
     environment: 'jsdom',
   },

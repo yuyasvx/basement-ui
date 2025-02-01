@@ -18,7 +18,11 @@ export default [
       'react-hooks': pluginReactHooks,
     },
     rules: {
+      ...pluginReact.configs.recommended.rules,
       ...pluginReactHooks.configs.recommended.rules,
+      'react/destructuring-assignment': ['warn', 'always'],
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
     },
     languageOptions: {
       parserOptions: {
@@ -33,4 +37,10 @@ export default [
     },
   },
   ...pluginStorybook.configs['flat/recommended'],
+  {
+    files: ['**/*.stories.{ts,tsx}'],
+    rules: {
+      'react/display-name': 'off',
+    },
+  },
 ];

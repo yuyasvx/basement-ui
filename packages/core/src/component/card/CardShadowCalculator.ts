@@ -27,10 +27,10 @@ class PrimaryCardShadowStyle extends CardShadowStyle {
   readonly opacity: number;
   readonly offsetY: number;
 
-  constructor(baseValue: number) {
+  constructor(baseValue: number, opacityRate = 1) {
     super();
     this.shadowWidth = baseValue;
-    this.opacity = this.calcOpacity(baseValue);
+    this.opacity = this.calcOpacity(baseValue, opacityRate);
     this.offsetY = this.calcOffsetY(baseValue);
   }
 
@@ -38,13 +38,16 @@ class PrimaryCardShadowStyle extends CardShadowStyle {
     return `0px ${this.offsetY}px ${this.shadowWidth}px rgba(0, 0, 0, ${this.opacity})`;
   }
 
-  private calcOpacity(baseValue: number): number {
+  private calcOpacity(baseValue: number, opacityRate: number): number {
     const calcOpacity = this.lerp(0, 0.1, 50, 0.4, baseValue);
-    return calcOpacity > PrimaryCardShadowStyle.MAX_OPACITY
-      ? PrimaryCardShadowStyle.MAX_OPACITY
-      : calcOpacity < PrimaryCardShadowStyle.MIN_OPACITY
-        ? PrimaryCardShadowStyle.MIN_OPACITY
-        : calcOpacity;
+    const adjustedOpacity =
+      calcOpacity > PrimaryCardShadowStyle.MAX_OPACITY
+        ? PrimaryCardShadowStyle.MAX_OPACITY
+        : calcOpacity < PrimaryCardShadowStyle.MIN_OPACITY
+          ? PrimaryCardShadowStyle.MIN_OPACITY
+          : calcOpacity;
+
+    return adjustedOpacity * opacityRate;
   }
 
   private calcOffsetY(baseValue: number): number {
@@ -60,10 +63,10 @@ class SecondaryCardShadowStyle extends CardShadowStyle {
   readonly opacity: number;
   readonly offsetY = 0;
 
-  constructor(baseValue: number) {
+  constructor(baseValue: number, opacityRate = 1) {
     super();
     this.shadowWidth = this.calcShadowWidth(baseValue);
-    this.opacity = this.calcOpacity(baseValue);
+    this.opacity = this.calcOpacity(baseValue, opacityRate);
   }
 
   toCSSValue() {
@@ -75,15 +78,16 @@ class SecondaryCardShadowStyle extends CardShadowStyle {
     return width < SecondaryCardShadowStyle.MIN_WIDTH ? SecondaryCardShadowStyle.MIN_WIDTH : width;
   }
 
-  private calcOpacity(baseValue: number): number {
+  private calcOpacity(baseValue: number, opacityRate: number): number {
     const calcOpacity = this.lerp(0, 0.3, 50, 0.05, baseValue);
-    return calcOpacity < SecondaryCardShadowStyle.MIN_OPACITY ? SecondaryCardShadowStyle.MIN_OPACITY : calcOpacity;
+    const adjustedOpacity = calcOpacity < SecondaryCardShadowStyle.MIN_OPACITY ? SecondaryCardShadowStyle.MIN_OPACITY : calcOpacity;
+    return adjustedOpacity * opacityRate;
   }
 }
 
-export function calcCardShadow(width: number) {
-  const primary = new PrimaryCardShadowStyle(width);
-  const secondary = new SecondaryCardShadowStyle(width);
+export function calcCardShadow(width: number, opacityRate: number = 1) {
+  const primary = new PrimaryCardShadowStyle(width, opacityRate);
+  const secondary = new SecondaryCardShadowStyle(width, opacityRate);
 
   return {
     primary,
