@@ -24,6 +24,11 @@ export default {
         type: 'number',
       },
     },
+    shadowColor: {
+      control: {
+        type: 'color',
+      },
+    },
     borderWidth: {
       control: {
         type: 'number',
@@ -50,14 +55,21 @@ export default {
 export const Story: StoryObj<{
   shadowWidth?: number;
   shadowStrength?: number;
+  shadowColor?: string;
   baseColor?: string;
   alpha?: number;
   blur?: number;
   radius?: number;
 }> = {
-  render({ shadowWidth, shadowStrength, baseColor, radius, blur, alpha }) {
+  render({ shadowWidth, shadowStrength, shadowColor, baseColor, radius, blur, alpha }) {
     return (
-      <Card variantOption={{ shadowWidth, shadowStrength }} baseColor={baseColor} backgroundAlpha={alpha} backdropBlur={blur} radius={radius}>
+      <Card
+        variantOption={{ shadowWidth, shadowStrength, shadowColor }}
+        baseColor={baseColor}
+        backgroundAlpha={alpha}
+        backdropBlur={blur}
+        radius={radius}
+      >
         <div style={{ padding: '20px', width: '100px', height: '100px' }}>こんにちは</div>
       </Card>
     );
@@ -66,6 +78,7 @@ export const Story: StoryObj<{
   args: {
     shadowWidth: undefined,
     shadowStrength: undefined,
+    shadowColor: undefined,
     baseColor: undefined,
     alpha: undefined,
     blur: undefined,
@@ -81,15 +94,15 @@ export const StoryBordered: StoryObj<{
   borderColor?: string;
   radius?: number;
 }> = {
-  render(args) {
+  render({ borderWidth, borderColor, baseColor, blur, radius, alpha }) {
     return (
       <Card
-        variantOption={{ borderWidth: args.borderWidth, borderColor: args.borderColor }}
-        baseColor={args.baseColor}
-        backgroundAlpha={args.alpha}
-        backdropBlur={args.blur}
+        variantOption={{ borderWidth, borderColor }}
+        baseColor={baseColor}
+        backgroundAlpha={alpha}
+        backdropBlur={blur}
         variant={CardVariant.BORDER}
-        radius={args.radius}
+        radius={radius}
       >
         <div style={{ padding: '20px', width: '100px', height: '100px' }}>こんにちは</div>
       </Card>

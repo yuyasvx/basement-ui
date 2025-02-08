@@ -1,9 +1,10 @@
 import clsx from 'clsx';
-import { forwardRef, type HTMLAttributes, type PropsWithChildren, useMemo } from 'react';
+import { type CSSProperties, forwardRef, type HTMLAttributes, type PropsWithChildren, useMemo } from 'react';
 import { useVariant, type VariantAcceptable } from '../../hook/variant/VariantHook';
 import type { Case } from '../../lib/Case';
+import { DropShadowLevelType } from '../../style/drop-shadow/DropShadowLevelType';
+import { type DropShadowStyleProps, useDropShadowStyle } from '../../style/drop-shadow/DropShadowStyleHook';
 import { ComponentToken } from '../ComponentToken';
-import { calcCardShadow } from './CardShadowCalculator';
 import { CardStyleVariable } from './CardStyleVariable';
 
 export const CardVariant = {
@@ -13,11 +14,9 @@ export const CardVariant = {
 
 export type CardStyleProps = {
   variantOption?: {
-    shadowWidth?: number;
-    shadowStrength?: number;
     borderWidth?: number;
     borderColor?: string;
-  };
+  } & DropShadowStyleProps;
   baseColor?: string;
   radius?: number;
   backgroundAlpha?: number;
@@ -37,40 +36,49 @@ export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 
 export function useCardStyle<P extends CardStyleProps>(props: P) {
   const { variantOption, baseColor, radius, backgroundAlpha, backdropBlur, ...restProps1 } = props;
+  const styleOverrideEnabled = useMemo(() => isStyleOverrideEnabled(props), [props]);
 
-  const { variantClassName, restProps: restProps2 } = useVariant(restProps1, CardVariant.SHADOW as Case<typeof CardVariant>);
-
-  const shadowValue = useMemo(
-    () => (variantOption?.shadowWidth != null ? calcCardShadow(variantOption.shadowWidth, variantOption.shadowStrength) : undefined),
-    [variantOption?.shadowStrength, variantOption?.shadowWidth],
-  );
+  const { variant, variantClassName, restProps: restProps2 } = useVariant(restProps1, CardVariant.SHADOW as Case<typeof CardVariant>);
+  const dropShadowStyle = useDropShadowStyle(variantOption ?? { level: DropShadowLevelType.LEVEL_10 });
   const alphaPercent = backgroundAlpha != null ? percent(backgroundAlpha) : undefined;
   const cls = useMemo(
     () => clsx(ComponentToken.CARD, variantClassName, { '-alpha-override': backgroundAlpha != null }, { '-blur': backdropBlur != null }),
     [backdropBlur, backgroundAlpha, variantClassName],
   );
-  const styleOverrideEnabled = useMemo(() => isStyleOverrideEnabled(props), [props]);
 
   return {
     newProps: {
       className: cls,
-      style: styleOverrideEnabled
-        ? {
-            ...shadowValue?.cssStyle,
-            [`--${CardStyleVariable.BASE_COLOR}`]: baseColor,
-            [`--${CardStyleVariable.RADIUS}`]: radius != null ? `${radius}px` : undefined,
-            [`--${CardStyleVariable.BASE_ALPHA}`]: alphaPercent != null ? `${alphaPercent}%` : undefined,
-            [`--${CardStyleVariable.BACKDROP_BLUR}`]: backdropBlur != null ? `${backdropBlur}px` : undefined,
-            [`--${CardStyleVariable.BORDER_WIDTH}`]: variantOption?.borderWidth != null ? `${variantOption?.borderWidth}px` : undefined,
-            [`--${CardStyleVariable.BORDER_COLOR}`]: variantOption?.borderColor,
-          }
-        : undefined,
+      style: mergeStyleOverride(
+        styleOverrideEnabled
+          ? ({
+              [`--${CardStyleVariable.BASE_COLOR}`]: baseColor,
+              [`--${CardStyleVariable.RADIUS}`]: radius != null ? `${radius}px` : undefined,
+              [`--${CardStyleVariable.BASE_ALPHA}`]: alphaPercent != null ? `${alphaPercent}%` : undefined,
+              [`--${CardStyleVariable.BACKDROP_BLUR}`]: backdropBlur != null ? `${backdropBlur}px` : undefined,
+              [`--${CardStyleVariable.BORDER_WIDTH}`]: variantOption?.borderWidth != null ? `${variantOption?.borderWidth}px` : undefined,
+              [`--${CardStyleVariable.BORDER_COLOR}`]: variantOption?.borderColor,
+            } as CSSProperties)
+          : undefined,
+        variant === CardVariant.SHADOW ? dropShadowStyle.newProps.style : undefined,
+      ),
     },
     restProps: restProps2,
   };
 }
 
 Card.displayName = 'Card';
+
+function mergeStyleOverride(cardStyle?: CSSProperties, dropShadowStyle?: CSSProperties) {
+  if (cardStyle == null && dropShadowStyle == null) {
+    return undefined;
+  }
+
+  return {
+    ...cardStyle,
+    ...dropShadowStyle,
+  };
+}
 
 function percent(value: number) {
   const val = value > 1 ? 1 : value < 0 ? 0 : value;

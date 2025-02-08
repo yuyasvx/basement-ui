@@ -8,6 +8,7 @@ export function useVariant<ENUM, P extends VariantAcceptable<ENUM>>(props: P, de
   const { variant, ...restProps } = props;
   const val = variant ?? defaultValue;
   return {
+    variant: val,
     variantClassName: `--${val}`,
     restProps,
   };
