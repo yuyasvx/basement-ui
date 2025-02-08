@@ -12,4 +12,5 @@ export const ComponentToken = {
   popup: {
     CONTENT: 'bmui-popup--content',
   },
+  DROP_SHADOW: 'bmui-dropshadow',
 } as const;

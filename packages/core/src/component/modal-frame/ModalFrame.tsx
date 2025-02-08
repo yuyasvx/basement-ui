@@ -20,32 +20,31 @@ function preventPropagation(evt: React.MouseEvent<HTMLElement, MouseEvent>) {
 }
 
 export const ModalFrame = forwardRef<HTMLDivElement, ModalFrameProps>((props, ref) => {
-  const modalFrameClass = useMemo(() => clsx(ComponentToken.MODAL_FRAME, props.className), [props.className]);
+  const { enableAlignment, backdropLock, backdrop, children, onBackdropClick, className } = props;
+  const modalFrameClass = useMemo(() => clsx(ComponentToken.MODAL_FRAME, className), [className]);
 
   const { alignmentClassName } = useAlignment(props);
   const modalFrameContainerClass = useMemo(
     () =>
       clsx(
         ComponentToken.modalFrame.CONTAINER,
-        { ['-full']: props.backdropLock && props.enableAlignment },
-        { [alignmentClassName]: props.backdropLock && props.enableAlignment },
+        { ['-full']: backdropLock && enableAlignment },
+        { [alignmentClassName]: backdropLock && enableAlignment },
       ),
-    [alignmentClassName, props.backdropLock, props.enableAlignment],
+    [alignmentClassName, backdropLock, enableAlignment],
   );
 
   const { overlayElementId } = useOverlayInitializer();
   const target = document.getElementById(overlayElementId);
-  const { children, backdropLock, backdrop } = props;
   const internalRef = useRef(null);
   const r = ref != null ? ref : internalRef;
   const cb = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.stopPropagation();
-      props.onBackdropClick?.(event);
+      onBackdropClick?.(event);
     },
-    [props],
+    [onBackdropClick],
   );
-  ModalFrame.displayName = 'ModalFrame';
 
   if (target == null) {
     return <></>;
@@ -63,3 +62,5 @@ export const ModalFrame = forwardRef<HTMLDivElement, ModalFrameProps>((props, re
     target,
   );
 });
+
+ModalFrame.displayName = 'ModalFrame';
