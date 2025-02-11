@@ -65,9 +65,9 @@ jobs:
           source=${{ inputs.target-ref }}
           version=${source//(version\/|v)/""}
           npm run package:version ${version}
-      - name: Remove unnecessary files
-        working-directory: packages/core
-        run: rm -rf ./src && rm -rf ./.storybook && rm -rf ./.turbo && rm -rf ./builder
+      #      - name: Remove unnecessary files
+      #        working-directory: packages/core
+      #        run: rm -rf ./src && rm -rf ./.storybook && rm -rf ./.turbo && rm -rf ./builder
       - name: Publish package
         working-directory: packages/core
         run: npm publish --provenance --access public
