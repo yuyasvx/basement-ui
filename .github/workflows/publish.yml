@@ -54,7 +54,7 @@ jobs:
         run: npm ci
       - name: Build modules
         working-directory: packages/core
-        run: npm run build
+        run: npm run build && ls -l .
       - name: Modify package.json
         working-directory: packages/core
         run: npm run package:github
