@@ -52,22 +52,19 @@ jobs:
           restore-keys: ${{ runner.os }}-npm-
       - name: Install Node modules
         run: npm ci
-      - name: Build modules
-        working-directory: packages/core
-        run: npm run build
       - name: Modify package.json
         working-directory: packages/core
         run: npm run package:github
-      - name: Modify version no. if needed
+      - name: Modify version if needed
         working-directory: packages/core
         if: ${{ inputs.overwrite-version-no }}
         run: |
           source=${{ inputs.target-ref }}
           version=${source//(version\/|v)/""}
           npm run package:version ${version}
-      - name: Remove unnecessary files
+      - name: Build modules
         working-directory: packages/core
-        run: rm -rf ./src && rm -rf ./.storybook && rm -rf ./.turbo && rm -rf ./builder
+        run: npm run build
       - name: Publish package
         working-directory: packages/core
         run: npm publish --provenance --access public

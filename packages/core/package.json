@@ -5,6 +5,9 @@
   "exports": {
     "./*": "./dist/*.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "eslint --fix --ignore-pattern 'dist/*' && tsc",
     "check-format": "prettier ./src --check",
