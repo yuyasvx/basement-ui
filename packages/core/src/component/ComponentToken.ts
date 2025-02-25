@@ -13,4 +13,14 @@ export const ComponentToken = {
     CONTENT: 'bmui-popup--content',
   },
   DROP_SHADOW: 'bmui-dropshadow',
+  SCROLLABLE_VIEW: 'bmui-scrollableview',
+  scrollableView: {
+    CONTENT: 'bmui-scrollableview--content',
+  },
+  SCROLL_BAR: 'bmui-scrollbar',
+  scrollBar: {
+    background: 'bmui-scrollbar--background',
+    frame: 'bmui-scrollbar--frame',
+    knob: 'bmui-scrollbar--knob',
+  },
 } as const;
