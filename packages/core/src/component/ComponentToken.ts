@@ -20,7 +20,7 @@ export const ComponentToken = {
   SCROLL_BAR: 'bmui-scrollbar',
   scrollBar: {
     background: 'bmui-scrollbar--background',
-    frame: 'bmui-scrollbar--frame',
     knob: 'bmui-scrollbar--knob',
+    innerKnob: 'bmui-scrollbar--inner-knob',
   },
 } as const;

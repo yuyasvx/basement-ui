@@ -4,7 +4,7 @@ export type ViewBox = Readonly<{
   width: number;
   height: number;
 }>;
-const viewBox = {
+const viewBoxBehavior = {
   minus(p1: ViewBox, p2: ViewBox): ViewBox {
     return {
       width: p1.width - p2.width,
@@ -14,26 +14,39 @@ const viewBox = {
 };
 
 export class ScrollableViewManager {
+  /** スクロールバーのノブの最小の高さ。
+   *
+   * 表示内容が多くなればなるほど、スクロールバーのノブは小さくなるが、これ以上は小さく表示させたくない大きさを設定する */
   public minimumScrollBarFrameHeight = 40;
+
+  /** スクロールビューのRef */
   private _viewElement?: HTMLElement;
+
+  /** スクロールビューの中身のRef */
   private contentElement?: HTMLElement;
+
+  /** 縦のスクロールした量 */
   private scrollTop = 0;
   private scrollLeft = 0;
+
+  /** 縦にスクロールできる量。ビューサイズ200pxで内容が250pxだった場合、50pxスクロールできるので、その値 */
   private scrollableTop = 0;
   private scrollableLeft = 0;
+
+  /** 縦スクロールバーのノブの長さ */
   private verticalLength = this.minimumScrollBarFrameHeight;
+  private verticalOffset = 0;
 
   private resizeObserver = new ResizeObserver(() => {
-    console.log('detected');
     this.refreshScrollBarStatus();
   });
+  private mutationObserver = new MutationObserver(() => {
+    this.refreshScrollBarStatus();
+    this.updateVerticalOffset();
+  });
 
-  get viewElement(): HTMLElement | undefined {
-    return this._viewElement;
-  }
-
-  set viewElement(val: HTMLElement | null | undefined) {
-    this._viewElement = val ?? undefined;
+  set viewElement(val: HTMLElement | undefined) {
+    this._viewElement = val;
     this.updateChildElement();
   }
 
@@ -53,19 +66,21 @@ export class ScrollableViewManager {
     this.contentElement?.removeEventListener('scroll', cb);
   }
 
-  enableResizeObserver() {
+  enableObserver() {
     if (this.contentElement == null) {
       console.log('failed');
       return;
     }
     this.resizeObserver.observe(this.contentElement);
+    this.mutationObserver.observe(this.contentElement, { attributes: true, childList: true, subtree: true });
   }
 
-  disableResizeObserver() {
+  disableObserver() {
     if (this.contentElement == null) {
       return;
     }
     this.resizeObserver.unobserve(this.contentElement);
+    this.mutationObserver.disconnect();
   }
 
   /**
@@ -73,15 +88,19 @@ export class ScrollableViewManager {
    */
   refreshScrollBarStatus() {
     this._viewElement?.style.setProperty(`--${ScrollBarVariable.VERTICAL_GUTTER_WIDTH}`, `${this.clientBox.height}px`);
-    this._viewElement?.style.setProperty(`--${ScrollBarVariable.FRAME_MIN_LENGTH}`, `${this.minimumScrollBarFrameHeight}px`);
+    this._viewElement?.style.setProperty(`--${ScrollBarVariable.KNOB_MIN_LENGTH}`, `${this.minimumScrollBarFrameHeight}px`);
     this.refreshViewBoxStatus();
+
+    const vKnob = (this._viewElement?.querySelector('[data-bmui-view-type="v-knob"]') as HTMLElement | null) ?? undefined;
+    this.verticalOffset = vKnob?.offsetTop ?? 0;
+
     this.updateScrollBarFrameLength();
 
     this.acceptScrolling();
   }
 
   refreshViewBoxStatus() {
-    const difference = viewBox.minus(this.scrollBox, this.clientBox);
+    const difference = viewBoxBehavior.minus(this.scrollBox, this.clientBox);
     this.scrollableTop = difference.height;
     this.scrollableLeft = difference.width;
   }
@@ -112,21 +131,25 @@ export class ScrollableViewManager {
   }
 
   private updateScrollBarFrameLength() {
-    const verticalLength = this.clientBox.height - this.scrollableTop;
+    const verticalLength = this.clientBox.height - this.scrollableTop - this.verticalOffset;
     this.verticalLength = verticalLength < this.minimumScrollBarFrameHeight ? this.minimumScrollBarFrameHeight : verticalLength;
-    this._viewElement?.style.setProperty(`--${ScrollBarVariable.VERTICAL_FRAME_LENGTH}`, `${this.verticalLength}px`);
+    this._viewElement?.style.setProperty(`--${ScrollBarVariable.VERTICAL_KNOB_LENGTH}`, `${this.verticalLength}px`);
   }
 
   private updateScrollBarPosition() {
     const scrollTop = this.scrollTop;
     const restOfScrollTop = this.scrollableTop;
-    const restOfScrollBarBackground = this.clientBox.height - this.verticalLength;
-    const topPosition = (scrollTop * restOfScrollBarBackground) / restOfScrollTop;
+    const restOfScrollBarBackground = this.clientBox.height - this.verticalLength - this.verticalOffset;
+    const topPosition = restOfScrollTop === 0 ? 0 : (scrollTop * restOfScrollBarBackground) / restOfScrollTop;
 
-    this._viewElement?.style.setProperty(`--${ScrollBarVariable.VERTICAL_FRAME_POSITION}`, `${topPosition}px`);
+    this._viewElement?.style.setProperty(`--${ScrollBarVariable.VERTICAL_KNOB_POSITION}`, `${topPosition}px`);
   }
 
   private updateChildElement() {
     this.contentElement = (this._viewElement?.querySelector('[data-bmui-view-type="content"]') as HTMLElement | null) ?? undefined;
+  }
+
+  private updateVerticalOffset() {
+    // console.log(this._viewElement?.computedStyleMap().get('--' + ScrollBarVariable.VERTICAL_HEAD_OFFSET));
   }
 }
