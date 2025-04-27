@@ -16,9 +16,9 @@ describe('DropShadowCalculator', () => {
     expect(shadowTen.primary.shadowWidth).toBe(10);
     expect(shadowTen.primary.opacity).toBeCloseTo(0.16);
     expect(shadowTen.primary.offsetY).toBe(4);
-    expect(shadowZero.secondary.shadowWidth).toBe(2);
-    expect(shadowZero.secondary.opacity).toBeCloseTo(0.3);
-    expect(shadowZero.secondary.offsetY).toBe(0);
+    expect(shadowTen.secondary.shadowWidth).toBe(2);
+    expect(shadowTen.secondary.opacity).toBeCloseTo(0.25);
+    expect(shadowTen.secondary.offsetY).toBe(0);
   });
 
   test('計算によって求めたドロップシャドウのスタイルをCSSとして取得できる', () => {

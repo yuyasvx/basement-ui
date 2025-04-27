@@ -15,12 +15,13 @@ export const ComponentToken = {
   DROP_SHADOW: 'bmui-dropshadow',
   SCROLLABLE_VIEW: 'bmui-scrollableview',
   scrollableView: {
+    FRAME: 'bmui-scrollableview--frame',
     CONTENT: 'bmui-scrollableview--content',
   },
   SCROLL_BAR: 'bmui-scrollbar',
   scrollBar: {
     background: 'bmui-scrollbar--background',
-    frame: 'bmui-scrollbar--frame',
     knob: 'bmui-scrollbar--knob',
+    innerKnob: 'bmui-scrollbar--inner-knob',
   },
 } as const;
