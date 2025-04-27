@@ -18,10 +18,10 @@ export type PopupDetailedProps = {
 export type PopupProps = PopupDetailedProps & Omit<HTMLAttributes<HTMLDivElement>, 'content'>;
 
 export const Popup = forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
-  const { newProps, restProps: restProps1, contentRef } = usePopup(props);
+  const { contentRef, newProps, restProps: restProps1 } = usePopup(props);
   newProps.className = clsx(newProps.className, props.className);
   newProps.style = { ...newProps.style, ...props.style };
-  const { content, children, ...restProps2 } = restProps1;
+  const { children, content, ...restProps2 } = restProps1;
 
   return (
     <div ref={ref} {...restProps2} {...newProps}>
@@ -37,7 +37,7 @@ export const Popup = forwardRef<HTMLDivElement, PopupProps>((props, ref) => {
 Popup.displayName = 'Popup';
 
 function usePopup<P extends Omit<PopupDetailedProps, 'content'>>(props: P) {
-  const { show, autoAlign, horizontalAlign, verticalAlign, zIndex, ...restProps } = props;
+  const { autoAlign, horizontalAlign, show, verticalAlign, zIndex, ...restProps } = props;
   const contentRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {

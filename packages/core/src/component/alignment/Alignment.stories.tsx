@@ -3,20 +3,6 @@ import { Card } from '../card/Card';
 import { Alignment, type AlignmentProps } from './Alignment';
 import { AlignmentType } from './AlignmentType';
 
-export default {
-  title: 'Component/Alignment',
-  argTypes: {
-    horizontalAlign: {
-      control: { type: 'select' },
-      options: Object.values(AlignmentType),
-    },
-    verticalAlign: {
-      control: { type: 'select' },
-      options: Object.values(AlignmentType),
-    },
-  },
-} satisfies Meta;
-
 export const Story: StoryObj<AlignmentProps> = {
   render(args) {
     return (
@@ -31,3 +17,17 @@ export const Story: StoryObj<AlignmentProps> = {
     verticalAlign: 'center',
   },
 };
+
+export default {
+  title: 'Component/Alignment',
+  argTypes: {
+    horizontalAlign: {
+      control: { type: 'select' },
+      options: Object.values(AlignmentType),
+    },
+    verticalAlign: {
+      control: { type: 'select' },
+      options: Object.values(AlignmentType),
+    },
+  },
+} satisfies Meta;

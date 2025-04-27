@@ -20,7 +20,7 @@ function preventPropagation(evt: React.MouseEvent<HTMLElement, MouseEvent>) {
 }
 
 export const ModalFrame = forwardRef<HTMLDivElement, ModalFrameProps>((props, ref) => {
-  const { enableAlignment, backdropLock, backdrop, children, onBackdropClick, className } = props;
+  const { backdrop, backdropLock, children, className, enableAlignment, onBackdropClick } = props;
   const modalFrameClass = useMemo(() => clsx(ComponentToken.MODAL_FRAME, className), [className]);
 
   const { alignmentClassName } = useAlignment(props);

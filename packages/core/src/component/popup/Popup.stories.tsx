@@ -5,32 +5,6 @@ import { Card, CardVariant } from '../card/Card';
 import { Popup, type PopupDetailedProps } from './Popup';
 import { PopupAlignmentType } from './PopupAlignmentType';
 
-export default {
-  title: 'Component/Popup',
-  argTypes: {
-    horizontalAlign: {
-      control: { type: 'select' },
-      options: Object.values(PopupAlignmentType),
-    },
-    verticalAlign: {
-      control: { type: 'select' },
-      options: Object.values(PopupAlignmentType),
-    },
-    zIndex: {
-      control: { type: 'number' },
-    },
-  },
-} satisfies Meta;
-
-const MemoCard = memo(() => (
-  <Card style={{ padding: '10px' }}>
-    内容
-    <Card variant={CardVariant.BORDER} style={{ padding: '5px' }}>
-      内容その2
-    </Card>
-  </Card>
-));
-
 export const Story: StoryObj<Omit<PopupDetailedProps, 'content'>> = {
   render(args) {
     return (
@@ -60,3 +34,29 @@ export const Story: StoryObj<Omit<PopupDetailedProps, 'content'>> = {
     autoAlign: false,
   },
 };
+
+const MemoCard = memo(() => (
+  <Card style={{ padding: '10px' }}>
+    内容
+    <Card variant={CardVariant.BORDER} style={{ padding: '5px' }}>
+      内容その2
+    </Card>
+  </Card>
+));
+
+export default {
+  title: 'Component/Popup',
+  argTypes: {
+    horizontalAlign: {
+      control: { type: 'select' },
+      options: Object.values(PopupAlignmentType),
+    },
+    verticalAlign: {
+      control: { type: 'select' },
+      options: Object.values(PopupAlignmentType),
+    },
+    zIndex: {
+      control: { type: 'number' },
+    },
+  },
+} satisfies Meta;

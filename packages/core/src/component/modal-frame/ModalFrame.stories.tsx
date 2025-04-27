@@ -3,18 +3,6 @@ import { type FC, memo, useCallback } from 'react';
 import { Card } from '../card/Card';
 import { ModalFrame, type ModalFrameProps } from './ModalFrame';
 
-export default {
-  title: 'Component/Modal Frame',
-} satisfies Meta;
-
-const ChildElement: FC = () => <span>Child Element</span>;
-const MemorizedTestComponent = memo(() => (
-  <div>
-    Hello World
-    <ChildElement />
-  </div>
-));
-
 export const Story: StoryObj<ModalFrameProps> = {
   render(args) {
     const cb = useCallback(() => {
@@ -39,6 +27,14 @@ export const Story: StoryObj<ModalFrameProps> = {
     horizontalAlign: 'center',
   },
 };
+
+const ChildElement: FC = () => <span>Child Element</span>;
+const MemorizedTestComponent = memo(() => (
+  <div>
+    Hello World
+    <ChildElement />
+  </div>
+));
 
 export const StoryMultiple: StoryObj<ModalFrameProps> = {
   render(args) {
@@ -95,3 +91,7 @@ export const StoryCustomBackdrop: StoryObj<ModalFrameProps> = {
     backdropLock: true,
   },
 };
+
+export default {
+  title: 'Component/Modal Frame',
+} satisfies Meta;

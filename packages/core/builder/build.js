@@ -1,6 +1,6 @@
-import path from 'path';
 import { build } from 'esbuild';
 import { glob } from 'glob';
+import path from 'path';
 
 const getTargetScripts = () =>
   [...glob.sync('src/**/*.ts'), ...glob.sync('src/**/*.tsx')]

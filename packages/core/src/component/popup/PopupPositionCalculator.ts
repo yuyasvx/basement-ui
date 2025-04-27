@@ -47,7 +47,7 @@ function calcVerticalAlignment(align: Case<typeof PopupAlignmentType>, parentDom
     case PopupAlignmentType.OUTER_START:
       return {
         top: undefined,
-        bottom: parentDomRect.height + 'px',
+        bottom: `${parentDomRect.height}px`,
         transform: 'translateY(0)',
       };
     case PopupAlignmentType.START:
@@ -70,7 +70,7 @@ function calcVerticalAlignment(align: Case<typeof PopupAlignmentType>, parentDom
       };
     case PopupAlignmentType.OUTER_END:
       return {
-        top: parentDomRect.height + 'px',
+        top: `${parentDomRect.height}px`,
         bottom: undefined,
         transform: 'translateY(0)',
       };

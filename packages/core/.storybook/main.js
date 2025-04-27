@@ -1,5 +1,5 @@
-import { dirname, join } from 'path';
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import { dirname, join } from 'path';
 import { mergeConfig } from 'vite';
 
 /**

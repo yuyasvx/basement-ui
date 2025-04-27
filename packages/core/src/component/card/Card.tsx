@@ -35,10 +35,10 @@ export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
 });
 
 export function useCardStyle<P extends CardStyleProps>(props: P) {
-  const { variantOption, baseColor, radius, backgroundAlpha, backdropBlur, ...restProps1 } = props;
+  const { backdropBlur, backgroundAlpha, baseColor, radius, variantOption, ...restProps1 } = props;
   const styleOverrideEnabled = useMemo(() => isStyleOverrideEnabled(props), [props]);
 
-  const { variant, variantClassName, restProps: restProps2 } = useVariant(restProps1, CardVariant.SHADOW as Case<typeof CardVariant>);
+  const { restProps: restProps2, variant, variantClassName } = useVariant(restProps1, CardVariant.SHADOW as Case<typeof CardVariant>);
   const dropShadowStyle = useDropShadowStyle(variantOption ?? { level: DropShadowLevelType.LEVEL_10 });
   const alphaPercent = backgroundAlpha != null ? percent(backgroundAlpha) : undefined;
   const cls = useMemo(
@@ -86,6 +86,6 @@ function percent(value: number) {
 }
 
 function isStyleOverrideEnabled(props: CardStyleProps) {
-  const { variantOption, baseColor, radius, backgroundAlpha, backdropBlur } = props;
+  const { backdropBlur, backgroundAlpha, baseColor, radius, variantOption } = props;
   return baseColor != null || variantOption != null || radius != null || backgroundAlpha != null || backdropBlur != null;
 }

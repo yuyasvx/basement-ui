@@ -2,23 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useCallback, useState } from 'react';
 import { ScrollableView } from './ScrollableView';
 
-export default {
-  title: 'Component/Scroll Bar Test',
-  argTypes: {
-    // horizontalAlign: {
-    //   control: { type: 'select' },
-    //   options: Object.values(PopupAlignmentType),
-    // },
-    // verticalAlign: {
-    //   control: { type: 'select' },
-    //   options: Object.values(PopupAlignmentType),
-    // },
-    // zIndex: {
-    //   control: { type: 'number' },
-    // },
-  },
-} satisfies Meta;
-
 export const Story: StoryObj = {
   render() {
     const [large, setLarge] = useState(true);
@@ -48,3 +31,20 @@ export const Story: StoryObj = {
   name: 'Props',
   args: {},
 };
+
+export default {
+  title: 'Component/Scroll Bar Test',
+  argTypes: {
+    // horizontalAlign: {
+    //   control: { type: 'select' },
+    //   options: Object.values(PopupAlignmentType),
+    // },
+    // verticalAlign: {
+    //   control: { type: 'select' },
+    //   options: Object.values(PopupAlignmentType),
+    // },
+    // zIndex: {
+    //   control: { type: 'number' },
+    // },
+  },
+} satisfies Meta;

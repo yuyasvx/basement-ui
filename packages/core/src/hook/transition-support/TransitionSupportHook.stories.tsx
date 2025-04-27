@@ -1,20 +1,8 @@
+import './TransitionSupportHook.stories.test.css';
 import type { Meta, StoryObj } from '@storybook/react';
 import { type FC, useCallback, useRef } from 'react';
 import { TransitionTrigger } from './enums/TransitionTrigger';
 import { type TransitionSupportProps, useTransitionSupport } from './TransitionSupportHook';
-import './TransitionSupportHook.stories.test.css';
-
-export default {
-  title: 'Hook/Transition Support',
-  argTypes: {
-    enableTransition: {
-      options: Object.values(TransitionTrigger),
-      control: { type: 'select' },
-    },
-  },
-} satisfies Meta;
-
-const ChildElement: FC = () => <span>Child Element</span>;
 
 export const Story: StoryObj<TransitionSupportProps<HTMLDivElement>> = {
   render(args) {
@@ -40,6 +28,8 @@ export const Story: StoryObj<TransitionSupportProps<HTMLDivElement>> = {
     duration: 1000,
   },
 };
+
+const ChildElement: FC = () => <span>Child Element</span>;
 
 export const StoryEvent: StoryObj<TransitionSupportProps<HTMLDivElement>> = {
   render(args) {
@@ -106,3 +96,13 @@ export const StoryAutoDuration: StoryObj<TransitionSupportProps<HTMLDivElement>>
     enableTransition: TransitionTrigger.BOTH,
   },
 };
+
+export default {
+  title: 'Hook/Transition Support',
+  argTypes: {
+    enableTransition: {
+      options: Object.values(TransitionTrigger),
+      control: { type: 'select' },
+    },
+  },
+} satisfies Meta;

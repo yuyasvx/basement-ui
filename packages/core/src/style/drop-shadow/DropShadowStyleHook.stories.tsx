@@ -2,24 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DropShadowLevelType } from './DropShadowLevelType';
 import { type DropShadowStyleProps, useDropShadowStyle } from './DropShadowStyleHook';
 
-export default {
-  title: 'Hook/Drop Shadow Style',
-  argTypes: {
-    shadowWidth: {
-      control: { type: 'number' },
-    },
-    shadowColor: {
-      control: { type: 'color' },
-    },
-    shadowStrength: {
-      control: { type: 'number' },
-    },
-    level: {
-      options: Object.values(DropShadowLevelType),
-    },
-  },
-} satisfies Meta;
-
 export const Story: StoryObj<DropShadowStyleProps> = {
   render(args) {
     const { newProps } = useDropShadowStyle(args);
@@ -59,3 +41,21 @@ export const ShadowLevelStory: StoryObj<DropShadowStyleProps> = {
     level: DropShadowLevelType.LEVEL_5,
   },
 };
+
+export default {
+  title: 'Hook/Drop Shadow Style',
+  argTypes: {
+    shadowWidth: {
+      control: { type: 'number' },
+    },
+    shadowColor: {
+      control: { type: 'color' },
+    },
+    shadowStrength: {
+      control: { type: 'number' },
+    },
+    level: {
+      options: Object.values(DropShadowLevelType),
+    },
+  },
+} satisfies Meta;

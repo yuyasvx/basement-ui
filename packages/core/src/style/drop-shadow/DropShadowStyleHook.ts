@@ -12,7 +12,7 @@ export type DropShadowStyleProps = {
   level?: DropShadowLevelType;
 };
 
-export function useDropShadowStyle<P extends DropShadowStyleProps>({ shadowColor, shadowWidth, shadowStrength, level: propsLevel, ...restProps }: P) {
+export function useDropShadowStyle<P extends DropShadowStyleProps>({ level: propsLevel, shadowColor, shadowStrength, shadowWidth, ...restProps }: P) {
   const styleOverride = useMemo(() => shadowWidth != null || shadowStrength != null, [shadowStrength, shadowWidth]);
   const level = styleOverride ? undefined : propsLevel;
   const shadowValue = useMemo(

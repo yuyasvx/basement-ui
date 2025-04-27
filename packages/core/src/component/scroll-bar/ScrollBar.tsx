@@ -38,7 +38,7 @@ type ScrollBarImplProps = {
   activeDuration?: number;
 };
 
-const ScrollBarImpl: FC<ScrollBarImplProps> = ({ type, needToShow, displayMode }) => {
+const ScrollBarImpl: FC<ScrollBarImplProps> = ({ displayMode, needToShow, type }) => {
   const className = useMemo(() => clsx(ComponentToken.SCROLL_BAR, type), [type]);
   const [scrollBarStatus] = useState(
     displayMode === DisplayMode.ALWAYS_ACTIVE
