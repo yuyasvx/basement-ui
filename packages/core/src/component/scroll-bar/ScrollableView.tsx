@@ -28,8 +28,10 @@ export const ScrollableView = forwardRef<HTMLDivElement, ScrollableViewProps>((p
   newProps.style = { ...newProps.style, ...restProps.style };
   return (
     <div {...restProps} {...newProps}>
-      <div data-bmui-view-type="content" className={ComponentToken.scrollableView.CONTENT}>
-        {children}
+      <div data-bmui-view-type="frame" className={ComponentToken.scrollableView.FRAME}>
+        <div data-bmui-view-type="content" className={ComponentToken.scrollableView.CONTENT}>
+          {children}
+        </div>
       </div>
       <ScrollBar />
     </div>

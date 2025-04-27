@@ -20,6 +20,7 @@ globalStyle(`.${ComponentToken.SCROLL_BAR} > *`, {
   flexShrink: 0,
 });
 
+/** スクロールバーのヘッドのオフセットの表現 */
 globalStyle(`.${ComponentToken.SCROLL_BAR}.${ScrollBarImplType.VERTICAL}::before`, {
   flexGrow: 0,
   flexShrink: 0,

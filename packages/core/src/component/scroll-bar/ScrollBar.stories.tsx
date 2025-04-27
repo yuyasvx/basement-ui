@@ -39,9 +39,8 @@ export const Story: StoryObj = {
         scrollBarVerticalOffset={'40px'}
       >
         <div style={{ width: '200px', height: large ? '600px' : '220px', background: '#efefef' }}>
-          吾<br />輩<br />は<br />猫<br />で<br />あ<br />る<br />
-          <button onClick={upd}>サイズ変更</button>
-          <button onClick={upd2}>サイズ変更2</button>
+          <button onClick={upd}>コンテンツの変化</button>
+          <button onClick={upd2}>ScrollableViewのサイズの変化</button>
         </div>
       </ScrollableView>
     );

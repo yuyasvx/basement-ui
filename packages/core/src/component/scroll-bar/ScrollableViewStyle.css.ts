@@ -6,8 +6,13 @@ globalStyle(`.${ComponentToken.SCROLLABLE_VIEW}`, {
   display: 'flex',
 });
 
-globalStyle(`.${ComponentToken.SCROLLABLE_VIEW} > .${ComponentToken.scrollableView.CONTENT}`, {
+globalStyle(`.${ComponentToken.SCROLLABLE_VIEW} > .${ComponentToken.scrollableView.FRAME}`, {
   overflow: 'scroll',
   flexGrow: '1',
   scrollbarWidth: 'none',
+});
+
+globalStyle(`.${ComponentToken.SCROLLABLE_VIEW} > .${ComponentToken.scrollableView.FRAME} > .${ComponentToken.scrollableView.CONTENT}`, {
+  width: 'max-content',
+  height: 'max-content',
 });

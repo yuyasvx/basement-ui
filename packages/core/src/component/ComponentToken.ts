@@ -15,6 +15,7 @@ export const ComponentToken = {
   DROP_SHADOW: 'bmui-dropshadow',
   SCROLLABLE_VIEW: 'bmui-scrollableview',
   scrollableView: {
+    FRAME: 'bmui-scrollableview--frame',
     CONTENT: 'bmui-scrollableview--content',
   },
   SCROLL_BAR: 'bmui-scrollbar',
