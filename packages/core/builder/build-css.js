@@ -1,7 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { build } from 'esbuild';
+import fs from 'fs/promises';
+import path from 'path';
 //import { copy } from 'esbuild-plugin-copy';
 
 // const getTargetScripts = () =>

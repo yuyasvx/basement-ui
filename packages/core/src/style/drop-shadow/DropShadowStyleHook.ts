@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { type CSSProperties, useMemo } from 'react';
 import { ComponentToken } from '../../component/ComponentToken';
-import { StyleVariable } from '../StyleVariable';
 import { calcDropShadow } from './DropShadowCalculator';
 import type { DropShadowLevelType } from './DropShadowLevelType';
+import { DropShadowStyleVariable } from './DropShadowStyleVariable';
 
 export type DropShadowStyleProps = {
   shadowWidth?: number;
@@ -25,7 +25,7 @@ export function useDropShadowStyle<P extends DropShadowStyleProps>({ level: prop
     () =>
       !styleOverride
         ? ({
-            [`--${StyleVariable.SHADOW_COLOR}`]: shadowColor,
+            [`--${DropShadowStyleVariable.SHADOW_COLOR}`]: shadowColor,
           } as CSSProperties)
         : undefined,
     [shadowColor, styleOverride],

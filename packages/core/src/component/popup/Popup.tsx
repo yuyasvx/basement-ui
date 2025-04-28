@@ -65,7 +65,7 @@ function usePopup<P extends Omit<PopupDetailedProps, 'content'>>(props: P) {
 
   return {
     newProps: {
-      className: ComponentToken.POPUP as string,
+      className: ComponentToken.popup.INDEX as string,
       style: {
         [`--${PopupVariable.Z_INDEX}`]: zIndex != null ? zIndex : undefined,
       } as CSSProperties,

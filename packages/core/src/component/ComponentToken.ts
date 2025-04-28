@@ -1,27 +1,29 @@
+const PREFIX = 'bmui' as const;
+
 export const ComponentToken = {
-  MODAL_FRAME: 'bmui-modalframe',
   modalFrame: {
-    BACKDROP: 'bmui-modalframe--backdrop',
-    CONTAINER: 'bmui-modalframe--container',
-    CONTENT: 'bmui-modalframe--content',
+    INDEX: `${PREFIX}-modalframe`,
+    BACKDROP: `${PREFIX}-modalframe--backdrop`,
+    CONTAINER: `${PREFIX}-modalframe--container`,
+    CONTENT: `${PREFIX}-modalframe--content`,
   },
-  OVERLAY: 'bmui-overlay',
-  CARD: 'bmui-card',
-  ALIGNMENT: 'bmui-alignment',
-  POPUP: 'bmui-popup',
+  OVERLAY: `${PREFIX}-overlay`,
+  CARD: `${PREFIX}-card`,
+  ALIGNMENT: `${PREFIX}-alignment`,
   popup: {
-    CONTENT: 'bmui-popup--content',
+    INDEX: `${PREFIX}-popup`,
+    CONTENT: `${PREFIX}-popup--content`,
   },
-  DROP_SHADOW: 'bmui-dropshadow',
-  SCROLLABLE_VIEW: 'bmui-scrollableview',
+  DROP_SHADOW: `${PREFIX}-dropshadow`,
   scrollableView: {
-    FRAME: 'bmui-scrollableview--frame',
-    CONTENT: 'bmui-scrollableview--content',
+    INDEX: `${PREFIX}-scrollableview`,
+    FRAME: `${PREFIX}-scrollableview--frame`,
+    CONTENT: `${PREFIX}-scrollableview--content`,
   },
-  SCROLL_BAR: 'bmui-scrollbar',
   scrollBar: {
-    background: 'bmui-scrollbar--background',
-    knob: 'bmui-scrollbar--knob',
-    innerKnob: 'bmui-scrollbar--inner-knob',
+    INDEX: `${PREFIX}-scrollbar`,
+    background: `${PREFIX}-scrollbar--background`,
+    knob: `${PREFIX}-scrollbar--knob`,
+    innerKnob: `${PREFIX}-scrollbar--inner-knob`,
   },
 } as const;

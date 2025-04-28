@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { StyleVariable } from '../StyleVariable';
+import { DropShadowStyleVariable } from './DropShadowStyleVariable';
 
 abstract class DropShadowContext {
   readonly shadowWidth: number = 0;
@@ -91,7 +91,7 @@ export function calcDropShadow(width = 10, color?: string, opacityRate?: number)
     primary,
     secondary,
     cssStyle: {
-      [`--${StyleVariable.SHADOW_STYLE}`]: `${primary.toCSSValue()}, ${secondary.toCSSValue()}`,
+      [`--${DropShadowStyleVariable.SHADOW_STYLE}`]: `${primary.toCSSValue()}, ${secondary.toCSSValue()}`,
     } as CSSProperties,
   };
 }

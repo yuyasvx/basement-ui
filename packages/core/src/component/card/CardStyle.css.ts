@@ -1,6 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css';
 import { calcDropShadow } from '../../style/drop-shadow/DropShadowCalculator';
-import { StyleVariable } from '../../style/StyleVariable';
+import { DropShadowStyleVariable } from '../../style/drop-shadow/DropShadowStyleVariable';
 import { ComponentToken } from '../ComponentToken';
 import { CardVariant } from './Card';
 import { CardStyleVariable } from './CardStyleVariable';
@@ -10,10 +10,10 @@ globalStyle(`.${ComponentToken.CARD}`, {
   borderRadius: `var(--${CardStyleVariable.RADIUS}, 10px)`,
 });
 
-const shadow = calcDropShadow(undefined, `var(--${StyleVariable.SHADOW_COLOR}, #000000)`, undefined);
+const shadow = calcDropShadow(undefined, `var(--${DropShadowStyleVariable.SHADOW_COLOR}, #000000)`, undefined);
 
 globalStyle(`.${ComponentToken.CARD}.--${CardVariant.SHADOW}`, {
-  boxShadow: `var(--${StyleVariable.SHADOW_STYLE}, ${shadow.primary.toCSSValue()}, ${shadow.secondary.toCSSValue()})`,
+  boxShadow: `var(--${DropShadowStyleVariable.SHADOW_STYLE}, ${shadow.primary.toCSSValue()}, ${shadow.secondary.toCSSValue()})`,
 });
 
 globalStyle(`.${ComponentToken.CARD}.-alpha-override`, {

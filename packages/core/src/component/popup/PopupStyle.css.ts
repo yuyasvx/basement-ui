@@ -2,13 +2,13 @@ import { globalStyle } from '@vanilla-extract/css';
 import { ComponentToken } from '../ComponentToken';
 import { PopupVariable } from './PopupVariable';
 
-globalStyle(`.${ComponentToken.POPUP}`, {
+globalStyle(`.${ComponentToken.popup.INDEX}`, {
   position: 'relative',
   width: 'max-content',
   height: 'max-content',
 });
 
-globalStyle(`.${ComponentToken.POPUP} > .${ComponentToken.popup.CONTENT}`, {
+globalStyle(`.${ComponentToken.popup.INDEX} > .${ComponentToken.popup.CONTENT}`, {
   position: 'absolute',
   width: 'max-content',
   height: 'max-content',

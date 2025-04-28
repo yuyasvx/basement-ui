@@ -1,18 +1,18 @@
 import { globalStyle } from '@vanilla-extract/css';
 import { ComponentToken } from '../ComponentToken';
 
-globalStyle(`.${ComponentToken.SCROLLABLE_VIEW}`, {
+globalStyle(`.${ComponentToken.scrollableView.INDEX}`, {
   position: 'relative',
   display: 'flex',
 });
 
-globalStyle(`.${ComponentToken.SCROLLABLE_VIEW} > .${ComponentToken.scrollableView.FRAME}`, {
+globalStyle(`.${ComponentToken.scrollableView.INDEX} > .${ComponentToken.scrollableView.FRAME}`, {
   overflow: 'scroll',
   flexGrow: '1',
   scrollbarWidth: 'none',
 });
 
-globalStyle(`.${ComponentToken.SCROLLABLE_VIEW} > .${ComponentToken.scrollableView.FRAME} > .${ComponentToken.scrollableView.CONTENT}`, {
+globalStyle(`.${ComponentToken.scrollableView.INDEX} > .${ComponentToken.scrollableView.FRAME} > .${ComponentToken.scrollableView.CONTENT}`, {
   width: 'max-content',
   height: 'max-content',
 });

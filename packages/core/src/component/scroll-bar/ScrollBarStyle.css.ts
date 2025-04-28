@@ -3,25 +3,25 @@ import { ComponentToken } from '../ComponentToken';
 import { ScrollBarImplType } from './ScrollBar';
 import { ScrollBarVariable } from './ScrollBarVariable';
 
-globalStyle(`.${ComponentToken.SCROLL_BAR}`, {
+globalStyle(`.${ComponentToken.scrollBar.INDEX}`, {
   position: 'absolute',
   width: 'max-content',
   display: 'flex',
 });
-globalStyle(`.${ComponentToken.SCROLL_BAR}.${ScrollBarImplType.VERTICAL}`, {
+globalStyle(`.${ComponentToken.scrollBar.INDEX}.${ScrollBarImplType.VERTICAL}`, {
   right: 0,
   top: 0,
   height: `var(--${ScrollBarVariable.VERTICAL_GUTTER_WIDTH}, 0px)`,
   flexDirection: 'column',
 });
 
-globalStyle(`.${ComponentToken.SCROLL_BAR} > *`, {
+globalStyle(`.${ComponentToken.scrollBar.INDEX} > *`, {
   flexGrow: 0,
   flexShrink: 0,
 });
 
 /** スクロールバーのヘッドのオフセットの表現 */
-globalStyle(`.${ComponentToken.SCROLL_BAR}.${ScrollBarImplType.VERTICAL}::before`, {
+globalStyle(`.${ComponentToken.scrollBar.INDEX}.${ScrollBarImplType.VERTICAL}::before`, {
   flexGrow: 0,
   flexShrink: 0,
   content: ' ',
@@ -30,7 +30,7 @@ globalStyle(`.${ComponentToken.SCROLL_BAR}.${ScrollBarImplType.VERTICAL}::before
   height: `var(--${ScrollBarVariable.VERTICAL_HEAD_OFFSET}, 0px)`,
 });
 
-globalStyle(`.${ComponentToken.SCROLL_BAR}.${ScrollBarImplType.VERTICAL} .${ComponentToken.scrollBar.knob}`, {
+globalStyle(`.${ComponentToken.scrollBar.INDEX}.${ScrollBarImplType.VERTICAL} .${ComponentToken.scrollBar.knob}`, {
   boxSizing: 'border-box',
   width: `var(--${ScrollBarVariable.FRAME_WIDTH}, 12px)`,
   minHeight: `var(--${ScrollBarVariable.KNOB_MIN_LENGTH}, 0px)`,

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { StyleVariable } from '../StyleVariable';
 import { calcDropShadow } from './DropShadowCalculator';
+import { DropShadowStyleVariable } from './DropShadowStyleVariable';
 
 describe('DropShadowCalculator', () => {
   test('影の大きさを指定すると、適切なドロップシャドウの位置・半径・濃さを計算によって求めた結果が返る', () => {
@@ -24,7 +24,7 @@ describe('DropShadowCalculator', () => {
   test('計算によって求めたドロップシャドウのスタイルをCSSとして取得できる', () => {
     const shadow = calcDropShadow(10);
     expect(shadow.cssStyle).toStrictEqual({
-      [`--${StyleVariable.SHADOW_STYLE}`]:
+      [`--${DropShadowStyleVariable.SHADOW_STYLE}`]:
         '0px 4px 10px color-mix(in srgb, #000000 16.000000000000004%, transparent), 0px 0px 2px color-mix(in srgb, #000000 25%, transparent)',
     });
   });
@@ -32,7 +32,7 @@ describe('DropShadowCalculator', () => {
   test('影の色と不透明度はcolor-mixによって表現する', () => {
     const shadow = calcDropShadow(10, 'rgb(3, 3, 3)', 0.4);
     expect(shadow.cssStyle).toStrictEqual({
-      [`--${StyleVariable.SHADOW_STYLE}`]:
+      [`--${DropShadowStyleVariable.SHADOW_STYLE}`]:
         '0px 4px 10px color-mix(in srgb, rgb(3, 3, 3) 6.400000000000001%, transparent), 0px 0px 2px color-mix(in srgb, rgb(3, 3, 3) 10%, transparent)',
     });
   });

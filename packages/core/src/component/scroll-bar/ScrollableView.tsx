@@ -1,15 +1,4 @@
-import clsx from 'clsx';
-import {
-  type CSSProperties,
-  forwardRef,
-  type HTMLAttributes,
-  type PropsWithChildren,
-  type RefObject,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { type CSSProperties, forwardRef, type HTMLAttributes, type PropsWithChildren, type RefObject, useCallback, useEffect, useRef } from 'react';
 import { ComponentToken } from '../ComponentToken';
 import { ScrollableViewManager } from './ScrollableViewManager';
 import { ScrollBar } from './ScrollBar';
@@ -46,7 +35,6 @@ export function useScrollableView<P extends ScrollableViewDetailedProps, RE exte
 ) {
   const managerRef = useRef(new ScrollableViewManager());
   const manager = managerRef.current;
-  const className = useMemo(() => clsx(ComponentToken.SCROLLABLE_VIEW), []);
 
   const preHandleScroll = useCallback(() => {
     manager.acceptScrolling();
@@ -65,7 +53,7 @@ export function useScrollableView<P extends ScrollableViewDetailedProps, RE exte
 
   return {
     newProps: {
-      className,
+      className: ComponentToken.scrollableView.INDEX,
       style: {
         [`--${ScrollBarVariable.VERTICAL_HEAD_OFFSET}`]: scrollBarVerticalOffset,
       } as CSSProperties,
